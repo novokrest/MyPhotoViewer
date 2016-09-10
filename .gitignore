@@ -2,3 +2,4 @@
 classes/*
 test/*
 lib/*
+**/target/*
