@@ -1,6 +1,8 @@
 package dev.novokrest.myphotoviewer.util.filesystem;
 
 
+import dev.novokrest.myphotoviewer.util.core.Verifiers;
+
 import java.io.File;
 import java.nio.file.*;
 import java.util.ArrayList;

@@ -1,34 +1,55 @@
 package dev.novokrest.myphotoviewer.model;
 
-
+import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import dev.novokrest.myphotoviewer.util.filesystem.FileSystemEx;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class PhotosProvider {
-    private final List<String> rootDirectories;
+    private static final String PhotosDirectory = "E:\\Github\\MyPhotoViewer\\photos-test";
+    private static final Logger log = LogManager.getLogger(PhotosProvider.class);
+    private static final Object lock = new Object();
 
-    public PhotosProvider(String... rootDirectories) {
-        this.rootDirectories = Arrays.asList(rootDirectories);
-    }
+    private static volatile PhotosProvider photosProviderInstance;
 
-    public Iterator<String> getRootPhotos() {
-        return Iterators.concat(getRootDirectoryIterators());
-    }
-
-    private Iterator<Iterator<String>> getRootDirectoryIterators() {
-        List<Iterator<String>> rootDirectoryIterators = new ArrayList<Iterator<String>>(rootDirectories.size());
-
-        for(String rootDirectory : rootDirectories) {
-            Iterator<String> filesIterator = FileSystemEx.listFilesInDirectory(rootDirectory);
-            rootDirectoryIterators.add(filesIterator);
+    public static PhotosProvider getInstance() {
+        PhotosProvider localInstance = photosProviderInstance;
+        if (localInstance == null) {
+            synchronized (lock) {
+                localInstance = photosProviderInstance;
+                if (localInstance == null) {
+                    photosProviderInstance = localInstance = new PhotosProvider(PhotosDirectory);
+                }
+            }
         }
+        return photosProviderInstance;
+    }
 
-        return rootDirectoryIterators.iterator();
+    private final String[] rootDirectories;
+
+    private PhotosProvider(String... rootDirectories) {
+        this.rootDirectories = rootDirectories;
+    }
+
+    public Iterator<Photo> getPhotos() {
+        Iterator<String> filesIterator = FileSystemEx.listFilesInDirectories(rootDirectories);
+        Iterator<Photo> photoIterator = Iterators.transform(filesIterator, new Function<String, Photo>() {
+            @Override
+            public Photo apply(String file) {
+                try {
+                    return Photo.createFromFile(file);
+                } catch (IOException e) {
+                    log.error("Failed to create photo from file: %s", file);
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        return photoIterator;
     }
 }

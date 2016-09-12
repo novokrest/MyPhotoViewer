@@ -3,3 +3,5 @@ classes/*
 test/*
 lib/*
 **/target/*
+photos-test/*
+output.log

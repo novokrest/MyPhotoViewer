@@ -14,4 +14,14 @@
     <servlet-name>Home</servlet-name>
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Images</servlet-name>
+    <servlet-class>dev.novokrest.myphotoviewer.web.ImagesServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Images</servlet-name>
+    <url-pattern>/images</url-pattern>
+  </servlet-mapping>
 </web-app>

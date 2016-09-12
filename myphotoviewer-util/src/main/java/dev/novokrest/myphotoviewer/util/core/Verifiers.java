@@ -1,4 +1,4 @@
-package dev.novokrest.myphotoviewer.util.filesystem;
+package dev.novokrest.myphotoviewer.util.core;
 
 
 public class Verifiers {

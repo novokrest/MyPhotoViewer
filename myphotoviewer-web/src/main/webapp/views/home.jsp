@@ -9,5 +9,10 @@
                 <li><a href="">${year}</a></li>
             </c:forEach>
         </ul>
+        <c:forEach items="${images}" var="image">
+            <div class="photo">
+                <img src="${pageContext.request.contextPath}/images?id=${image.id}">
+            </div>
+        </c:forEach>
     </body>
 </html>
