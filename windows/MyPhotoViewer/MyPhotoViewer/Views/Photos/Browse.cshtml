@@ -1,0 +1,18 @@
+﻿@model MyPhotoViewer.Models.PhotoCollection
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="jumbotron">
+    <h1>@Model.Name</h1>
+    <p class="lead">@Model.Description [@Model.Period.From.ToShortDateString() - @Model.Period.To.ToShortDateString()]</p>
+    <p><a href="@Url.Action("Edit", "Editor", new { id = Model.Id})" class="btn btn-primary btn-lg">Edit &raquo;</a></p>
+</div>
+
+<ul>
+    @foreach(var photo in Model.Photos)
+    {
+        <li>@photo.Title, @photo.CreationDate</li>
+    }
+</ul>
