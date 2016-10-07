@@ -1,4 +1,5 @@
-﻿using MyPhotoViewer.Models;
+﻿using MyPhotoViewer.DAL;
+using MyPhotoViewer.Models;
 using MyPhotoViewer.ViewModels;
 using System.Linq;
 using System.Web.Mvc;
@@ -7,12 +8,13 @@ namespace MyPhotoViewer.Controllers
 {
     public class PhotosController : Controller
     {
-        private readonly PhotoCollectionEntities _photosDb = new PhotoCollectionEntities();
+        private readonly IPhotoCollectionRepository _photoCollectionRepository = RepositoryServiceLocator.GetPhotoCollectionRepository();
+        private readonly IPhotoRepository _photoRepository = RepositoryServiceLocator.GetPhotoRepository();
         private readonly PhotoCollectionThumnailCreator _thumbnailCreator;
 
         public PhotosController()
         {
-            _thumbnailCreator = new PhotoCollectionThumnailCreator(_photosDb);
+            _thumbnailCreator = new PhotoCollectionThumnailCreator(_photoCollectionRepository);
         }
 
         // GET: Store
@@ -25,17 +27,21 @@ namespace MyPhotoViewer.Controllers
 
         public ActionResult Image(string id)
         {
-            int parsedId = int.Parse(id);
-            var path = _photosDb.Photos.Where(photo => photo.Id == parsedId).Single().Path;
+            int photoId = int.Parse(id);
+            var path = _photoRepository.GetPhotos().Where(photo => photo.PhotoId == photoId).Single().Path;
             return base.File(path, "image/jpeg");
         }
 
-        public ActionResult Browse(string id)
+        public ActionResult Browse(int id = 0)
         {
-            int photoCollectionId = int.Parse(id);
-            var photoCollection = _photosDb.PhotoCollections.Include("Photos")
-                                                            .Include("Place")
-                                                            .Where(collection => collection.Id == photoCollectionId).Single();
+            var photoCollection = _photoCollectionRepository.GetPhotoCollections()
+                                                            .Where(collection => collection.PhotoCollectionId == id)
+                                                            .SingleOrDefault();
+            if (photoCollection == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(photoCollection);
         }
 

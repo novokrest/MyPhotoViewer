@@ -1,4 +1,4 @@
-﻿using MyPhotoViewer.Models;
+﻿using MyPhotoViewer.DAL;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,11 +6,11 @@ namespace MyPhotoViewer.ViewModels
 {
     public class PhotoCollectionThumnailCreator
     {
-        private readonly IPhotoCollectionEnitites _photosDb;
+        private readonly IPhotoCollectionRepository _photoCollectionRepository;
 
-        public PhotoCollectionThumnailCreator(IPhotoCollectionEnitites photosDb)
+        public PhotoCollectionThumnailCreator(IPhotoCollectionRepository photoCollectionRepository)
         {
-            _photosDb = photosDb;
+            _photoCollectionRepository = photoCollectionRepository;
         }
 
         public IReadOnlyList<IPhotoCollectionThumbnail> CreateThumbnails()
@@ -24,18 +24,19 @@ namespace MyPhotoViewer.ViewModels
             {
                 yield return new PhotoCollectionThumbnail()
                 {
+                    PhotoCollectionId = photoCollection.PhotoCollectionId,
                     Name = photoCollection.Name,
                     Period = photoCollection.Period,
                     Place = photoCollection.Place,
                     Description = photoCollection.Description,
-                    Image = photoCollection.Photos[0].Id.ToString()
+                    Image = photoCollection.Photos.First().PhotoId.ToString()
                 };
             }
         }
 
-        private IReadOnlyCollection<PhotoCollection> LoadPhotoCollections()
+        private IEnumerable<PhotoCollection> LoadPhotoCollections()
         {
-            return _photosDb.PhotoCollections.Include("Photos").Include("Place").ToList();
+            return _photoCollectionRepository.GetPhotoCollections();
         }
     }
 }

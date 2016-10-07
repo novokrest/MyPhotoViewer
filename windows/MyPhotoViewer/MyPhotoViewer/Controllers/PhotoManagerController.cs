@@ -1,129 +1,130 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using MyPhotoViewer.Models;
+﻿//using System.Data.Entity;
+//using System.Linq;
+//using System.Net;
+//using System.Web.Mvc;
+//using MyPhotoViewer.DAL;
 
-namespace MyPhotoViewer.Controllers
-{
-    public class PhotoManagerController : Controller
-    {
-        private PhotoCollectionEntities db = new PhotoCollectionEntities();
+//namespace MyPhotoViewer.Controllers
+//{
+//    public class PhotoManagerController : Controller
+//    {
+//        private readonly IPhotoCollectionRepository _photoCollectionRepository;
 
-        // GET: PhotoManager
-        public ActionResult Index()
-        {
-            return View(db.Photos.ToList());
-        }
+//        public PhotoManagerController()
+//        {
+//            _photoCollectionRepository = PhotoCollectionRepositoryCreator.CreatePhotoCollectionRepository();
+//        }
 
-        // GET: PhotoManager/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Photo photo = db.Photos.Find(id);
-            if (photo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(photo);
-        }
+//        // GET: PhotoManager
+//        public ActionResult Index()
+//        {
+//            return View(_photoCollectionRepository.Photos.ToList());
+//        }
 
-        // GET: PhotoManager/Create
-        public ActionResult Create()
-        {
-            ViewBag.PlaceId = new SelectList(db.Places, "Id", "Name");
-            return View();
-        }
+//        // GET: PhotoManager/Details/5
+//        public ActionResult Details(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+//            }
+//            Photo photo = _photoCollectionRepository.Photos.Find(id);
+//            if (photo == null)
+//            {
+//                return HttpNotFound();
+//            }
+//            return View(photo);
+//        }
 
-        // POST: PhotoManager/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Date")] Photo photo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Photos.Add(photo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+//        // GET: PhotoManager/Create
+//        public ActionResult Create()
+//        {
+//            ViewBag.PlaceId = new SelectList(_photoCollectionRepository.Places, "Id", "Name");
+//            return View();
+//        }
 
-            ViewBag.PlaceId = new SelectList(db.Places, "Id", "Name");
-            return View(photo);
-        }
+//        // POST: PhotoManager/Create
+//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+//        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        public ActionResult Create([Bind(Include = "Id,Title,Date")] Photo photo)
+//        {
+//            if (ModelState.IsValid)
+//            {
+//                _photoCollectionRepository.Photos.Add(photo);
+//                _photoCollectionRepository.SaveChanges();
+//                return RedirectToAction("Index");
+//            }
 
-        // GET: PhotoManager/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Photo photo = db.Photos.Find(id);
-            if (photo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(photo);
-        }
+//            ViewBag.PlaceId = new SelectList(_photoCollectionRepository.Places, "Id", "Name");
+//            return View(photo);
+//        }
 
-        // POST: PhotoManager/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Date")] Photo photo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(photo).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(photo);
-        }
+//        // GET: PhotoManager/Edit/5
+//        public ActionResult Edit(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+//            }
+//            Photo photo = _photoCollectionRepository.Photos.Find(id);
+//            if (photo == null)
+//            {
+//                return HttpNotFound();
+//            }
+//            return View(photo);
+//        }
 
-        // GET: PhotoManager/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Photo photo = db.Photos.Find(id);
-            if (photo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(photo);
-        }
+//        // POST: PhotoManager/Edit/5
+//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+//        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        public ActionResult Edit([Bind(Include = "Id,Title,Date")] Photo photo)
+//        {
+//            if (ModelState.IsValid)
+//            {
+//                _photoCollectionRepository.Entry(photo).State = EntityState.Modified;
+//                _photoCollectionRepository.SaveChanges();
+//                return RedirectToAction("Index");
+//            }
+//            return View(photo);
+//        }
 
-        // POST: PhotoManager/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Photo photo = db.Photos.Find(id);
-            db.Photos.Remove(photo);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+//        // GET: PhotoManager/Delete/5
+//        public ActionResult Delete(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+//            }
+//            Photo photo = _photoCollectionRepository.Photos.Find(id);
+//            if (photo == null)
+//            {
+//                return HttpNotFound();
+//            }
+//            return View(photo);
+//        }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
-}
+//        // POST: PhotoManager/Delete/5
+//        [HttpPost, ActionName("Delete")]
+//        [ValidateAntiForgeryToken]
+//        public ActionResult DeleteConfirmed(int id)
+//        {
+//            Photo photo = _photoCollectionRepository.Photos.Find(id);
+//            _photoCollectionRepository.Photos.Remove(photo);
+//            _photoCollectionRepository.SaveChanges();
+//            return RedirectToAction("Index");
+//        }
+
+//        protected override void Dispose(bool disposing)
+//        {
+//            if (disposing)
+//            {
+//                _photoCollectionRepository.Dispose();
+//            }
+//            base.Dispose(disposing);
+//        }
+//    }
+//}

@@ -203,29 +203,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\PhotoManagerController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
-    <Compile Include="Core\Comparator.cs" />
-    <Compile Include="Core\EnumerableExtension.cs" />
-    <Compile Include="Core\StringExtension.cs" />
-    <Compile Include="Core\Verifiers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\DateTimePeriod.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ImageRecursiveExplorer.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Photo.cs" />
-    <Compile Include="Models\PhotoCollection.cs" />
-    <Compile Include="Models\PhotoCollectionCreator.cs" />
-    <Compile Include="Models\PhotoCollectionEntities.cs" />
-    <Compile Include="Models\PhotoCollectionOverview.cs" />
-    <Compile Include="Models\PhotoImage.cs" />
-    <Compile Include="Models\PhotosExplorer.cs" />
-    <Compile Include="Models\PhotoCollectionSampleData.cs" />
-    <Compile Include="Models\Place.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\PhotoCollectionThumbnail.cs" />
@@ -256,6 +242,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\unveil.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -292,7 +279,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Photos\Details.cshtml" />
-    <Content Include="Views\Photos\BrowseCollection.cshtml" />
     <Content Include="Views\Photos\Index.cshtml" />
     <Content Include="Views\PhotoManager\Create.cshtml" />
     <Content Include="Views\PhotoManager\Delete.cshtml" />
@@ -300,6 +286,9 @@
     <Content Include="Views\PhotoManager\Edit.cshtml" />
     <Content Include="Views\PhotoManager\Index.cshtml" />
     <Content Include="Views\Photos\PhotoCollectionThumbnail.cshtml" />
+    <Content Include="Views\Photos\Browse.cshtml" />
+    <Content Include="Views\Photos\PhotoThumbnail.cshtml" />
+    <Content Include="Views\Photo\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -312,6 +301,12 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyPhotoViewer.DAL\MyPhotoViewer.DAL.csproj">
+      <Project>{18DC8685-91D7-418B-9818-984B1EB609B4}</Project>
+      <Name>MyPhotoViewer.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -55,4 +55,9 @@ img.photo-thumbnail {
     max-width: 200px;
 }
 
+img.photo-preview {
+    width: 250px;
+    height: 250px;
+}
+
 /* End top navigation*/

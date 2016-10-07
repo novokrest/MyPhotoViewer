@@ -1,18 +1,53 @@
-﻿@model MyPhotoViewer.Models.PhotoCollection
+﻿@using MyPhotoViewer.DAL
+@model PhotoCollection
 
 @{
     ViewBag.Title = Model.Name;
 }
 
-<div class="jumbotron">
-    <h1>@Model.Name</h1>
-    <p class="lead">@Model.Description [@Model.Period.From.ToShortDateString() - @Model.Period.To.ToShortDateString()]</p>
-    <p><a href="@Url.Action("Edit", "Editor", new { id = Model.Id})" class="btn btn-primary btn-lg">Edit &raquo;</a></p>
+<div>
+    @Photos(Model)
 </div>
 
-<ul>
-    @foreach(var photo in Model.Photos)
+@section scripts {
+<script>
+    $(document).ready(function() {
+        $('img').unveil();
+    })
+</script>
+}
+
+@helper Photos(PhotoCollection photoCollection)
+{
+    IEnumerator<Photo> photoEnumerator = photoCollection.Photos.GetEnumerator();
+    while(photoEnumerator.MoveNext())
     {
-        <li>@photo.Title, @photo.CreationDate</li>
+        <div class="row">
+            @Photo(photoEnumerator.Current)
+            @PhotoOrEmpty(photoEnumerator)
+            @PhotoOrEmpty(photoEnumerator)
+        </div>
     }
-</ul>
+}
+
+@helper Photo(Photo photo)
+{
+    <div class="col-md-4">
+        @Html.Partial("PhotoThumbnail", photo)
+    </div>
+}
+
+@helper Test()
+    {
+    <div style="background-color:aqua; width: 100px; height: 100px">
+
+    </div>
+    }
+
+@helper PhotoOrEmpty(IEnumerator<Photo> photoEnumerator)
+{
+    if (photoEnumerator.MoveNext())
+    {
+        @Photo(photoEnumerator.Current)
+    }
+}
