@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer", "MyPhotoVie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.Tests", "MyPhotoViewer.Tests\MyPhotoViewer.Tests.csproj", "{EDF21A6E-205F-4F2C-A19F-6748B3F152F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.DAL", "MyPhotoViewer.DAL\MyPhotoViewer.DAL.csproj", "{18DC8685-91D7-418B-9818-984B1EB609B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.Core", "MyPhotoViewer.Core\MyPhotoViewer.Core.csproj", "{2CF492E2-8655-4D9E-88C8-11D49B7B3701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{EDF21A6E-205F-4F2C-A19F-6748B3F152F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDF21A6E-205F-4F2C-A19F-6748B3F152F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDF21A6E-205F-4F2C-A19F-6748B3F152F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18DC8685-91D7-418B-9818-984B1EB609B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18DC8685-91D7-418B-9818-984B1EB609B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18DC8685-91D7-418B-9818-984B1EB609B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18DC8685-91D7-418B-9818-984B1EB609B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
