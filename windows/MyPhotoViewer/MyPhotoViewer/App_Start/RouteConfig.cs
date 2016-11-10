@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace MyPhotoViewer
@@ -12,6 +8,26 @@ namespace MyPhotoViewer
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "Album",
+                url: "Album/{photoAlbumId}",
+                defaults: new { controller = "Album", action = "Index" },
+                constraints: new { photoAlbumId = @"\d+" });
+
+            routes.MapRoute(
+                name: "AlbumThumbnail",
+                url: "Album/{photoAlbumId}/Thumbnail",
+                defaults: new { controller = "Album", action = "Thumbnail" },
+                constraints: new { photoAlbumId = @"\d+" });
+
+            routes.MapRoute(
+                name: "AlbumPhoto",
+                url: "Album/{photoAlbumId}/Photo/{photoId}",
+                defaults: new { controller = "Album", action = "Photo" },
+                constraints: new { photoAlbumId = @"\d+", photoId = @"\d+" });
 
             routes.MapRoute(
                 name: "Default",

@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.DAL", "MyPhot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.Core", "MyPhotoViewer.Core\MyPhotoViewer.Core.csproj", "{2CF492E2-8655-4D9E-88C8-11D49B7B3701}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoDiscoverService", "PhotoDiscoverService\PhotoDiscoverService.csproj", "{46E8DB01-7AFE-4815-8B8C-433511134CBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPhotoViewer.DAL.IntegrationTests", "MyPhotoViewer.DAL.IntegrationTests\MyPhotoViewer.DAL.IntegrationTests.csproj", "{B10432BD-8775-4FE7-BCA5-90723F4360C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CF492E2-8655-4D9E-88C8-11D49B7B3701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E8DB01-7AFE-4815-8B8C-433511134CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E8DB01-7AFE-4815-8B8C-433511134CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E8DB01-7AFE-4815-8B8C-433511134CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E8DB01-7AFE-4815-8B8C-433511134CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B10432BD-8775-4FE7-BCA5-90723F4360C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10432BD-8775-4FE7-BCA5-90723F4360C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10432BD-8775-4FE7-BCA5-90723F4360C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10432BD-8775-4FE7-BCA5-90723F4360C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

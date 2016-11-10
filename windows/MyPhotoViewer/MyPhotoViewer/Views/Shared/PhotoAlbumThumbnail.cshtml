@@ -1,0 +1,11 @@
+﻿@model MyPhotoViewer.ViewModels.IPhotoAlbumThumbnail
+
+@{
+    Layout = null;
+}
+
+<h3>@Model.Name, @Model.Place.Country</h3>
+<p><b>@Model.Period.From.ToShortDateString()</b> - <b>@Model.Period.To.ToShortDateString()</b></p>
+<p>@Model.Description</p>
+<p><img class="photo-thumbnail" src="@Url.Action("Thumbnail", "Album", new { photoAlbumId = Model.PhotoAlbumId })" alt="photo" /></p>
+<p><a class="btn btn-default" href="@Url.Action("Index", "Album", new { photoAlbumId = Model.PhotoAlbumId })">View more &raquo;</a></p>

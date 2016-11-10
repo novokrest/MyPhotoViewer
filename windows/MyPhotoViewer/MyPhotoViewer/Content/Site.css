@@ -19,8 +19,13 @@
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
-    max-width: 280px;
+textarea,
+.input-group {
+    max-width: 330px;
+}
+
+label.input-group-btn input[type="file"] {
+    display: none;
 }
 
 /* Top navigation */
@@ -51,13 +56,58 @@ ul#navlist li a:hover {
 }
 
 img.photo-thumbnail {
-    max-height: 200px;
-    max-width: 200px;
+    max-width: 100%;
 }
 
 img.photo-preview {
-    width: 250px;
-    height: 250px;
+    max-width: 100%;
+}
+
+div.crud-bar {
+    position: fixed;
+    height: 100%;
+    width: 25%;
+    top: 35%;
+    overflow: auto;
+}
+
+div.photo-wall {
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.row-grid {
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 /* End top navigation*/

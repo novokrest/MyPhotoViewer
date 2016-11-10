@@ -1,0 +1,46 @@
+﻿@using MyPhotoViewer.DAL
+@using MyPhotoViewer.Extensions
+@model IEnumerable<PhotoAlbum>
+
+
+@{
+    ViewBag.Title = "Albums";
+}
+
+<h2>Albums</h2>
+<hr />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["message"]
+    </div>
+}
+
+<table class="table table-striped">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Title)</th>
+        <th>@Html.DisplayNameFor(model => model.Description)</th>
+        <th>@Html.DisplayNameFor(model => model.Period)</th>
+        <th>@Html.DisplayNameFor(model => model.Place)</th>
+        <th>@Html.DisplayNameFor(model => model.Photos)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var photoAlbum in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => photoAlbum.Title)</td>
+            <td>@Html.DisplayFor(model => photoAlbum.Description)</td>
+            <td>@Html.DisplayFor(model => photoAlbum.Period.From) - @Html.DisplayFor(model => photoAlbum.Period.To)</td>
+            <td>@Html.DisplayFor(model => photoAlbum.Place.Name), @Html.DisplayFor(model => photoAlbum.Place.City), @Html.DisplayFor(model => photoAlbum.Place.Country)</td>
+            <td>@Html.DisplayFor(model => photoAlbum.Photos.Count)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { photoAlbumId = photoAlbum.PhotoAlbumId}) |
+                @Html.ActionLink("Details", "Details", new { photoAlbumId = photoAlbum.PhotoAlbumId }) |
+                @Html.ActionLink("Delete", "Delete", new { photoAlbumId = photoAlbum.PhotoAlbumId })
+            </td>
+        </tr>
+    }
+</table>
+

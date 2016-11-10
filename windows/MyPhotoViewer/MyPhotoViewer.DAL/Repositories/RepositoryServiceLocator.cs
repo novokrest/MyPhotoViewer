@@ -2,14 +2,20 @@
 {
     public class RepositoryServiceLocator
     {
-        public static IPhotoCollectionRepository GetPhotoCollectionRepository()
+        public static IPhotoAlbumRepository GetPhotoAlbumRepository()
         {
-            return new PhotoCollectionRepository(new PhotoAlbumContext());
+            return new PhotoAlbumRepository(CreatePhotosContext());
         }
 
         public static IPhotoRepository GetPhotoRepository()
         {
-            return new PhotoRepository(new PhotoAlbumContext());
+            return new PhotoRepository(CreatePhotosContext());
+        }
+
+        private static PhotosContext CreatePhotosContext()
+        {
+            var photosContext = new PhotosContext();
+            return photosContext;
         }
     }
 }

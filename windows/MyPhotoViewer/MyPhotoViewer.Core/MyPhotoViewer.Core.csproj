@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,7 +43,12 @@
   <ItemGroup>
     <Compile Include="Comparator.cs" />
     <Compile Include="EnumerableExtension.cs" />
+    <Compile Include="HttpFile.cs" />
+    <Compile Include="ImageChecker.cs" />
+    <Compile Include="KnownRegex.cs" />
+    <Compile Include="Notes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamExtensions.cs" />
     <Compile Include="StringExtension.cs" />
     <Compile Include="Verifiers.cs" />
   </ItemGroup>

@@ -1,11 +1,17 @@
 ﻿@using MyPhotoViewer.DAL
-@model PhotoCollection
+@model PhotoAlbum
 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = Model.Title;
 }
 
-<div>
+<div class="crud-bar">
+    <p>
+        @Html.ActionLink("Details", "Details", new { id = Model.PhotoAlbumId }, new { @class = "btn btn-default" });  
+    </p>
+</div>
+
+<div class="photo-wall">
     @Photos(Model)
 </div>
 
@@ -17,7 +23,7 @@
 </script>
 }
 
-@helper Photos(PhotoCollection photoCollection)
+@helper Photos(PhotoAlbum photoCollection)
 {
     IEnumerator<Photo> photoEnumerator = photoCollection.Photos.GetEnumerator();
     while(photoEnumerator.MoveNext())

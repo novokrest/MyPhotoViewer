@@ -1,0 +1,9 @@
+﻿@model MyPhotoViewer.DAL.Photo
+
+@{ 
+    string link = Url.Action("Photo", new { photoId = Model.PhotoId, photoAlbumId = Model.PhotoAlbumId });
+}
+
+<a href="@link" class="thumbnail">
+    <img class="photo-preview" alt="@Model.Title" src="" data-src="@link" />
+</a>

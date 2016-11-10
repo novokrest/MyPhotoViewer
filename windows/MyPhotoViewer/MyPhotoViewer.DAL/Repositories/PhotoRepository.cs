@@ -8,19 +8,16 @@ namespace MyPhotoViewer.DAL
 {
     internal sealed class PhotoRepository : IPhotoRepository
     {
-        private readonly PhotoAlbumContext _photoAlbumContext;
+        private readonly PhotosContext _photoAlbumContext;
 
-        public PhotoRepository(PhotoAlbumContext photoAlbumContext)
+        public PhotoRepository(PhotosContext photoAlbumContext)
         {
             _photoAlbumContext = photoAlbumContext;
         }
 
         public Photo GetPhotoById(int photoId)
         {
-            return _photoAlbumContext.Photos
-                                     .Include("Place")
-                                     .Where(photo => photo.PhotoId == photoId)
-                                     .Single();
+            return _photoAlbumContext.Photos.Find(photoId);
         }
 
         public IEnumerable<Photo> GetPhotos()
@@ -30,7 +27,7 @@ namespace MyPhotoViewer.DAL
 
         public void InsertPhoto(Photo photo)
         {
-            throw new NotImplementedException();
+            _photoAlbumContext.Photos.Add(photo);
         }
 
         public void UpdatePhoto(Photo photo)

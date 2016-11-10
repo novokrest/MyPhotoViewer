@@ -1,3 +1,26 @@
 ﻿@model MyPhotoViewer.DAL.Photo
 
-<h2>@Model.Title</h2>
+@{ 
+    ViewBag.Title = "Details";
+}
+
+
+<h2>@ViewBag.Title</h2>
+<fieldset>
+    <legend>Photo</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Place)
+    </div>
+    <div class="display-field">
+        <p>@Model.Place</p>
+    </div>
+
+</fieldset>

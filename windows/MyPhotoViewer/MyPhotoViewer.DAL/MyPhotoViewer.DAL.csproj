@@ -53,24 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\PhotoCollectionsLoader.cs" />
-    <Compile Include="Data\PhotoImageRecursiveExplorer.cs" />
-    <Compile Include="Data\PhotoCollectionCreator.cs" />
-    <Compile Include="Data\PhotoCollectionOverview.cs" />
-    <Compile Include="Data\PhotoImage.cs" />
-    <Compile Include="Data\PhotosExplorer.cs" />
     <Compile Include="DateTimePeriod.cs" />
-    <Compile Include="Migrations\201610060517150_InitialCreate.cs" />
-    <Compile Include="Migrations\201610060517150_InitialCreate.Designer.cs">
-      <DependentUpon>201610060517150_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Repositories\IPhotoCollectionRepository.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Extensions\PhotoAlbumRepositoryExtension.cs" />
+    <Compile Include="PhotosContextInitializer.cs" />
+    <Compile Include="Repositories\IPhotoAlbumRepository.cs" />
     <Compile Include="Photo.cs" />
-    <Compile Include="PhotoAlbumContext.cs" />
-    <Compile Include="PhotoCollection.cs" />
+    <Compile Include="PhotosContext.cs" />
+    <Compile Include="PhotoAlbum.cs" />
     <Compile Include="Repositories\IPhotoRepository.cs" />
-    <Compile Include="Repositories\PhotoCollectionRepository.cs" />
+    <Compile Include="Repositories\PhotoAlbumDiskRepository.cs" />
+    <Compile Include="Repositories\PhotoAlbumRepository.cs" />
     <Compile Include="Place.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RepositoryServiceLocator.cs" />
@@ -81,16 +73,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610060517150_InitialCreate.resx">
-      <DependentUpon>201610060517150_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MyPhotoViewer.Core\MyPhotoViewer.Core.csproj">
       <Project>{2cf492e2-8655-4d9e-88c8-11d49b7b3701}</Project>
       <Name>MyPhotoViewer.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

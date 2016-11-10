@@ -1,0 +1,17 @@
+﻿@using MyPhotoViewer.Core
+@using MyPhotoViewer.ViewModels
+@model IReadOnlyList<IPhotoAlbumThumbnail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Albums</h2>
+<p>@Html.ActionLink("Create New", "Create")</p>
+<hr />
+
+@foreach (IEnumerable<IPhotoAlbumThumbnail> photoAlbumThumbnails in Model.Split(3))
+{
+    @Html.Partial("PhotoAlbumThumbnailRow", photoAlbumThumbnails.ToList())
+}
+

@@ -8,13 +8,13 @@ namespace MyPhotoViewer.Controllers
 {
     public class PhotosController : Controller
     {
-        private readonly IPhotoCollectionRepository _photoCollectionRepository = RepositoryServiceLocator.GetPhotoCollectionRepository();
+        private readonly IPhotoAlbumRepository _photoCollectionRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
         private readonly IPhotoRepository _photoRepository = RepositoryServiceLocator.GetPhotoRepository();
-        private readonly PhotoCollectionThumnailCreator _thumbnailCreator;
+        private readonly PhotoAlbumThumnailCreator _thumbnailCreator;
 
         public PhotosController()
         {
-            _thumbnailCreator = new PhotoCollectionThumnailCreator(_photoCollectionRepository);
+            _thumbnailCreator = new PhotoAlbumThumnailCreator(_photoCollectionRepository.GetPhotoAlbums());
         }
 
         // GET: Store
@@ -34,8 +34,8 @@ namespace MyPhotoViewer.Controllers
 
         public ActionResult Browse(int id = 0)
         {
-            var photoCollection = _photoCollectionRepository.GetPhotoCollections()
-                                                            .Where(collection => collection.PhotoCollectionId == id)
+            var photoCollection = _photoCollectionRepository.GetPhotoAlbums()
+                                                            .Where(collection => collection.PhotoAlbumId == id)
                                                             .SingleOrDefault();
             if (photoCollection == null)
             {
