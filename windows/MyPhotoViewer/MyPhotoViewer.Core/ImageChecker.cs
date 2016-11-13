@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
-
 
 namespace MyPhotoViewer.Core
 {
@@ -21,7 +19,7 @@ namespace MyPhotoViewer.Core
             {
                 using (var memoryStream = new MemoryStream(_data))
                 {
-                    Image.FromStream(memoryStream);
+                    System.Drawing.Image.FromStream(memoryStream);
                 }
             }
             catch(ArgumentException)

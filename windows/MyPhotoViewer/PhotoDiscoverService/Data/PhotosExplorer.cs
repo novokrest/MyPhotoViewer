@@ -1,5 +1,6 @@
 ﻿using MyPhotoViewer.Core;
 using MyPhotoViewer.DAL;
+using MyPhotoViewer.DAL.Entity;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace PhotoDiscoverService.Data
             _rootDirectory = directoryPath;
         }
 
-        public IReadOnlyCollection<PhotoAlbum> GetPhotos()
+        public IReadOnlyCollection<PhotoAlbumEntity> GetPhotos()
         {
             return GetPhotosLazy().ToList();
         }
 
-        private IEnumerable<PhotoAlbum> GetPhotosLazy()
+        private IEnumerable<PhotoAlbumEntity> GetPhotosLazy()
         {
             foreach (DirectoryInfo photoDirectory in GetChildPhotoDirectories())
             {

@@ -1,21 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MyPhotoViewer.Core;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyPhotoViewer.DAL
+namespace MyPhotoViewer.DAL.Entity
 {
     [MetadataType(typeof(PlaceMetadata))]
-    public class Place
+    public class PlaceEntity : IPlace
     {
-        public int PlaceId { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
     }
 
+    [Table("Place")]
     public class PlaceMetadata
     {
         [Key]
-        public int PlaceId { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(50)]
         public string Name { get; set; }

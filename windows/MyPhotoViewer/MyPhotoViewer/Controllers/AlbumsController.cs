@@ -12,7 +12,7 @@ namespace MyPhotoViewer.Controllers
         // GET: Albums
         public ActionResult Index()
         {
-            var thumbnailsCreator = new PhotoAlbumThumnailCreator(_photoAlbumRepository.GetPhotoAlbums());
+            var thumbnailsCreator = new PhotoAlbumThumbnailCreator(_photoAlbumRepository.GetPhotoAlbums());
             var thumbnails = thumbnailsCreator.CreateThumbnails();
             return View(thumbnails);
         }

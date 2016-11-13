@@ -1,26 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace MyPhotoViewer.DAL
+namespace MyPhotoViewer.DAL.Entity
 {
-    [MetadataType(typeof(PhotoAlbumMetadata))]
-    public partial class PhotoAlbum
+    [MetadataType(typeof(PhotoAlbumEntityMetadata))]
+    public partial class PhotoAlbumEntity
     {
-        public int PhotoAlbumId { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimePeriod Period { get; set; }
 
+        [ForeignKey("Place")]
         public int? PlaceId { get; set; }
-        public virtual Place Place { get; set; }
+        public virtual PlaceEntity Place { get; set; }
 
-        public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<PhotoEntity> Photos { get; set; }
     }
 
-    public class PhotoAlbumMetadata
+    [Table("PhotoAlbum")]
+    public class PhotoAlbumEntityMetadata
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Please enter a photo album name")]
         public string Title { get; set; }
 
@@ -29,9 +35,9 @@ namespace MyPhotoViewer.DAL
         public string Description { get; set; }
     }
 
-    public class PhotoAlbumConfiguration : EntityTypeConfiguration<PhotoAlbum>
+    public class PhotoAlbumEntityConfiguration : EntityTypeConfiguration<PhotoAlbumEntity>
     {
-        public PhotoAlbumConfiguration()
+        public PhotoAlbumEntityConfiguration()
         {
             Property(pa => pa.Period.From).HasColumnName("From")
                                           .HasColumnType("datetime2")

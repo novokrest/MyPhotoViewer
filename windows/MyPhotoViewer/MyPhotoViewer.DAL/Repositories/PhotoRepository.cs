@@ -1,36 +1,38 @@
-﻿using System;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.DAL.Repositories;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MyPhotoViewer.DAL
 {
     internal sealed class PhotoRepository : IPhotoRepository
     {
-        private readonly PhotosContext _photoAlbumContext;
+        private readonly PhotosContext _photosContext;
 
-        public PhotoRepository(PhotosContext photoAlbumContext)
+        public PhotoRepository(PhotosContext photosContext)
         {
-            _photoAlbumContext = photoAlbumContext;
+            _photosContext = photosContext;
         }
 
-        public Photo GetPhotoById(int photoId)
+        public IPhoto GetPhotoById(int photoId)
         {
-            return _photoAlbumContext.Photos.Find(photoId);
+            return new Photo(_photosContext, photoId);
         }
 
-        public IEnumerable<Photo> GetPhotos()
+        public IEnumerable<IPhoto> GetPhotos()
         {
-            return _photoAlbumContext.Photos.Include("Place");
+            throw new NotImplementedException();
         }
 
-        public void InsertPhoto(Photo photo)
+        public void AddPhoto(PhotoEntity photo)
         {
-            _photoAlbumContext.Photos.Add(photo);
+            _photosContext.Photos.Add(photo);
+            _photosContext.SaveChanges();
         }
 
-        public void UpdatePhoto(Photo photo)
+        public void UpdatePhoto(IPhoto photo)
         {
             throw new NotImplementedException();
         }

@@ -13,14 +13,8 @@ namespace MyPhotoViewer
 
             routes.MapRoute(
                 name: "Album",
-                url: "Album/{photoAlbumId}",
+                url: "Album/{photoAlbumId}/{action}",
                 defaults: new { controller = "Album", action = "Index" },
-                constraints: new { photoAlbumId = @"\d+" });
-
-            routes.MapRoute(
-                name: "AlbumThumbnail",
-                url: "Album/{photoAlbumId}/Thumbnail",
-                defaults: new { controller = "Album", action = "Thumbnail" },
                 constraints: new { photoAlbumId = @"\d+" });
 
             routes.MapRoute(

@@ -1,4 +1,8 @@
-﻿using MyPhotoViewer.DAL;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL;
+using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.Extensions;
+using MyPhotoViewer.ViewModels;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -14,13 +18,39 @@ namespace MyPhotoViewer.Controllers
         public ActionResult Index(int photoAlbumId)
         {
             var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
+            var photos = photoAlbum.GetPhotoIds().Select(photoId => _photoRepository.GetPhotoById(photoId));
 
-            if (photoAlbum == null)
+            var photoAlbumWithPhotosViewModel = new PhotoAlbumWithPhotosViewModel
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                PhotoAlbum = photoAlbum,
+                Photos = photos
+            };
+
+            return View(photoAlbumWithPhotosViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult AddPhoto(int photoAlbumId)
+        {
+            var newPhotoViewModel = new NewPhotoViewModel
+            {
+                PhotoAlbumId = photoAlbumId
+            };
+            return View(newPhotoViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]NewPhotoViewModel newPhotoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                PhotoEntity photoEntity = newPhotoViewModel.ToPhotoEntity();
+                _photoRepository.AddPhoto(photoEntity);
+                return RedirectToAction("Index", new { photoAlbumId = newPhotoViewModel.PhotoAlbumId });
             }
 
-            return View(photoAlbum);
+            return View(newPhotoViewModel);
         }
 
         public ActionResult Photo(int photoAlbumId, int photoId)
@@ -32,19 +62,16 @@ namespace MyPhotoViewer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            return base.File(photo.Image, "image/jpeg");
+            Image image = photo.GetImage();
+
+            return base.File(image.Data, ImageMimeTypeConverter.ToMimeType(image.Type));
         }
 
-        public ActionResult Thumbnail(int photoAlbumId)
+        public ActionResult Thumbnail(int photoAlbumId, int photoId)
         {
-            var photo = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId)?.Photos.FirstOrDefault();
+            var photoImage = _photoRepository.GetPhotoById(photoId).GetImage();
 
-            if (photo == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            return base.File(photo.Image, "image/jpeg");
+            return base.File(photoImage.Data, ImageMimeTypeConverter.ToMimeType(photoImage.Type));
         }
     }
 }

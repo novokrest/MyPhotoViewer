@@ -1,17 +1,18 @@
-﻿using System;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.DAL.Repositories;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyPhotoViewer.DAL
 {
     public interface IPhotoRepository : IDisposable
     {
-        IEnumerable<Photo> GetPhotos();
-        Photo GetPhotoById(int photo);
-        void InsertPhoto(Photo photo);
-        void UpdatePhoto(Photo photo);
+        IEnumerable<IPhoto> GetPhotos();
+        IPhoto GetPhotoById(int photo);
+
+        void AddPhoto(PhotoEntity photo);
+        void UpdatePhoto(IPhoto photo);
         void DeletePhoto(int photo);
         void Save();
     }

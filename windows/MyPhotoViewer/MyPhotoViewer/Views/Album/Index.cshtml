@@ -1,9 +1,15 @@
-﻿@using MyPhotoViewer.DAL
-@model PhotoAlbum
+﻿@using MyPhotoViewer.Core
+@using MyPhotoViewer.ViewModels
+@model PhotoAlbumWithPhotosViewModel
 
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = Model.PhotoAlbum.Title;
+    IPhotoAlbum PhotoAlbum = Model.PhotoAlbum;
 }
+
+<h2>@PhotoAlbum.Title</h2>
+<p>@Html.ActionLink("Add New Photo", "AddPhoto", new { photoAlbumId = PhotoAlbum.Id })</p>
+<hr/>
 
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <div class="slides"></div>
@@ -16,12 +22,12 @@
 </div>
 
 <div id="links">
-    @Photos(Model)
+    @ViewPhotos(Model.Photos)
 </div>
 
-@helper Photos(PhotoAlbum photoAlbum)
+@helper ViewPhotos(IEnumerable<IPhoto> photos)
 {
-IEnumerator<Photo> photoEnumerator = photoAlbum.Photos.GetEnumerator();
+IEnumerator<IPhoto> photoEnumerator = photos.GetEnumerator();
 while (photoEnumerator.MoveNext())
 {
         <div class="row row-grid">
@@ -32,14 +38,14 @@ while (photoEnumerator.MoveNext())
 }
 }
 
-@helper Photo(Photo photo)
+@helper Photo(IPhoto photo)
 {
     <div class="col-md-4">
         @Html.Partial("PhotoThumbnail", photo)
     </div>
 }
 
-@helper PhotoOrEmpty(IEnumerator<Photo> photoEnumerator)
+@helper PhotoOrEmpty(IEnumerator<IPhoto> photoEnumerator)
 {
 if (photoEnumerator.MoveNext())
 {

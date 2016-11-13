@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MyPhotoViewer.Core;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace MyPhotoViewer.DAL
 {
-    public class DateTimePeriod
+    public class DateTimePeriod : IDateTimePeriod
     {
         public DateTimePeriod()
         {

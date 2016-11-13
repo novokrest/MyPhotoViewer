@@ -1,18 +1,16 @@
-﻿using System;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyPhotoViewer.DAL
 {
     public interface IPhotoAlbumRepository
     {
-        IEnumerable<PhotoAlbum> GetPhotoAlbums();
-        PhotoAlbum GetPhotoAlbumById(int photoAlbumId);
-        void AddPhotoAlbum(PhotoAlbum photoAlbum);
+        IEnumerable<IPhotoAlbum> GetPhotoAlbums();
+        IPhotoAlbum GetPhotoAlbumById(int photoAlbumId);
 
-        void SavePhotoAlbum(PhotoAlbum photoAlbum);
+        void AddPhotoAlbum(PhotoAlbumEntity photoAlbum);
+        void SavePhotoAlbum(PhotoAlbumEntity photoAlbum);
         void Save();
     }
 }

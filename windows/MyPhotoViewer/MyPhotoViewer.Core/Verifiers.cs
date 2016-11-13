@@ -12,7 +12,7 @@ namespace MyPhotoViewer.Core
             }
         }
 
-        public static void ArgVerify(bool b, string paramName, string messageFormat, params object[] objects)
+        public static void ArgVerify(bool b, string paramName, string messageFormat = "", params object[] objects)
         {
             if (!b)
             {

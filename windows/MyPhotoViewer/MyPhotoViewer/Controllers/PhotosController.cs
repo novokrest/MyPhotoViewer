@@ -1,6 +1,7 @@
 ﻿using MyPhotoViewer.DAL;
 using MyPhotoViewer.Models;
 using MyPhotoViewer.ViewModels;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -8,13 +9,13 @@ namespace MyPhotoViewer.Controllers
 {
     public class PhotosController : Controller
     {
-        private readonly IPhotoAlbumRepository _photoCollectionRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
+        private readonly IPhotoAlbumRepository _photoAlbumRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
         private readonly IPhotoRepository _photoRepository = RepositoryServiceLocator.GetPhotoRepository();
-        private readonly PhotoAlbumThumnailCreator _thumbnailCreator;
+        private readonly PhotoAlbumThumbnailCreator _thumbnailCreator;
 
         public PhotosController()
         {
-            _thumbnailCreator = new PhotoAlbumThumnailCreator(_photoCollectionRepository.GetPhotoAlbums());
+            _thumbnailCreator = new PhotoAlbumThumbnailCreator(_photoAlbumRepository.GetPhotoAlbums());
         }
 
         // GET: Store
@@ -27,22 +28,22 @@ namespace MyPhotoViewer.Controllers
 
         public ActionResult Image(string id)
         {
-            int photoId = int.Parse(id);
-            var path = _photoRepository.GetPhotos().Where(photo => photo.PhotoId == photoId).Single().Path;
-            return base.File(path, "image/jpeg");
+            throw new NotImplementedException();
+            //int photoId = int.Parse(id);
+            //var path = _photoRepository.GetPhotos().Where(photo => photo.PhotoId == photoId).Single().Path;
+            //return base.File(path, "image/jpeg");
         }
 
         public ActionResult Browse(int id = 0)
         {
-            var photoCollection = _photoCollectionRepository.GetPhotoAlbums()
-                                                            .Where(collection => collection.PhotoAlbumId == id)
-                                                            .SingleOrDefault();
-            if (photoCollection == null)
+            var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(id);
+
+            if (photoAlbum == null)
             {
                 return RedirectToAction("Index");
             }
 
-            return View(photoCollection);
+            return View(photoAlbum);
         }
 
         //public ActionResult BrowseCollection(string collection)

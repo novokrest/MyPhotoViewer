@@ -1,9 +1,6 @@
 ﻿using MyPhotoViewer.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using MyPhotoViewer.DAL.Entity;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MyPhotoViewer.Controllers
@@ -49,7 +46,7 @@ namespace MyPhotoViewer.Controllers
         [HttpPost]
         [Route("Edit/{photoAlbumId:int}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PhotoAlbumId, Title, Description, Period, Place")] PhotoAlbum photoAlbum)
+        public ActionResult Edit([Bind(Include = "PhotoAlbumId, Title, Description, Period, Place")] PhotoAlbumEntity photoAlbum)
         {
             if (ModelState.IsValid)
             {

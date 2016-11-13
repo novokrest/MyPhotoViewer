@@ -20,7 +20,7 @@ namespace MyPhotoViewer.Controllers
         private IReadOnlyList<IPhotoAlbumThumbnail> GetRandomPhotoAlbumsThumbnails(int count)
         {
             var photoAlbums = _photoAlbumRepository.GetRandomPhotoAlbums(count);
-            var photoAlbumThumbnailCreator = new PhotoAlbumThumnailCreator(photoAlbums);
+            var photoAlbumThumbnailCreator = new PhotoAlbumThumbnailCreator(photoAlbums);
 
             return photoAlbumThumbnailCreator.CreateThumbnails();
         }

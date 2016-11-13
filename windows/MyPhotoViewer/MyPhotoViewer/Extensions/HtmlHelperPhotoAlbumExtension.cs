@@ -1,4 +1,5 @@
-﻿using MyPhotoViewer.DAL;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace MyPhotoViewer.Extensions
 {
     public static class HtmlHelperPhotoAlbumExtension
     {
-        public static MvcHtmlString DisplayPeriod<Model>(this HtmlHelper<Model> html, PhotoAlbum photoAlbum)
+        public static MvcHtmlString DisplayPeriod<Model>(this HtmlHelper<Model> html, IPhotoAlbum photoAlbum)
         {
             return new MvcHtmlString(html.DisplayFor(model => photoAlbum.Period.From).ToHtmlString() + html.DisplayFor(model => photoAlbum.Period.To).ToHtmlString());
         }

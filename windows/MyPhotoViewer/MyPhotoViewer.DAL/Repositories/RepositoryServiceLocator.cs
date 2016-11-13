@@ -1,4 +1,6 @@
-﻿namespace MyPhotoViewer.DAL
+﻿using MyPhotoViewer.DAL.Entity;
+
+namespace MyPhotoViewer.DAL
 {
     public class RepositoryServiceLocator
     {

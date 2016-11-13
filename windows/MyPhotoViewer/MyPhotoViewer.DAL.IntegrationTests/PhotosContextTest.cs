@@ -1,5 +1,8 @@
-﻿using NUnit.Framework;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL.Entity;
+using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyPhotoViewer.DAL.IntegrationTests
 {
@@ -7,27 +10,37 @@ namespace MyPhotoViewer.DAL.IntegrationTests
     public class PhotosContextTest
     {
         [Test]
+        public void TestPhotosExist()
+        {
+            using (var photosContext = new PhotosContext())
+            {
+                int photosCount = photosContext.Photos.Count();
+                Assert.NotZero(photosCount);
+            }
+        }
+
+        [Test]
         public void TestAddNewPhotoAlbumToDatabase()
         {
-            var photoAlbum = new PhotoAlbum
+            var photoAlbum = new PhotoAlbumEntity
             {
                 Title = "TestPhotoAlbum",
                 Description = "TestDescription",
                 Period = new DateTimePeriod(),
-                Place = new Place
+                Place = new PlaceEntity
                 {
                     Name = "TestPlace",
                     City = "City",
                     Country = "Country"
                 },
-                Photos = new List<Photo>
+                Photos = new List<PhotoEntity>
                 {
-                    new Photo
+                    new PhotoEntity
                     {
                         Title = "TestPhoto#1",
                         Image = new byte[] { 1 },
                     },
-                    new Photo
+                    new PhotoEntity
                     {
                         Title = "TestPhoto#2",
                         Image = new byte[] { 2 }
@@ -48,28 +61,28 @@ namespace MyPhotoViewer.DAL.IntegrationTests
         [Test]
         public void TestAddNewPhotoAlbumToDatabase2()
         {
-            var place = new Place
+            var place = new PlaceEntity
             {
                 Name = "TestPlace",
                 City = "City",
                 Country = "Country"
             };
 
-            var photoAlbum = new PhotoAlbum
+            var photoAlbum = new PhotoAlbumEntity
             {
                 Title = "TestPhotoAlbum",
                 Description = "TestDescription",
                 Period = new DateTimePeriod(),
                 Place = place,
-                Photos = new List<Photo>
+                Photos = new List<PhotoEntity>
                 {
-                    new Photo
+                    new PhotoEntity
                     {
                         Title = "TestPhoto#1",
                         Image = new byte[] { 1 },
                         Place = place
                     },
-                    new Photo
+                    new PhotoEntity
                     {
                         Title = "TestPhoto#2",
                         Image = new byte[] { 2 },

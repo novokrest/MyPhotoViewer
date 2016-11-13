@@ -1,5 +1,6 @@
 ﻿using MyPhotoViewer.Core;
 using MyPhotoViewer.DAL;
+using MyPhotoViewer.DAL.Entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,14 +11,14 @@ namespace PhotoDiscoverService.Data
     internal class PhotoAlbumCreator
     {
         private readonly PhotoAlbumOverview _photosOverview;
-        private readonly Place _place;
+        private readonly PlaceEntity _place;
 
         public PhotoAlbumCreator(PhotoAlbumOverview photosOverview)
         {
             Verifiers.ArgNullVerify(photosOverview, nameof(photosOverview));
 
             _photosOverview = photosOverview;
-            _place = new Place
+            _place = new PlaceEntity
             {
                 Name = _photosOverview.Place,
                 City = _photosOverview.City,
@@ -25,11 +26,11 @@ namespace PhotoDiscoverService.Data
             };
         }
 
-        public PhotoAlbum CreatePhotoCollection(IReadOnlyCollection<IPhotoImage> photoImages)
+        public PhotoAlbumEntity CreatePhotoCollection(IReadOnlyCollection<IPhotoImage> photoImages)
         {
             var photos = photoImages.Select(CreatePhotoFromPhotoImage).ToList();
 
-            return new PhotoAlbum
+            return new PhotoAlbumEntity
             {
                 Title = _photosOverview.Title,
                 Description = _photosOverview.Description,
@@ -43,29 +44,29 @@ namespace PhotoDiscoverService.Data
             };
         }
 
-        private Photo CreatePhotoFromPhotoImage(IPhotoImage photoImage)
+        private PhotoEntity CreatePhotoFromPhotoImage(IPhotoImage photoImage)
         {
-            return new Photo
+            return new PhotoEntity
             {
                 Title = new FileInfo(photoImage.Path).Name,
                 CreationDate = photoImage.CreationDate,
                 Place = _place,
-                Path = photoImage.Path,
-                Image = photoImage.Image
+                Image = photoImage.Image,
+                ImageType = ImageTypeRecognizer.Recognize(photoImage.Image)
             };
         }
 
-        private static DateTime GetEarliestDate(IReadOnlyCollection<Photo> photos)
+        private static DateTime GetEarliestDate(IReadOnlyCollection<PhotoEntity> photos)
         {
             return GetPhotoCreationDates(photos).Min();
         }
 
-        private static DateTime GetLatestDate(IReadOnlyCollection<Photo> photos)
+        private static DateTime GetLatestDate(IReadOnlyCollection<PhotoEntity> photos)
         {
             return GetPhotoCreationDates(photos).Max();
         }
 
-        private static IEnumerable<DateTime> GetPhotoCreationDates(IReadOnlyCollection<Photo> photos)
+        private static IEnumerable<DateTime> GetPhotoCreationDates(IReadOnlyCollection<PhotoEntity> photos)
         {
             return photos.Where(photo => photo.CreationDate.HasValue).Select(photo => photo.CreationDate.Value);
         }

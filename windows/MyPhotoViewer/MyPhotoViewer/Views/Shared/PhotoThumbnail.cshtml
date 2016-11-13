@@ -1,7 +1,7 @@
-﻿@model MyPhotoViewer.DAL.Photo
+﻿@model MyPhotoViewer.Core.IPhoto
 
 @{ 
-    string link = Url.Action("Photo", new { photoId = Model.PhotoId, photoAlbumId = Model.PhotoAlbumId });
+    string link = Url.Action("Photo", new { photoId = Model.Id, photoAlbumId = Model.PhotoAlbumId });
 }
 
 <a href="@link" class="thumbnail">

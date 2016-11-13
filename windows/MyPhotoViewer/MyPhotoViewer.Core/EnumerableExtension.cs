@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyPhotoViewer.Core
 {
@@ -15,22 +16,15 @@ namespace MyPhotoViewer.Core
 
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> enumerable, int chunkLength)
         {
-            IEnumerator<T> enumerator = enumerable.GetEnumerator();
-
-            while(enumerator.MoveNext())
-            {
-                yield return GetElements(enumerator, chunkLength);
-            }
+            return enumerable.Select((e, i) => new { Value = e, Index = i / chunkLength })
+                             .GroupBy(pair => pair.Index, pair => pair.Value)
+                             .Cast<IEnumerable<T>>();
         }
 
-        private static IEnumerable<T> GetElements<T>(IEnumerator<T> enumerator, int elementsCount)
+        public static T GetRandom<T>(this IEnumerable<T> enumerable)
         {
-            bool hasNextElement = true;
-            for (int i = 0; i < elementsCount && hasNextElement; ++i)
-            {
-                yield return enumerator.Current;
-                hasNextElement = enumerator.MoveNext();
-            }
+            int id = RandomEx.Next(enumerable.Count());
+            return enumerable.ElementAt(id);
         }
     }
 }

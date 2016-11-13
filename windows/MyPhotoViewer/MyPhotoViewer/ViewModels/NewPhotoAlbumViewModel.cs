@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyPhotoViewer.ViewModels
 {
-    public class NewPhotoAlbumViewModel
+    public class NewPhotoAlbumViewModel : IValidatableObject
     {
         [Required]
         [StringLength(30, MinimumLength = 5)]
@@ -39,5 +39,14 @@ namespace MyPhotoViewer.ViewModels
         [UploadedFiles]
         [Display(Name = "Photos")]
         public ICollection<IHttpFile> Photos { get; set; }
+
+        
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (From > To)
+            {
+                yield return new ValidationResult("Incorrect period");
+            }
+        }
     }
 }

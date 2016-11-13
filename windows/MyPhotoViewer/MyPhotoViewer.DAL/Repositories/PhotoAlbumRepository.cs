@@ -1,41 +1,40 @@
 ﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace MyPhotoViewer.DAL
 {
     internal class PhotoAlbumRepository : IPhotoAlbumRepository, IDisposable
     {
-        private readonly PhotosContext _photoAlbumContext;
+        private readonly PhotosContext _photosContext;
 
-        public PhotoAlbumRepository(PhotosContext photoAlbumContext)
+        public PhotoAlbumRepository(PhotosContext photosContext)
         {
-            Verifiers.ArgNullVerify(photoAlbumContext, nameof(photoAlbumContext));
-            _photoAlbumContext = photoAlbumContext;
+            Verifiers.ArgNullVerify(photosContext, nameof(photosContext));
+            _photosContext = photosContext;
         }
 
-        public PhotoAlbum GetPhotoAlbumById(int photoCollectionId)
+        public IPhotoAlbum GetPhotoAlbumById(int photoAlbumId)
         {
-            return _photoAlbumContext.PhotoAlbums.Include("Photos")
-                                                 .Include("Place")
-                                                 .SingleOrDefault(p => p.PhotoAlbumId == photoCollectionId);
+            return new PhotoAlbum(_photosContext, photoAlbumId);
         }
 
-        public IEnumerable<PhotoAlbum> GetPhotoAlbums()
+        public IEnumerable<IPhotoAlbum> GetPhotoAlbums()
         {
-            return _photoAlbumContext.PhotoAlbums.Include("Photos")
-                                                 .Include("Place");
+            IEnumerable<int> photoAlbumIds = _photosContext.PhotoAlbums.Select(photoAlbum => photoAlbum.Id);
+            return photoAlbumIds.Select(photoAlbumId => new PhotoAlbum(_photosContext, photoAlbumId));
         }
 
-        public void AddPhotoAlbum(PhotoAlbum photoAlbum)
+        public void AddPhotoAlbum(PhotoAlbumEntity photoAlbum)
         {
-            _photoAlbumContext.PhotoAlbums.Add(photoAlbum);
-            _photoAlbumContext.SaveChanges();
+            _photosContext.PhotoAlbums.Add(photoAlbum);
+            _photosContext.SaveChanges();
         }
 
-        public void SavePhotoAlbum(PhotoAlbum photoAlbum)
+        public void SavePhotoAlbum(PhotoAlbumEntity photoAlbum)
         {
             //if (photoAlbum.PhotoAlbumId == 0)
             //{
@@ -51,22 +50,23 @@ namespace MyPhotoViewer.DAL
 
         public void DeletePhotoAlbum(int photoAlbumId)
         {
-            PhotoAlbum entry = _photoAlbumContext.PhotoAlbums.Find(photoAlbumId);
-            if (entry != null)
-            {
-                _photoAlbumContext.PhotoAlbums.Remove(entry);
-                _photoAlbumContext.SaveChanges();
-            }
+            throw new NotImplementedException();
+            //IPhotoAlbum entry = _photosContext.PhotoAlbums.Find(photoAlbumId);
+            //if (entry != null)
+            //{
+            //    _photosContext.PhotoAlbums.Remove(entry);
+            //    _photosContext.SaveChanges();
+            //}
         }
 
         public void Save()
         {
-            _photoAlbumContext.SaveChanges();
+            _photosContext.SaveChanges();
         }
 
         public void Dispose()
         {
-            _photoAlbumContext.Dispose();
+            _photosContext.Dispose();
         }
     }
 }

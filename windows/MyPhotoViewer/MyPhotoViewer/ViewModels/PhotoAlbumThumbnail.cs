@@ -1,25 +1,24 @@
-﻿using MyPhotoViewer.DAL;
-using MyPhotoViewer.Models;
+﻿using MyPhotoViewer.Core;
 
 namespace MyPhotoViewer.ViewModels
 {
     public interface IPhotoAlbumThumbnail
     {
         int PhotoAlbumId { get; }
+        int CoverPhotoId { get; }
         string Name { get; }
-        string Image { get; }
         string Description { get; }
-        Place Place { get; }
-        DateTimePeriod Period { get;}
+        IPlace Place { get; }
+        IDateTimePeriod Period { get;}
     }
 
     public class PhotoAlbumThumbnail : IPhotoAlbumThumbnail
     {
         public int PhotoAlbumId { get; set; }
+        public int CoverPhotoId { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
         public string Description { get; set; }
-        public Place Place { get; set; }
-        public DateTimePeriod Period { get; set; }
+        public IPlace Place { get; set; }
+        public IDateTimePeriod Period { get; set; }
     }
 }

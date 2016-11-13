@@ -1,4 +1,5 @@
 ﻿using MyPhotoViewer.DAL;
+using MyPhotoViewer.DAL.Entity;
 using PhotoDiscoverService.Data;
 using System;
 
@@ -12,7 +13,7 @@ namespace PhotoDiscoverService
 
             var photoAlbums = PhotoAlbumsLoader.LoadPhotoAlbums();
 
-            using (var photosContext = new PhotosContext("PhotosContextEx"))
+            using (var photosContext = new PhotosContext())
             {
                 photosContext.Configuration.AutoDetectChangesEnabled = false;
                 photosContext.Configuration.ValidateOnSaveEnabled = false;

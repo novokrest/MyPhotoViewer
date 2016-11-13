@@ -63,6 +63,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="PhotoAlbumRepositoryTest.cs" />
     <Compile Include="PhotosContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MyPhotoViewer.Core\MyPhotoViewer.Core.csproj">
+      <Project>{2CF492E2-8655-4D9E-88C8-11D49B7B3701}</Project>
+      <Name>MyPhotoViewer.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyPhotoViewer.DAL\MyPhotoViewer.DAL.csproj">
       <Project>{18DC8685-91D7-418B-9818-984B1EB609B4}</Project>
       <Name>MyPhotoViewer.DAL</Name>

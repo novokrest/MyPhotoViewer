@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTests.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="EnumerableExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="KnownRegexTests.cs" />
