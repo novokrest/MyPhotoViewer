@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MyPhotoViewer.DAL
 {
-    internal class PhotoAlbumRepository : IPhotoAlbumRepository, IDisposable
+    public class PhotoAlbumRepository : IPhotoAlbumRepository, IDisposable
     {
         private readonly PhotosContext _photosContext;
 

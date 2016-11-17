@@ -32,16 +32,17 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult AddPhoto(int photoAlbumId)
         {
-            var newPhotoViewModel = new NewPhotoViewModel
+            var newPhotoViewModel = new PhotoViewModel
             {
                 PhotoAlbumId = photoAlbumId
             };
-            return View(newPhotoViewModel);
+
+            return RedirectToAction("Create", "Photo", new { photoAlbumId = photoAlbumId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]NewPhotoViewModel newPhotoViewModel)
+        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]PhotoViewModel newPhotoViewModel)
         {
             if (ModelState.IsValid)
             {

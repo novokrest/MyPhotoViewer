@@ -12,6 +12,14 @@ namespace MyPhotoViewer.Core
             }
         }
 
+        public static void Verify(bool b, Func<Exception> exceptionCreator)
+        {
+            if (!b)
+            {
+                throw exceptionCreator();
+            }
+        }
+
         public static void ArgVerify(bool b, string paramName, string messageFormat = "", params object[] objects)
         {
             if (!b)

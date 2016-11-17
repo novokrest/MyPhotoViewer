@@ -24,6 +24,12 @@ namespace MyPhotoViewer
                 constraints: new { photoAlbumId = @"\d+", photoId = @"\d+" });
 
             routes.MapRoute(
+                name: "Photo",
+                url: "Photo/{photoId}/{action}",
+                defaults: new { controller = "Photo", photoId = UrlParameter.Optional},
+                constraints: new { photoId = @"\d+" });
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

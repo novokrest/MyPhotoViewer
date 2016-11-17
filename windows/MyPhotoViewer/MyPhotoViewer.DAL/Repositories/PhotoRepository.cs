@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace MyPhotoViewer.DAL
 {
-    internal sealed class PhotoRepository : IPhotoRepository
+    public sealed class PhotoRepository : IPhotoRepository
     {
         private readonly PhotosContext _photosContext;
 

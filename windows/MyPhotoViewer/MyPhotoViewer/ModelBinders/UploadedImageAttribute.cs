@@ -15,7 +15,12 @@ namespace MyPhotoViewer.ModelBinders
             if (propertyDescriptor.PropertyType == typeof(Image))
             {
                 HttpFileCollectionBase files = controllerContext.HttpContext.Request.Files;
-                //Verifiers.Verify(files.Count == 1, "Unexpected uploaded files count: {0}", files.Count);
+
+                if (files.Count != 1)
+                {
+                    bindingContext.ModelState.AddModelError(propertyDescriptor.DisplayName, "Choose photo for uploading");
+                    return true;
+                }
 
                 HttpPostedFileBase uploadedFile = files[0];
                 Image image = Image.Create(uploadedFile.ReadData(), uploadedFile.ContentType);

@@ -3,13 +3,13 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace MyPhotoViewer.DAL.Entity
 {
-    interface IPhotosContext
+    public interface IPhotosContext
     {
         DbSet<PhotoAlbumEntity> PhotoAlbums { get; }
         DbSet<PhotoEntity> Photos { get; }
     }
 
-    class PhotosContext : DbContext, IPhotosContext
+    public class PhotosContext : DbContext, IPhotosContext
     {
         public DbSet<PhotoAlbumEntity> PhotoAlbums { get; set; }
         public DbSet<PhotoEntity> Photos { get; set; }
