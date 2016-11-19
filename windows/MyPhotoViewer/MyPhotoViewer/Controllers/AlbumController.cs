@@ -32,11 +32,6 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult AddPhoto(int photoAlbumId)
         {
-            var newPhotoViewModel = new PhotoViewModel
-            {
-                PhotoAlbumId = photoAlbumId
-            };
-
             return RedirectToAction("Create", "Photo", new { photoAlbumId = photoAlbumId });
         }
 

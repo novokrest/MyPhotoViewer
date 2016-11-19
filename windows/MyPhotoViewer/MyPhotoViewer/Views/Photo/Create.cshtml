@@ -43,12 +43,13 @@
             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="input-group">
+                    <input type="text" class="form-control" readonly>
                     <label class="input-group-btn">
                         <span class="btn btn-primary">
-                            Browse&hellip; <input type="file" name="Image" style="display: none;">
+                            Browse&hellip;
+                            <input type="file" name="Image" readonly/>
                         </span>
                     </label>
-                    <input type="text" class="form-control" readonly>
                 </div>
                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
             </div>
@@ -68,19 +69,26 @@
 
 @section scripts {
     <script>
+        var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
+
         $(function () {
             $(document).on('change', ':file', function () {
                 var $input = $(this),
                     numFiles = $input.get(0).files ? $input.get(0).files.length : 1,
                     label = $input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                $input.trigger('fileselect', [numFiles, label]);
+                images = $.grep($input.get(0).files, function (file, index) {
+                    return $.inArray(file.type, ValidImageTypes) != -1;
+                });
+                if (images.length > 0) {
+                    $input.trigger('fileselect', [images.length, label]);
+                }
             });
 
             $(document).ready(function () {
                 $(':file').on('fileselect', function (event, numFiles, label) {
                     var $input = $(this).parents('.input-group').find(':text'),
                         text = numFiles > 1 ? numFiles + ' files selected' : label;
-
+                    
                     if ($input.length) {
                         $input.val(text);
                     }
