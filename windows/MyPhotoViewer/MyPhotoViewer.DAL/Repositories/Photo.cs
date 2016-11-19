@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MyPhotoViewer.DAL.Repositories
 {
-    class Photo : IPhoto
+    class Photo : IPhoto, IUpdatablePhoto
     {
         private readonly IPhotosContext _photosContext;
         private readonly int _photoId;
@@ -20,9 +20,30 @@ namespace MyPhotoViewer.DAL.Repositories
         }
 
         public int Id => _photoEntity.Id;
-        public int PhotoAlbumId => _photoEntity.PhotoAlbumId; 
-        public string Title => _photoEntity.Title;
-        public DateTime? CreationDate => _photoEntity.CreationDate;
+
+        public int PhotoAlbumId
+        {
+            get { return _photoEntity.PhotoAlbumId; }
+            set { _photoEntity.PhotoAlbumId = value; }
+        }
+            
+        public string Title
+        {
+            get { return _photoEntity.Title; }
+            set { _photoEntity.Title = value; }
+        } 
+
+        public DateTime? CreationDate
+        {
+            get { return _photoEntity.CreationDate; }
+            set { _photoEntity.CreationDate = value; }
+        }
+
+        public void Update()
+        {
+            _photosContext.Entry(_photoEntity).State = System.Data.Entity.EntityState.Modified;
+            _photosContext.SaveChanges();
+        }
 
         public Image GetImage()
         {

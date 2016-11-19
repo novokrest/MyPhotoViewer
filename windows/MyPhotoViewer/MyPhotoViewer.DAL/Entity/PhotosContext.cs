@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace MyPhotoViewer.DAL.Entity
@@ -7,6 +8,9 @@ namespace MyPhotoViewer.DAL.Entity
     {
         DbSet<PhotoAlbumEntity> PhotoAlbums { get; }
         DbSet<PhotoEntity> Photos { get; }
+
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        int SaveChanges();
     }
 
     public class PhotosContext : DbContext, IPhotosContext

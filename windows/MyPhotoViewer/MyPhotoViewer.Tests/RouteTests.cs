@@ -11,8 +11,15 @@ using System.Web.Routing;
 
 namespace MyPhotoViewer.Tests
 {
-    class RouteTestBase
+    [TestFixture]
+    public class RouteTests
     {
+        [Test]
+        public void TestRoutes()
+        {
+            TestRouteMatch("~/Photo/1/Edit", "Photo", "Edit", new { photoId = "1" });
+        }
+
         private void TestRouteMatch(string url, string controller, string action, object routeProperties = null, string httpMethod = "GET")
         {
             //Arrange

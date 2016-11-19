@@ -247,7 +247,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\NinjectDependencyResolver.cs" />
     <Compile Include="Validators\ImagesAttribute.cs" />
-    <Compile Include="ViewModels\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\BasePhotoViewModel.cs" />
+    <Compile Include="ViewModels\NewPhotoViewModel.cs" />
     <Compile Include="ViewModels\PhotoAlbumThumbnail.cs" />
     <Compile Include="ViewModels\PhotoAlbumThumbnailCreator.cs" />
     <Compile Include="ViewModels\NewPhotoAlbumViewModel.cs" />
@@ -333,7 +334,7 @@
     <Content Include="Views\Shared\PhotoAlbumThumbnailRow.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Album\AddPhoto.cshtml" />
+    <Content Include="Views\Photo\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,13 +1,12 @@
 ﻿@model MyPhotoViewer.ViewModels.NewPhotoViewModel
 
 @{
-    string action = ViewContext.RouteData.Values["action"] as string;
-    ViewBag.Title = action;
+    ViewBag.Title = "Edit";
 }
 
-<h2>@action</h2>
+<h2>Edit</h2>
 
-@using (Html.BeginForm(action, "Photo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -49,24 +48,16 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2"></div>
             <div class="col-md-10">
-                <div class="input-group">
-                    <input type="text" class="form-control" readonly>
-                    <label class="input-group-btn">
-                        <span class="btn btn-primary">
-                            Browse&hellip;
-                            <input type="file" name="Image" readonly/>
-                        </span>
-                    </label>
-                </div>
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                <img src="@Url.Action("Image", "Photo", new { photoId = Model.PhotoId })"/>
             </div>
         </div>
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@action" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -75,34 +66,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section scripts {
-    <script>
-        var ValidImageTypes = ["image/gif", "image/jpeg", "image/png"];
-
-        $(function () {
-            $(document).on('change', ':file', function () {
-                var $input = $(this),
-                    numFiles = $input.get(0).files ? $input.get(0).files.length : 1,
-                    label = $input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                images = $.grep($input.get(0).files, function (file, index) {
-                    return $.inArray(file.type, ValidImageTypes) != -1;
-                });
-                if (images.length > 0) {
-                    $input.trigger('fileselect', [images.length, label]);
-                }
-            });
-
-            $(document).ready(function () {
-                $(':file').on('fileselect', function (event, numFiles, label) {
-                    var $input = $(this).parents('.input-group').find(':text'),
-                        text = numFiles > 1 ? numFiles + ' files selected' : label;
-                    
-                    if ($input.length) {
-                        $input.val(text);
-                    }
-                });
-            });
-        });
-    </script>
-}

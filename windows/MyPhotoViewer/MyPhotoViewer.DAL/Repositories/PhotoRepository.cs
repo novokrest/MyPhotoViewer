@@ -3,7 +3,7 @@ using MyPhotoViewer.DAL.Entity;
 using MyPhotoViewer.DAL.Repositories;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace MyPhotoViewer.DAL
 {
@@ -17,6 +17,16 @@ namespace MyPhotoViewer.DAL
         }
 
         public IPhoto GetPhotoById(int photoId)
+        {
+            return CreatePhoto(photoId);
+        }
+
+        public IUpdatablePhoto GetUpdatablePhotoById(int photoId)
+        {
+            return CreatePhoto(photoId);
+        }
+
+        private Photo CreatePhoto(int photoId)
         {
             return new Photo(_photosContext, photoId);
         }
@@ -32,9 +42,14 @@ namespace MyPhotoViewer.DAL
             _photosContext.SaveChanges();
         }
 
-        public void UpdatePhoto(IPhoto photo)
+        public void UpdatePhoto(IUpdatablePhoto photo)
         {
-            throw new NotImplementedException();
+            photo.Update();
+        }
+
+        public Image GetPhotoImage(int photoId)
+        {
+            return CreatePhoto(photoId).GetImage();
         }
 
         public void DeletePhoto(int photo)

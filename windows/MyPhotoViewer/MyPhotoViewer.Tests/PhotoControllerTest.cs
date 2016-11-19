@@ -16,13 +16,13 @@ namespace MyPhotoViewer.Tests
         public void TestPhotoCreateGet()
         {
             const int testPhotoAlbumId = 1;
-            var photoController = new PhotoController(CreatePhotoRepository());
+            var photoController = CreatePhotoController();
 
             var viewResult = photoController.Create(testPhotoAlbumId) as ViewResult;
             Assert.IsNotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName);
 
-            var photoViewModel = viewResult.ViewData.Model as PhotoViewModel;
+            var photoViewModel = viewResult.ViewData.Model as NewPhotoViewModel;
             Assert.IsNotNull(photoViewModel);
             Assert.AreEqual(testPhotoAlbumId, photoViewModel.PhotoAlbumId);
         }
@@ -30,14 +30,8 @@ namespace MyPhotoViewer.Tests
         [Test]
         public void TestPhotoCreatePost()
         {
-            var photoController = new PhotoController(CreatePhotoRepository());
-            var photoViewModel = new PhotoViewModel()
-            {
-                PhotoId = 1,
-                PhotoAlbumId = 2,
-                Title = "TestTitle",
-                Image = new Image(new byte[0], ImageType.Jpeg)
-            };
+            var photoController = CreatePhotoController();
+            var photoViewModel = CreateFilledPhotoViewModel();
 
             var result = photoController.Create(photoViewModel) as RedirectToRouteResult;
 
@@ -47,11 +41,53 @@ namespace MyPhotoViewer.Tests
             Assert.AreEqual(photoViewModel.PhotoAlbumId, result.RouteValues["photoAlbumId"]);
         }
 
+        [Test]
+        public void TestPhotoEditGet()
+        {
+            var photoController = CreatePhotoController();
+            var photoViewModel = CreateFilledPhotoViewModel();
+
+            var result = photoController.Edit(1) as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsEmpty(result.ViewName);
+        }
+
+        [Test]
+        public void TestPhotoEditPost()
+        {
+
+        }
+
+        private static PhotoController CreatePhotoController()
+        {
+            return new PhotoController(CreatePhotoRepository(), CreatePhotoAlbumRepository());
+        }
+
         private static IPhotoRepository CreatePhotoRepository()
         {
             Mock<IPhotoRepository> mock = new Mock<IPhotoRepository>();
+            Mock<IPhoto> photo = new Mock<IPhoto>();
+
+            mock.Setup(m => m.GetPhotoById(1)).Returns(photo.Object);
 
             return mock.Object;
+        }
+
+        private static IPhotoAlbumRepository CreatePhotoAlbumRepository()
+        {
+            return new Mock<IPhotoAlbumRepository>().Object;
+        }
+
+        private static NewPhotoViewModel CreateFilledPhotoViewModel()
+        {
+            return new NewPhotoViewModel()
+            {
+                PhotoId = 1,
+                PhotoAlbumId = 2,
+                Title = "TestTitle",
+                Image = new Image(new byte[0], ImageType.Jpeg)
+            };
         }
     }
 }

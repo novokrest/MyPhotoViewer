@@ -21,15 +21,79 @@ namespace MyPhotoViewer.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int? photoAlbumId)
+        public ActionResult Create(int photoAlbumId = 0)
         {
-            var photoViewModel = new PhotoViewModel()
-            {
-                PhotoAlbumId = photoAlbumId ?? default(int),
-                PhotoAlbums = CreatePhotoAlbumSelectList()
-            };
+            var photoViewModel = CreateEmptyPhotoViewModel();
+            photoViewModel.PhotoAlbumId = photoAlbumId;
 
             return View(photoViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "PhotoAlbumId, Title, Image, CreationDate")]NewPhotoViewModel photoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _photoRepository.AddPhoto(photoViewModel.ToPhotoEntity());
+                return RedirectToAlbumIndex(photoViewModel.PhotoAlbumId);
+            }
+
+            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
+            return View(photoViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int photoId)
+        {
+            var photo = _photoRepository.GetPhotoById(photoId);
+            var photoViewModel = CreatePhotoViewModel(photo);
+
+            return View(photoViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "PhotoId, PhotoAlbumId, Title, CreationDate")]BasePhotoViewModel photoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var updatablePhoto = _photoRepository.GetUpdatablePhotoById(photoViewModel.PhotoId);
+
+                updatablePhoto.Title = photoViewModel.Title;
+                updatablePhoto.CreationDate = photoViewModel.CreationDate;
+                updatablePhoto.PhotoAlbumId = photoViewModel.PhotoAlbumId;
+
+                _photoRepository.UpdatePhoto(updatablePhoto);
+
+                return RedirectToAlbumIndex(photoViewModel.PhotoAlbumId);
+            }
+
+            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
+            return View(photoViewModel);
+        }
+
+        private ActionResult RedirectToAlbumIndex(int photoAlbumId)
+        {
+            return RedirectToAction("Index", "Album", new { photoAlbumId = photoAlbumId });
+        }
+
+        private BasePhotoViewModel CreatePhotoViewModel(IPhoto photo)
+        {
+            var photoViewModel = CreateEmptyPhotoViewModel();
+
+            photoViewModel.PhotoId = photo.Id;
+            photoViewModel.Title = photo.Title;
+            photoViewModel.CreationDate = photo.CreationDate;
+            photoViewModel.PhotoAlbumId = photo.PhotoAlbumId;
+
+            return photoViewModel;
+        }
+
+        private NewPhotoViewModel CreateEmptyPhotoViewModel()
+        {
+            return new NewPhotoViewModel
+            {
+                PhotoAlbums = CreatePhotoAlbumSelectList()
+            };
         }
 
         private IEnumerable<SelectListItem> CreatePhotoAlbumSelectList()
@@ -39,31 +103,10 @@ namespace MyPhotoViewer.Controllers
                                         { Text = photoAlbum.Title, Value = photoAlbum.Id.ToString() });
         }
 
-        [HttpPost]
-        public ActionResult Create([Bind(Include = "PhotoAlbumId, Title, Image")]PhotoViewModel photoViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                _photoRepository.AddPhoto(photoViewModel.ToPhotoEntity());
-                return RedirectToAction("Index", "Album", new { photoAlbumId = photoViewModel.PhotoAlbumId });
-            }
-
-            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
-
-            return View(photoViewModel);
-        }
-
         [HttpGet]
         public ActionResult Image(int photoId)
         {
-            var photo = _photoRepository.GetPhotoById(photoId);
-
-            if (photo == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Image image = photo.GetImage();
+            var image = _photoRepository.GetPhotoImage(photoId);
 
             return File(image.Data, ImageMimeTypeConverter.ToMimeType(image.Type));
         }

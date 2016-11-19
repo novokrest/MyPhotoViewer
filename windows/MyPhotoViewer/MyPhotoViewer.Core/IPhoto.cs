@@ -11,4 +11,13 @@ namespace MyPhotoViewer.Core
 
         Image GetImage();
     }
+
+    public interface IUpdatablePhoto
+    {
+        string Title { get; set; }
+        int PhotoAlbumId { get; set; }
+        DateTime? CreationDate { get; set; }
+
+        void Update();
+    }
 }

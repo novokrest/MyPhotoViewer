@@ -37,7 +37,7 @@ namespace MyPhotoViewer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]PhotoViewModel newPhotoViewModel)
+        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]NewPhotoViewModel newPhotoViewModel)
         {
             if (ModelState.IsValid)
             {
