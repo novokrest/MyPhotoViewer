@@ -12,7 +12,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
         [Test]
         public void TestPhotosExist()
         {
-            using (var photosContext = new PhotosContext())
+            using (var photosContext = new PhotosDbContext())
             {
                 int photosCount = photosContext.Photos.Count();
                 Assert.NotZero(photosCount);
@@ -48,7 +48,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
                 }
             };
 
-            using (var photosContext = new PhotosContext())
+            using (var photosContext = new PhotosDbContext())
             {
                 //photosContext.Configuration.AutoDetectChangesEnabled = false;
                 //photosContext.Configuration.ValidateOnSaveEnabled = false;
@@ -91,7 +91,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
                 }
             };
 
-            using (var photosContext = new PhotosContext())
+            using (var photosContext = new PhotosDbContext())
             {
                 //photosContext.Configuration.AutoDetectChangesEnabled = false;
                 //photosContext.Configuration.ValidateOnSaveEnabled = false;

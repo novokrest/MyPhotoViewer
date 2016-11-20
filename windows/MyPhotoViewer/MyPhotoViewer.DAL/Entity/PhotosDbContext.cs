@@ -4,7 +4,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace MyPhotoViewer.DAL.Entity
 {
-    public interface IPhotosContext
+    public interface IPhotosDbContext
     {
         DbSet<PhotoAlbumEntity> PhotoAlbums { get; }
         DbSet<PhotoEntity> Photos { get; }
@@ -13,17 +13,17 @@ namespace MyPhotoViewer.DAL.Entity
         int SaveChanges();
     }
 
-    public class PhotosContext : DbContext, IPhotosContext
+    public class PhotosDbContext : DbContext, IPhotosDbContext
     {
         public DbSet<PhotoAlbumEntity> PhotoAlbums { get; set; }
         public DbSet<PhotoEntity> Photos { get; set; }
         public DbSet<PlaceEntity> Places { get; set; }
 
-        public PhotosContext()
+        public PhotosDbContext()
         {
         }
 
-        public PhotosContext(string nameOrConnectionString)
+        public PhotosDbContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
         }

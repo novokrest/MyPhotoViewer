@@ -19,7 +19,7 @@ namespace MyPhotoViewer.Utils
 
         private void RegisterBindings()
         {
-            _kernel.Bind<IPhotosContext>().To<PhotosContext>();
+            _kernel.Bind<IPhotosDbContext>().To<PhotosDbContext>();
             _kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
             _kernel.Bind<IPhotoAlbumRepository>().To<PhotoAlbumRepository>();
         }

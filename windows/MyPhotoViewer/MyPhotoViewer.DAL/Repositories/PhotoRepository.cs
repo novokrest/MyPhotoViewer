@@ -9,9 +9,9 @@ namespace MyPhotoViewer.DAL
 {
     public sealed class PhotoRepository : IPhotoRepository
     {
-        private readonly PhotosContext _photosContext;
+        private readonly PhotosDbContext _photosContext;
 
-        public PhotoRepository(PhotosContext photosContext)
+        public PhotoRepository(PhotosDbContext photosContext)
         {
             _photosContext = photosContext;
         }

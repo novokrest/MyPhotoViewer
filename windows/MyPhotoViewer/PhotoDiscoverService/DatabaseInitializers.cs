@@ -29,9 +29,9 @@ namespace PhotoDiscoverService
         }
     }
 
-    internal class PhotosDbInitializer : DropCreateDatabaseAlways<PhotosContext>
+    internal class PhotosDbInitializer : DropCreateDatabaseAlways<PhotosDbContext>
     {
-        protected override void Seed(PhotosContext context)
+        protected override void Seed(PhotosDbContext context)
         {
             base.Seed(context);
 

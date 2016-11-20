@@ -8,7 +8,7 @@ namespace PhotoDiscoverService
         static void Main(string[] args)
         {
             DatabaseInitializer.Initialize<ApplicationDbContext, ApplicationDbInitializer>();
-            DatabaseInitializer.Initialize<PhotosContext, PhotosDbInitializer>();
+            DatabaseInitializer.Initialize<PhotosDbContext, PhotosDbInitializer>();
         }
     }
 }

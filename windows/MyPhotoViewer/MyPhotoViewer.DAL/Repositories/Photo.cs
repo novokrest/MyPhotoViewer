@@ -8,11 +8,11 @@ namespace MyPhotoViewer.DAL.Repositories
 {
     class Photo : IPhoto, IUpdatablePhoto
     {
-        private readonly IPhotosContext _photosContext;
+        private readonly IPhotosDbContext _photosContext;
         private readonly int _photoId;
         private readonly PhotoEntity _photoEntity;
 
-        public Photo(IPhotosContext photosContext, int photoId)
+        public Photo(IPhotosDbContext photosContext, int photoId)
         {
             _photosContext = photosContext;
             _photoId = photoId;

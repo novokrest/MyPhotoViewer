@@ -9,9 +9,9 @@ namespace MyPhotoViewer.DAL
 {
     public class PhotoAlbumRepository : IPhotoAlbumRepository, IDisposable
     {
-        private readonly PhotosContext _photosContext;
+        private readonly PhotosDbContext _photosContext;
 
-        public PhotoAlbumRepository(PhotosContext photosContext)
+        public PhotoAlbumRepository(PhotosDbContext photosContext)
         {
             Verifiers.ArgNullVerify(photosContext, nameof(photosContext));
             _photosContext = photosContext;

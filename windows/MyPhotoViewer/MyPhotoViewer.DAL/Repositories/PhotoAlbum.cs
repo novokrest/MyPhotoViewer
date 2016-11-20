@@ -7,11 +7,11 @@ namespace MyPhotoViewer.DAL.Repositories
 {
     class PhotoAlbum : IPhotoAlbum
     {
-        private readonly IPhotosContext _photosContext;
+        private readonly IPhotosDbContext _photosContext;
         private readonly int _photoAlbumId;
         private readonly PhotoAlbumEntity _photoAlbum;
 
-        public PhotoAlbum(IPhotosContext photosContext, int photoAlbumId)
+        public PhotoAlbum(IPhotosDbContext photosContext, int photoAlbumId)
         {
             _photosContext = photosContext;
             _photoAlbumId = photoAlbumId;

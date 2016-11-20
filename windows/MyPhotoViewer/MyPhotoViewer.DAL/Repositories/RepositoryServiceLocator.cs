@@ -14,9 +14,9 @@ namespace MyPhotoViewer.DAL
             return new PhotoRepository(CreatePhotosContext());
         }
 
-        private static PhotosContext CreatePhotosContext()
+        private static PhotosDbContext CreatePhotosContext()
         {
-            var photosContext = new PhotosContext();
+            var photosContext = new PhotosDbContext();
             return photosContext;
         }
     }

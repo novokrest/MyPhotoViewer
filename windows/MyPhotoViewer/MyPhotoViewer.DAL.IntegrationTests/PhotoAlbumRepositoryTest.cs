@@ -14,7 +14,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
         [Test]
         public void CommonTest()
         {
-            using (var photosContext = new PhotosContext())
+            using (var photosContext = new PhotosDbContext())
             {
                 photosContext.Database.Log = Console.WriteLine;
 
