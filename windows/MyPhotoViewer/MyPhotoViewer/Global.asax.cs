@@ -1,4 +1,5 @@
-﻿using MyPhotoViewer.ModelBinders;
+﻿using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.ModelBinders;
 using MyPhotoViewer.Models;
 using System.Data.Entity;
 using System.Web.Mvc;

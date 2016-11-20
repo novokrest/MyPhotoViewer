@@ -21,18 +21,11 @@ namespace MyPhotoViewer.DAL.Entity
 
         public PhotosContext()
         {
-            Initialize();
         }
 
         public PhotosContext(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<PhotosContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

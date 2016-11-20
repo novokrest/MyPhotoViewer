@@ -26,5 +26,18 @@ namespace MyPhotoViewer.Core
             int id = RandomEx.Next(enumerable.Count());
             return enumerable.ElementAt(id);
         }
+
+        public static string ToJoinString<T>(this IEnumerable<T> enumerable)
+        {
+            return String.Join(",", enumerable);
+        }
+    }
+
+    public static class SetExtensions
+    {
+        public static void AddRange<T>(this ISet<T> set, IEnumerable<T> added)
+        {
+            added.ForEach(e => set.Add(e));
+        }
     }
 }

@@ -52,6 +52,7 @@ namespace MyPhotoViewer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PhotoId, PhotoAlbumId, Title, CreationDate")]BasePhotoViewModel photoViewModel)
         {
             if (ModelState.IsValid)
