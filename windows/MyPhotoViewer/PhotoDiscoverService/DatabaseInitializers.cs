@@ -63,6 +63,8 @@ namespace PhotoDiscoverService
     {
         private const string AdminRoleName = "Admin";
         private const string UserRoleName = "User";
+        private const string AdminEmail = "admin@mail.com";
+        private const string UserEmail = "user@mail.com";
 
         protected override void Seed(ApplicationDbContext context)
         {
@@ -70,8 +72,8 @@ namespace PhotoDiscoverService
 
             using (var userCreator = new ApplicationUserCreator(context))
             {
-                userCreator.Create("admin", "123456", "admin@mail.com", AdminRoleName, UserRoleName);
-                userCreator.Create("user", "123456", "user@mail.com", UserRoleName);
+                userCreator.Create(AdminEmail, "123456", AdminEmail, AdminRoleName, UserRoleName);
+                userCreator.Create(UserEmail, "123456", UserEmail, UserRoleName);
             }
         }
 
