@@ -3,72 +3,72 @@ using MyPhotoViewer.DAL;
 using MyPhotoViewer.DAL.Entity;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace PhotoDiscoverService.Data
 {
     internal class PhotoAlbumCreator
     {
+        private readonly IPhotosDbContext _context;
         private readonly PhotoAlbumOverview _photosOverview;
         private readonly PlaceEntity _place;
+        private readonly IEnumerable<IPhotoImage> _photoImages;
 
-        public PhotoAlbumCreator(PhotoAlbumOverview photosOverview)
+        public PhotoAlbumCreator(IPhotosDbContext context, PhotoAlbumOverview photosOverview, PlaceRegister placeRegister, IEnumerable<IPhotoImage> photoImages)
         {
             Verifiers.ArgNullVerify(photosOverview, nameof(photosOverview));
 
+            _context = context;
             _photosOverview = photosOverview;
-            _place = new PlaceEntity
-            {
-                Name = _photosOverview.Place,
-                City = _photosOverview.City,
-                Country = _photosOverview.Country
-            };
+            _place = placeRegister.Register(_photosOverview.Place, _photosOverview.City, _photosOverview.Country);
+            _photoImages = photoImages;
         }
 
-        public PhotoAlbumEntity CreatePhotoCollection(IReadOnlyCollection<IPhotoImage> photoImages)
+        public void CreatePhotoAlbum()
         {
-            var photos = photoImages.Select(CreatePhotoFromPhotoImage).ToList();
+            PhotoAlbumEntity album = CreateEmptyPhotoAlbum();
+            SavePhotos(album);
+        }
 
-            return new PhotoAlbumEntity
+        private PhotoAlbumEntity CreateEmptyPhotoAlbum()
+        {
+            var album = new PhotoAlbumEntity
             {
                 Title = _photosOverview.Title,
                 Description = _photosOverview.Description,
-                Place = _place,
+                PlaceId = _place.Id,
                 Period = new DateTimePeriod
                 {
-                    From = _photosOverview.From ?? GetEarliestDate(photos),
-                    To = _photosOverview.From ?? GetLatestDate(photos)
-                },
-                Photos = photos
+                    From = _photosOverview.From ?? GetPhotosEarliestDate(),
+                    To = _photosOverview.From ?? GetPhotosLatestDate()
+                }
             };
+
+            album = _context.PhotoAlbums.Add(album);
+            _context.SaveChanges();
+
+            return album;
         }
 
-        private PhotoEntity CreatePhotoFromPhotoImage(IPhotoImage photoImage)
+        private void SavePhotos(PhotoAlbumEntity album)
         {
-            return new PhotoEntity
-            {
-                Title = new FileInfo(photoImage.Path).Name,
-                CreationDate = photoImage.CreationDate,
-                Place = _place,
-                Image = photoImage.Image,
-                ImageType = ImageTypeRecognizer.Recognize(photoImage.Image)
-            };
+            var photoImageSaver = new PhotoImageSaver(_context, album, _photoImages);
+            photoImageSaver.SavePhotos();
         }
 
-        private static DateTime GetEarliestDate(IReadOnlyCollection<PhotoEntity> photos)
+        private DateTime GetPhotosEarliestDate()
         {
-            return GetPhotoCreationDates(photos).Min();
+            return GetPhotoCreationDates().Min();
         }
 
-        private static DateTime GetLatestDate(IReadOnlyCollection<PhotoEntity> photos)
+        private DateTime GetPhotosLatestDate()
         {
-            return GetPhotoCreationDates(photos).Max();
+            return GetPhotoCreationDates().Max();
         }
 
-        private static IEnumerable<DateTime> GetPhotoCreationDates(IReadOnlyCollection<PhotoEntity> photos)
+        private IEnumerable<DateTime> GetPhotoCreationDates()
         {
-            return photos.Where(photo => photo.CreationDate.HasValue).Select(photo => photo.CreationDate.Value);
+            return _photoImages.Select(photo => photo.CreationDate);
         }
     }
 

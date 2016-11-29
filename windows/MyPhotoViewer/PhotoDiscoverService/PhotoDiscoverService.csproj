@@ -95,7 +95,9 @@
     <Compile Include="Data\PhotoAlbumsLoader.cs" />
     <Compile Include="Data\PhotoImage.cs" />
     <Compile Include="Data\PhotoImageRecursiveExplorer.cs" />
-    <Compile Include="Data\PhotosExplorer.cs" />
+    <Compile Include="Data\PhotoAlbumLoader.cs" />
+    <Compile Include="Data\PhotoImageSaver.cs" />
+    <Compile Include="Data\PlaceRegister.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

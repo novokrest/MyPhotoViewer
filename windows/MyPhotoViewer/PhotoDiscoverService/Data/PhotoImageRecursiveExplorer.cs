@@ -6,25 +6,20 @@ using System.Linq;
 
 namespace PhotoDiscoverService.Data
 {
-    internal class PhotoImageRecursiveExplorer
+    internal class PhotoImageFinder
     {
         private static readonly string[] ImagesSearchPatterns = { "*.jpg" , "*.png" };
 
         private readonly string _rootDirectory;
 
-        public PhotoImageRecursiveExplorer(string rootDirectory)
+        public PhotoImageFinder(string rootDirectory)
         {
             Verifiers.ArgNullVerify(rootDirectory, nameof(rootDirectory));
 
             _rootDirectory = rootDirectory;
         }
 
-        public IReadOnlyCollection<IPhotoImage> ExplorePhotoImages()
-        {
-            return ExplorePhotoImagesLazy().ToList();
-        }
-
-        private IEnumerable<IPhotoImage> ExplorePhotoImagesLazy()
+        public IEnumerable<IPhotoImage> FindPhotoImages()
         {
             foreach (FileInfo imageInfo in FindImages())
             {
@@ -42,14 +37,7 @@ namespace PhotoDiscoverService.Data
 
         private IPhotoImage ExtractPhotoImage(string imagePath)
         {
-            DateTime createdDate = ExtractCreatedDate(imagePath);
-
-            return new PhotoImage
-            {
-                Path = imagePath,
-                CreationDate = createdDate,
-                Image = File.ReadAllBytes(imagePath)
-            };
+            return new PhotoImage(imagePath, ExtractCreatedDate(imagePath));
         }
 
         private static DateTime ExtractCreatedDate(string imagePath)
@@ -63,9 +51,16 @@ namespace PhotoDiscoverService.Data
 
         private class PhotoImage : IPhotoImage
         {
-            public string Path { get; set; }
-            public DateTime CreationDate { get; set; }
-            public byte[] Image { get; set; }
+            public PhotoImage(string path, DateTime creationDate)
+            {
+                Path = path;
+                CreationDate = creationDate;
+            }
+
+            public string Path { get; }
+            public DateTime CreationDate { get; }
+
+            public byte[] Image => File.ReadAllBytes(Path);
         }
     }
 }

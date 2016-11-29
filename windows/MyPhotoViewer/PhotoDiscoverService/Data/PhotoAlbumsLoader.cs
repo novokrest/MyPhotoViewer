@@ -1,18 +1,35 @@
-﻿using MyPhotoViewer.DAL;
+﻿using MyPhotoViewer.Core;
 using MyPhotoViewer.DAL.Entity;
-using System.Collections.Generic;
 using System.Configuration;
 
 namespace PhotoDiscoverService.Data
 {
-    class PhotoAlbumsLoader
+    internal class PhotoAlbumsLoader
     {
-        public static IReadOnlyCollection<PhotoAlbumEntity> LoadPhotoAlbums()
+        private readonly IPhotosDbContext _context;
+        private readonly string _rootDirectory;
+        private readonly PlaceRegister _placeRegister;
+
+        public static PhotoAlbumsLoader CreateFromConfiguration(IPhotosDbContext context)
         {
             string photosRootDirectoryPath = ConfigurationManager.AppSettings["PhotosRootDirectory"];
-            var photosExplorer = new PhotosExplorer(photosRootDirectoryPath);
+            return new PhotoAlbumsLoader(context, photosRootDirectoryPath);
+        }
 
-            return photosExplorer.GetPhotos();
+        public PhotoAlbumsLoader(IPhotosDbContext context, string rootDirectory)
+        {
+            _context = context;
+            _rootDirectory = rootDirectory;
+            _placeRegister = new PlaceRegister(context);
+        }
+
+        public void LoadPhotoAlbums()
+        {
+            foreach (string photoAblumDirectory in DirectoryInfoEx.GetChildDirectories(_rootDirectory))
+            {
+                var photoAlbumLoader = new PhotoAlbumLoader(_context, _placeRegister, photoAblumDirectory);
+                photoAlbumLoader.Load();
+            }
         }
     }
 }

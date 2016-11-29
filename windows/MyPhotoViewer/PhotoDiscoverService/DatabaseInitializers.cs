@@ -19,7 +19,7 @@ namespace PhotoDiscoverService
             where TDbInitializer : IDatabaseInitializer<TDbContext>
         {
             var dbInitializer = Activator.CreateInstance<TDbInitializer>();
-            Database.SetInitializer<TDbContext>(dbInitializer);
+            Database.SetInitializer(dbInitializer);
 
             using (var dbContext = Activator.CreateInstance<TDbContext>())
             {
@@ -29,18 +29,37 @@ namespace PhotoDiscoverService
         }
     }
 
-    internal class PhotosDbInitializer : DropCreateDatabaseAlways<PhotosDbContext>
+    internal class ForceDropCreateDatabaseAlways<TDbContext> : DropCreateDatabaseAlways<TDbContext>
+        where TDbContext : DbContext
+    {
+        private const string SetSingleUserSqlCommand = "ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
+        private const string DropDatatbaseSqlCommand = "USE master DROP DATABASE [{0}]";
+
+        public override void InitializeDatabase(TDbContext context)
+        {
+            if (context.Database.Exists())
+            {
+                string databaseName = context.Database.Connection.Database;
+                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format(SetSingleUserSqlCommand, databaseName));
+                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format(DropDatatbaseSqlCommand, databaseName));
+            }
+
+            base.InitializeDatabase(context);
+        }
+    }
+
+    internal class PhotosDbInitializer : ForceDropCreateDatabaseAlways<PhotosDbContext>
     {
         protected override void Seed(PhotosDbContext context)
         {
             base.Seed(context);
 
-            var photoAlbums = PhotoAlbumsLoader.LoadPhotoAlbums();
-            context.PhotoAlbums.AddRange(photoAlbums);
+            var photoAlbumsLoader = PhotoAlbumsLoader.CreateFromConfiguration(context);
+            photoAlbumsLoader.LoadPhotoAlbums();
         }
     }
 
-    internal class ApplicationDbInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    internal class ApplicationDbInitializer : ForceDropCreateDatabaseAlways<ApplicationDbContext>
     {
         private const string AdminRoleName = "Admin";
         private const string UserRoleName = "User";

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparator.cs" />
+    <Compile Include="DirectoryInfoEx.cs" />
     <Compile Include="IDateTimePeriod.cs" />
     <Compile Include="EnumerableExtension.cs" />
     <Compile Include="HttpFile.cs" />

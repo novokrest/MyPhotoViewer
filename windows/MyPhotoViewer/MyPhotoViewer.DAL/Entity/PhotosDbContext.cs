@@ -8,6 +8,7 @@ namespace MyPhotoViewer.DAL.Entity
     {
         DbSet<PhotoAlbumEntity> PhotoAlbums { get; }
         DbSet<PhotoEntity> Photos { get; }
+        DbSet<PlaceEntity> Places { get; }
 
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         int SaveChanges();
