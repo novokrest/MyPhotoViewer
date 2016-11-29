@@ -2,6 +2,7 @@
 using MyPhotoViewer.DAL;
 using MyPhotoViewer.Extensions;
 using MyPhotoViewer.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -93,6 +94,7 @@ namespace MyPhotoViewer.Controllers
         {
             return new NewPhotoViewModel
             {
+                CreationDate = DateTime.Now,
                 PhotoAlbums = CreatePhotoAlbumSelectList()
             };
         }
