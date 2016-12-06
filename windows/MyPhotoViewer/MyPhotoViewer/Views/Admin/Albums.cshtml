@@ -1,0 +1,54 @@
+﻿@using MyPhotoViewer.ViewModels
+@using MyPhotoViewer.Extensions
+@model IEnumerable<PhotoAlbumViewModel>
+
+@{
+    ViewBag.Title = "Albums";
+    string dateTimeFormat = "dd-MM-yyyy";
+}
+
+<h2>Albums</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Registered Albums
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover with-buttons">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Period</th>
+                    <th>Place</th>
+                    <th>Photos</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var photoAlbum in Model)
+                {
+                    var period = photoAlbum.Period;
+                    var place = photoAlbum.Place;
+                    <tr>
+                        <td>@photoAlbum.Id</td>
+                        <td>@photoAlbum.Title</td>
+                        <td>@photoAlbum.Description</td>
+                        <td>@period.From.ToString(dateTimeFormat) - @period.To.ToString(dateTimeFormat)</td>
+                        <td>@Html.DisplayPlace(place)</td>
+                        <td>@photoAlbum.PhotosCount</td>
+                        <td>
+                            <div class="btn-group">
+                                @Html.ActionLink("Edit", "Edit", "Album", new { photoAlbumId = photoAlbum.Id }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("Delete", "Delete", "Albums", new { photoAlbumId = photoAlbum.Id }, new { @class = "btn btn-primary btn-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

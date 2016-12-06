@@ -114,4 +114,9 @@ hr {
     margin-top: 15px;
 }
 
+table.with-buttons tr td:last-child {
+    width: 133px;
+    text-align: right;
+}
+
 /* End top navigation*/

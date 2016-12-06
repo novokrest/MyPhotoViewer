@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace MyPhotoViewer.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private readonly IPhotoAlbumRepository _photoAlbumRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();

@@ -15,5 +15,11 @@ namespace MyPhotoViewer.Extensions
         {
             return new MvcHtmlString(html.DisplayFor(model => photoAlbum.Period.From).ToHtmlString() + html.DisplayFor(model => photoAlbum.Period.To).ToHtmlString());
         }
+
+        public static MvcHtmlString DisplayPlace<Model>(this HtmlHelper<Model> html, IPlace place)
+        {
+            string placeString = string.Join(", ", new[] { place.Name, place.City, place.Country }.Where(str => !string.IsNullOrEmpty(str)));
+            return new MvcHtmlString(placeString);
+        }
     }
 }

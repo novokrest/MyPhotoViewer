@@ -69,5 +69,11 @@ namespace MyPhotoViewer.Controllers
 
             return base.File(photoImage.Data, ImageMimeTypeConverter.ToMimeType(photoImage.Type));
         }
+
+        [Authorize]
+        public ActionResult Edit(int photoAlbumId)
+        {
+            return View();
+        }
     }
 }

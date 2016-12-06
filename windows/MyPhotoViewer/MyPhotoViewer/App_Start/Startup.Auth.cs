@@ -58,11 +58,11 @@ namespace MyPhotoViewer
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "831535799984-iaae8id3l7oob0mloqb0gr2chphehe5d.apps.googleusercontent.com",
+                ClientSecret = "bmHZGXfTA-NK_yzmDg46VHkJ"
+            });
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using MyPhotoViewer.DAL;
 using MyPhotoViewer.DAL.Entity;
+using MyPhotoViewer.ViewModels;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
 namespace MyPhotoViewer.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("Admin/Albums")]
     public class AdminController : Controller
     {
@@ -26,6 +28,22 @@ namespace MyPhotoViewer.Controllers
         public ActionResult Index()
         {
             var photoAlbums = _photoAlbumRepository.GetPhotoAlbums();
+
+            return View(photoAlbums);
+        }
+
+        [HttpGet]
+        public ActionResult Albums()
+        {
+            var photoAlbums = _photoAlbumRepository.GetPhotoAlbums().Select(photoAlbum => new PhotoAlbumViewModel
+            {
+                Id = photoAlbum.Id,
+                Title = photoAlbum.Title,
+                Description = photoAlbum.Description,
+                Period = photoAlbum.Period,
+                Place = photoAlbum.Place,
+                PhotosCount = photoAlbum.GetPhotoIds().Count
+            });
 
             return View(photoAlbums);
         }
