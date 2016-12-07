@@ -4,14 +4,17 @@ using MyPhotoViewer.Validators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace MyPhotoViewer.ViewModels
 {
     public class NewPhotoAlbumViewModel : IValidatableObject
     {
+        [HiddenInput(DisplayValue = false)]
+        public int Id { get; set; }
+
         [Required]
-        [StringLength(30, MinimumLength = 5)]
+        [StringLength(50, MinimumLength = 5)]
         [Display(Name = "Title")]
         public string Title { get; set; }
 

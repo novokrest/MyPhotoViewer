@@ -1,0 +1,13 @@
+﻿@using MyPhotoViewer.Core
+@model IDateTimePeriod
+
+
+<div class="period-group">
+    <div class="period-from">
+        @Html.EditorFor(m => m.From, new { htmlAttributes = new { @Value = Model.From.ToString("yyyy-MM-dd"), @class = "date form-control", type = "date" } })
+    </div>
+    <div class="period-delimiter">-</div>
+    <div class="period-to">
+        @Html.EditorFor(m => m.To, new { htmlAttributes = new { @Value = Model.To.ToString("yyyy-MM-dd"), @class = "date form-control", type = "date" } })
+    </div>    
+</div>

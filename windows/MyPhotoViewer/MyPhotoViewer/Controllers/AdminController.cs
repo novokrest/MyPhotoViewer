@@ -35,15 +35,7 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult Albums()
         {
-            var photoAlbums = _photoAlbumRepository.GetPhotoAlbums().Select(photoAlbum => new PhotoAlbumViewModel
-            {
-                Id = photoAlbum.Id,
-                Title = photoAlbum.Title,
-                Description = photoAlbum.Description,
-                Period = photoAlbum.Period,
-                Place = photoAlbum.Place,
-                PhotosCount = photoAlbum.GetPhotoIds().Count
-            });
+            var photoAlbums = _photoAlbumRepository.GetPhotoAlbums().Select(PhotoAlbumViewModel.FromPhotoAlbum);
 
             return View(photoAlbums);
         }

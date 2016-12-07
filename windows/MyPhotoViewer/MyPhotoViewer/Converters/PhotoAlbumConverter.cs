@@ -2,29 +2,28 @@
 using MyPhotoViewer.DAL;
 using MyPhotoViewer.DAL.Entity;
 using MyPhotoViewer.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace MyPhotoViewer.Converters
 {
-    public class PhotoAlbumCreator
+    public class PhotoAlbumConverter
     {
         private readonly NewPhotoAlbumViewModel _photoAlbumViewModel;
 
         public static PhotoAlbumEntity ConvertToPhotoAlbum(NewPhotoAlbumViewModel photoAlbumViewModel)
         {
-            return new PhotoAlbumCreator(photoAlbumViewModel).CreatePhotoAlbum();
+            return new PhotoAlbumConverter(photoAlbumViewModel).CreatePhotoAlbum();
         }
 
-        public PhotoAlbumCreator(NewPhotoAlbumViewModel photoAlbumViewModel)
+        public PhotoAlbumConverter(NewPhotoAlbumViewModel photoAlbumViewModel)
         {
             _photoAlbumViewModel = photoAlbumViewModel;
         }
 
         public PhotoAlbumEntity CreatePhotoAlbum()
         {
+            int id = _photoAlbumViewModel.Id;
             string title = ExtractTitle();
             string description = ExtractDescription();
             PlaceEntity place = ExtractPlace();
@@ -33,6 +32,7 @@ namespace MyPhotoViewer.Converters
 
             return new PhotoAlbumEntity
             {
+                Id = id,
                 Title = title,
                 Description = description,
                 Place = place,

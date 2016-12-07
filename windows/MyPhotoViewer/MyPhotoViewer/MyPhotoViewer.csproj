@@ -226,9 +226,11 @@
     <Compile Include="Controllers\PhotoManagerController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Converters\HttpFileCreator.cs" />
-    <Compile Include="Converters\PhotoAlbumCreator.cs" />
+    <Compile Include="Converters\PhotoAlbumConverter.cs" />
     <Compile Include="Converters\PhotoConverter.cs" />
-    <Compile Include="Extensions\HtmlHelperPhotoAlbumExtension.cs" />
+    <Compile Include="Converters\PrettyString.cs" />
+    <Compile Include="Extensions\HtmlHelperBootstrapExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Extensions\PhotoAlbumViewModelExtensions.cs" />
     <Compile Include="Extensions\PhotoViewModelExtensions.cs" />
@@ -253,6 +255,7 @@
     <Compile Include="ViewModels\PhotoAlbumThumbnailCreator.cs" />
     <Compile Include="ViewModels\NewPhotoAlbumViewModel.cs" />
     <Compile Include="ViewModels\PhotoAlbumViewModel.cs" />
+    <Compile Include="ViewModels\PlaceSelectListCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\blueimp-gallery.min.css" />
@@ -336,6 +339,9 @@
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Photo\Edit.cshtml" />
     <Content Include="Views\Admin\Albums.cshtml" />
+    <Content Include="Views\Album\Edit.cshtml" />
+    <Content Include="Views\Shared\NotImplemented.cshtml" />
+    <Content Include="Views\Shared\DateTimePeriod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

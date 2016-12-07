@@ -14,6 +14,12 @@ namespace MyPhotoViewer.DAL
             To = DateTime.MaxValue;
         }
 
+        public DateTimePeriod(IDateTimePeriod period)
+        {
+            From = period.From;
+            To = period.To;
+        }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime From { get; set; }

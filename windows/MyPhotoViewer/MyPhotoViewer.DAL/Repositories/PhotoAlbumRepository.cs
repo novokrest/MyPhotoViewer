@@ -34,6 +34,12 @@ namespace MyPhotoViewer.DAL
             _photosContext.SaveChanges();
         }
 
+        public void UpdatePhotoAlbum(PhotoAlbumEntity photoAlbum)
+        {
+            _photosContext.Entry(photoAlbum).State = System.Data.Entity.EntityState.Modified;
+            _photosContext.SaveChanges();
+        }
+
         public void SavePhotoAlbum(PhotoAlbumEntity photoAlbum)
         {
             //if (photoAlbum.PhotoAlbumId == 0)

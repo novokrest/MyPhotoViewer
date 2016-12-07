@@ -11,8 +11,18 @@ namespace MyPhotoViewer.Controllers
 {
     public class AlbumController : Controller
     {
-        private readonly IPhotoAlbumRepository _photoAlbumRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
-        private readonly IPhotoRepository _photoRepository = RepositoryServiceLocator.GetPhotoRepository();
+        private readonly IPhotoAlbumRepository _photoAlbumRepository;
+        private readonly IPhotoRepository _photoRepository;
+        private readonly IPlaceSelectListCreator _placeListCreator;
+
+        public AlbumController(IPhotoAlbumRepository photoAlbumRepository, 
+                               IPhotoRepository photoRepository, 
+                               IPlaceSelectListCreator placeListCreator)
+        {
+            _photoAlbumRepository = photoAlbumRepository;
+            _photoRepository = photoRepository;
+            _placeListCreator = placeListCreator;
+        }
 
         // GET: PhotoAlbum
         public ActionResult Index(int photoAlbumId)
@@ -49,20 +59,6 @@ namespace MyPhotoViewer.Controllers
             return View(newPhotoViewModel);
         }
 
-        public ActionResult Photo(int photoAlbumId, int photoId)
-        {
-            var photo = _photoRepository.GetPhotoById(photoId);
-
-            if (photo == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Image image = photo.GetImage();
-
-            return base.File(image.Data, ImageMimeTypeConverter.ToMimeType(image.Type));
-        }
-
         public ActionResult Thumbnail(int photoAlbumId, int photoId)
         {
             var photoImage = _photoRepository.GetPhotoById(photoId).GetImage();
@@ -70,10 +66,31 @@ namespace MyPhotoViewer.Controllers
             return base.File(photoImage.Data, ImageMimeTypeConverter.ToMimeType(photoImage.Type));
         }
 
-        [Authorize]
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int photoAlbumId)
         {
-            return View();
+            var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
+            var photoAlbumViewModel = PhotoAlbumViewModel.FromPhotoAlbum(photoAlbum);
+            photoAlbumViewModel.Places = _placeListCreator.CreatePlaceList();
+
+            return View(photoAlbumViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind]PhotoAlbumViewModel photoAlbumViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var photoAlbumEntity = photoAlbumViewModel.ToPhotoAlbum();
+                _photoAlbumRepository.UpdatePhotoAlbum(photoAlbumEntity);
+                return RedirectToAction("Index", new { photoAlbumId = photoAlbumEntity.Id });
+            }
+
+            photoAlbumViewModel.Places = _placeListCreator.CreatePlaceList();
+            return View(photoAlbumViewModel);
         }
     }
 }

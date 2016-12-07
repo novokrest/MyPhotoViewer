@@ -20,7 +20,8 @@
 input,
 select,
 textarea,
-.input-group {
+.input-group,
+.period-group {
     max-width: 330px;
 }
 
@@ -117,6 +118,23 @@ hr {
 table.with-buttons tr td:last-child {
     width: 133px;
     text-align: right;
+}
+
+.period-group {
+    display: table;
+}
+
+.period-from, .period-to {
+    display: table-cell;
+    max-width: 45%;
+}
+
+.period-delimiter {
+    display: table-cell;
+    text-align: center;
+}
+
+.period-to {
 }
 
 /* End top navigation*/

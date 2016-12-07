@@ -4,6 +4,8 @@ using Ninject;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System;
+using MyPhotoViewer.ViewModels;
+using MyPhotoViewer.DAL.Repositories;
 
 namespace MyPhotoViewer.Utils
 {
@@ -22,6 +24,8 @@ namespace MyPhotoViewer.Utils
             _kernel.Bind<IPhotosDbContext>().To<PhotosDbContext>();
             _kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
             _kernel.Bind<IPhotoAlbumRepository>().To<PhotoAlbumRepository>();
+            _kernel.Bind<IPlaceRepository>().To<PlaceRepository>();
+            _kernel.Bind<IPlaceSelectListCreator>().To<PlaceSelectListCreator>();
         }
 
         public object GetService(Type serviceType)

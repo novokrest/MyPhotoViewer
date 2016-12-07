@@ -10,6 +10,7 @@ namespace MyPhotoViewer.DAL
         IPhotoAlbum GetPhotoAlbumById(int photoAlbumId);
 
         void AddPhotoAlbum(PhotoAlbumEntity photoAlbum);
+        void UpdatePhotoAlbum(PhotoAlbumEntity photoAlbum);
         void SavePhotoAlbum(PhotoAlbumEntity photoAlbum);
         void Save();
     }

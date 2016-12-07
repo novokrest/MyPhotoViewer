@@ -8,7 +8,19 @@ namespace MyPhotoViewer.Extensions
     {
         public static PhotoAlbumEntity ToPhotoAlbum(this NewPhotoAlbumViewModel photoAlbumViewModel)
         {
-            return PhotoAlbumCreator.ConvertToPhotoAlbum(photoAlbumViewModel);
+            return PhotoAlbumConverter.ConvertToPhotoAlbum(photoAlbumViewModel);
+        }
+
+        public static PhotoAlbumEntity ToPhotoAlbum(this PhotoAlbumViewModel photoAlbumViewModel)
+        {
+            return new PhotoAlbumEntity
+            {
+                Id = photoAlbumViewModel.Id,
+                Title = photoAlbumViewModel.Title,
+                Description = photoAlbumViewModel.Description,
+                Period = new DAL.DateTimePeriod(photoAlbumViewModel.Period),
+                PlaceId = photoAlbumViewModel.PlaceId
+            };
         }
     }
 }
