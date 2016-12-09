@@ -8,6 +8,7 @@ namespace MyPhotoViewer.DAL
     {
         IEnumerable<IPhotoAlbum> GetPhotoAlbums();
         IPhotoAlbum GetPhotoAlbumById(int photoAlbumId);
+        void RemovePhotoAlbumById(int photoAlbumId);
 
         void AddPhotoAlbum(PhotoAlbumEntity photoAlbum);
         void UpdatePhotoAlbum(PhotoAlbumEntity photoAlbum);

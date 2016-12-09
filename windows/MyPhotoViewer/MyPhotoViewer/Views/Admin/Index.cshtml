@@ -1,13 +1,9 @@
 ﻿@using MyPhotoViewer.Core
 @model IEnumerable<IPhotoAlbum>
 
-
 @{
-    ViewBag.Title = "Albums";
+    ViewBag.Title = "Admin";
 }
-
-<h2>Albums</h2>
-<hr />
 
 @if (TempData["message"] != null)
 {
@@ -16,30 +12,42 @@
     </div>
 }
 
-<table class="table table-striped">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Title)</th>
-        <th>@Html.DisplayNameFor(model => model.Description)</th>
-        <th>@Html.DisplayNameFor(model => model.Period)</th>
-        <th>@Html.DisplayNameFor(model => model.Place)</th>
-        <th>@Html.DisplayNameFor(model => model.Photos)</th>
-        <th></th>
-    </tr>
+<h2>Manage</h2>
+<hr />
 
-    @foreach (var photoAlbum in Model)
-    {
-        <tr>
-            <td>@Html.DisplayFor(model => photoAlbum.Title)</td>
-            <td>@Html.DisplayFor(model => photoAlbum.Description)</td>
-            <td>@Html.DisplayFor(model => photoAlbum.Period.From) - @Html.DisplayFor(model => photoAlbum.Period.To)</td>
-            <td>@Html.DisplayFor(model => photoAlbum.Place.Name), @Html.DisplayFor(model => photoAlbum.Place.City), @Html.DisplayFor(model => photoAlbum.Place.Country)</td>
-            <td>@Html.DisplayFor(model => photoAlbum.Photos.Count)</td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { photoAlbumId = photoAlbum.PhotoAlbumId}) |
-                @Html.ActionLink("Details", "Details", new { photoAlbumId = photoAlbum.PhotoAlbumId }) |
-                @Html.ActionLink("Delete", "Delete", new { photoAlbumId = photoAlbum.PhotoAlbumId })
-            </td>
-        </tr>
-    }
-</table>
+<div class="row">
+    <div class="col-md-4 admin-action">
+        <div class="jumbotron btn btn-block btn-primary">
+            <h1>
+                ALBUMS
+            </h1>
+            <a href="@Url.Action("Albums", "Admin")"></a>
+        </div>
+    </div>
+    <div class="col-md-4 admin-action">
+        <div class="jumbotron btn btn-block btn-primary">
+            <h1>
+                USERS
+            </h1>
+        </div>
+    </div>
+    <div class="col-md-4 admin-action">
+        <div class="jumbotron btn btn-block btn-primary">
+            <h1>
+                PHOTOS
+            </h1>
+        </div>
+    </div>
+</div>
 
+@section scripts
+{
+    <script>
+        $(function () {
+            $('div.admin-action').click(function () {
+                window.location = $(this).find('a').attr('href');
+                return false;
+            });
+        });
+    </script>
+}

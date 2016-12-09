@@ -84,9 +84,11 @@ namespace MyPhotoViewer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var photoAlbumEntity = photoAlbumViewModel.ToPhotoAlbum();
-                _photoAlbumRepository.UpdatePhotoAlbum(photoAlbumEntity);
-                return RedirectToAction("Index", new { photoAlbumId = photoAlbumEntity.Id });
+                var photoAlbum = photoAlbumViewModel.ToPhotoAlbum();
+                _photoAlbumRepository.UpdatePhotoAlbum(photoAlbum);
+
+                TempData["message"] = $"Album '{photoAlbum.Title}' has been edited successfully";
+                return RedirectToAction("Index", "Admin");
             }
 
             photoAlbumViewModel.Places = _placeListCreator.CreatePlaceList();

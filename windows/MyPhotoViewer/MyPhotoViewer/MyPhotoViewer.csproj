@@ -342,6 +342,8 @@
     <Content Include="Views\Album\Edit.cshtml" />
     <Content Include="Views\Shared\NotImplemented.cshtml" />
     <Content Include="Views\Shared\DateTimePeriod.cshtml" />
+    <Content Include="Views\Shared\_AdminPartial.cshtml" />
+    <Content Include="Views\Albums\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

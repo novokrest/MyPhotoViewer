@@ -23,6 +23,7 @@ namespace MyPhotoViewer.ViewModels
                 Description = photoAlbum.Description,
                 Period = new DateTimePeriod(photoAlbum.Period),
                 PlaceId = photoAlbum.Place.Id,
+                Place = photoAlbum.Place,
                 PhotosCount = photoAlbum.GetPhotoIds().Count
             };
         }
@@ -46,6 +47,7 @@ namespace MyPhotoViewer.ViewModels
 
         [Display(Name = "Place")]
         public int PlaceId { get; set; }
+        public IPlace Place { get; set; }
         public SelectList Places { get; set; }
     }
 }

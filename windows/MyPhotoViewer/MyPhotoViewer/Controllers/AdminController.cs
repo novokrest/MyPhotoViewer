@@ -8,7 +8,6 @@ using System.Web.Mvc;
 namespace MyPhotoViewer.Controllers
 {
     [Authorize(Roles = "Admin")]
-    [RoutePrefix("Admin/Albums")]
     public class AdminController : Controller
     {
         private readonly IPhotoAlbumRepository _photoAlbumRepository;

@@ -1,4 +1,5 @@
-﻿using MyPhotoViewer.DAL;
+﻿using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL;
 using MyPhotoViewer.Extensions;
 using MyPhotoViewer.ViewModels;
 using System.Web.Mvc;
@@ -9,7 +10,6 @@ namespace MyPhotoViewer.Controllers
     {
         private readonly IPhotoAlbumRepository _photoAlbumRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
 
-        // GET: Albums
         public ActionResult Index()
         {
             var thumbnailsCreator = new PhotoAlbumThumbnailCreator(_photoAlbumRepository.GetPhotoAlbums());
@@ -17,19 +17,11 @@ namespace MyPhotoViewer.Controllers
             return View(thumbnails);
         }
 
-        // GET: Albums/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Albums/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Albums/Create
         [HttpPost]
         public ActionResult Create([Bind(Include = "Title, Description, Place, City, Country, From, To, Photos")]NewPhotoAlbumViewModel photoAlbumViewModel)
         {
@@ -43,46 +35,41 @@ namespace MyPhotoViewer.Controllers
             return View(photoAlbumViewModel);
         }
 
-        // GET: Albums/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int photoAlbumId)
         {
-            return View();
-        }
+            IPhotoAlbum photoAlbum = null;
 
-        // POST: Albums/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
             }
             catch
             {
+                ModelState.AddModelError("", "Failed to obtain album");
                 return View();
             }
+
+            var photoAlbumViewModel = PhotoAlbumViewModel.FromPhotoAlbum(photoAlbum);
+            return View(photoAlbumViewModel);
         }
 
-        // GET: Albums/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Albums/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete([Bind(Include = "Id")]PhotoAlbumViewModel photoAlbum)
         {
             try
             {
-                // TODO: Add delete logic here
+                _photoAlbumRepository.RemovePhotoAlbumById(photoAlbum.Id);
 
-                return RedirectToAction("Index");
+                TempData["message"] = $"Album '{photoAlbum.Title}' has been deleted successfully";
+                return RedirectToAction("Index", "Admin");
             }
             catch
             {
+                ModelState.AddModelError("", "Failed to delete album");
                 return View();
             }
         }

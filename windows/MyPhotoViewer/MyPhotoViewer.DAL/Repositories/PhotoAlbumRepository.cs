@@ -22,6 +22,13 @@ namespace MyPhotoViewer.DAL
             return new PhotoAlbum(_photosContext, photoAlbumId);
         }
 
+        public void RemovePhotoAlbumById(int photoAlbumId)
+        {
+            var photoAlbumEntity = _photosContext.PhotoAlbums.Single(photoAlbum => photoAlbum.Id == photoAlbumId);
+            _photosContext.PhotoAlbums.Remove(photoAlbumEntity);
+            _photosContext.SaveChanges();
+        }
+
         public IEnumerable<IPhotoAlbum> GetPhotoAlbums()
         {
             IEnumerable<int> photoAlbumIds = _photosContext.PhotoAlbums.Select(photoAlbum => photoAlbum.Id);

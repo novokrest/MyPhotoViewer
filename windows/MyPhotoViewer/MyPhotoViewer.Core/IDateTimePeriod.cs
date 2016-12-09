@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace MyPhotoViewer.Core
 {
     public interface IDateTimePeriod

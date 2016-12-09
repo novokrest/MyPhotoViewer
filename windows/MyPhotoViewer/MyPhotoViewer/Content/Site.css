@@ -137,4 +137,8 @@ table.with-buttons tr td:last-child {
 .period-to {
 }
 
+.admin-action {
+    padding: 5px;
+}
+
 /* End top navigation*/
