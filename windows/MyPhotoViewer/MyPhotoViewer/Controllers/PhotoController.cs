@@ -46,15 +46,15 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult Edit(int photoId)
         {
-            var photo = _photoRepository.GetPhotoById(photoId);
-            var photoViewModel = CreatePhotoViewModel(photo);
+            var photoViewModel = CreatePhotoViewModel(photoId);
 
             return View(photoViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PhotoId, PhotoAlbumId, Title, CreationDate")]BasePhotoViewModel photoViewModel)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind(Include = "PhotoId, PhotoAlbumId, Title, CreationDate")]PhotoViewModel photoViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -66,11 +66,36 @@ namespace MyPhotoViewer.Controllers
 
                 _photoRepository.UpdatePhoto(updatablePhoto);
 
-                return RedirectToAlbumIndex(photoViewModel.PhotoAlbumId);
+                return RedirectToAction("Photos", "Admin");
             }
 
             photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
             return View(photoViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int photoId)
+        {
+            var photoViewModel = CreatePhotoViewModel(photoId);
+
+            return View(photoViewModel);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeletePost([Bind(Include = "PhotoId, Title")]PhotoViewModel photoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _photoRepository.DeletePhoto(photoViewModel.PhotoId);
+                TempData["message-success"] = $"Photo '{photoViewModel.Title}' was deleted successfully";
+                return RedirectToAction("Photos", "Admin");
+            }
+
+            TempData["message-alert"] = "Something goes wrong";
+            return View(CreatePhotoViewModel(photoViewModel.PhotoId));
         }
 
         private ActionResult RedirectToAlbumIndex(int photoAlbumId)
@@ -78,7 +103,15 @@ namespace MyPhotoViewer.Controllers
             return RedirectToAction("Index", "Album", new { photoAlbumId = photoAlbumId });
         }
 
-        private BasePhotoViewModel CreatePhotoViewModel(IPhoto photo)
+        private PhotoViewModel CreatePhotoViewModel(int photoId)
+        {
+            var photo = _photoRepository.GetPhotoById(photoId);
+            var photoViewModel = CreatePhotoViewModel(photo);
+
+            return photoViewModel;
+        }
+
+        private PhotoViewModel CreatePhotoViewModel(IPhoto photo)
         {
             var photoViewModel = CreateEmptyPhotoViewModel();
 
@@ -86,6 +119,7 @@ namespace MyPhotoViewer.Controllers
             photoViewModel.Title = photo.Title;
             photoViewModel.CreationDate = photo.CreationDate;
             photoViewModel.PhotoAlbumId = photo.PhotoAlbumId;
+            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
 
             return photoViewModel;
         }

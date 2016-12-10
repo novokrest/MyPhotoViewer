@@ -11,11 +11,12 @@ namespace MyPhotoViewer.Controllers
     public class AdminController : Controller
     {
         private readonly IPhotoAlbumRepository _photoAlbumRepository;
+        private readonly IPhotoRepository _photoRepository;
 
-        public AdminController()
-            : this(RepositoryServiceLocator.GetPhotoAlbumRepository())
+        public AdminController(IPhotoAlbumRepository photoAlbumRepository, IPhotoRepository photoRepository)
         {
-
+            _photoAlbumRepository = photoAlbumRepository;
+            _photoRepository = photoRepository;
         }
 
         public AdminController(IPhotoAlbumRepository photoAlbumRepository)
@@ -67,24 +68,11 @@ namespace MyPhotoViewer.Controllers
             return View(photoAlbum);
         }
 
-        //TODO: /Admin/Albums/Details
-        public ActionResult Details(int photoAlbumId)
+        [HttpGet]
+        public ActionResult Photos()
         {
-            return View();
-        }
-
-        //TODO: /Admin/Albums/Delete
-        public ActionResult Delete(int photoAlbumId)
-        {
-            return View();
-        }
-
-        //TODO: /Admin/Albums/Delete
-        [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeletePost(int photoAlbumId)
-        {
-            return View();
+            var photos = _photoRepository.GetPhotos();
+            return View(photos);
         }
     }
 }

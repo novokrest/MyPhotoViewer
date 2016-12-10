@@ -6,6 +6,7 @@ namespace MyPhotoViewer.Core
     {
         int Id { get; }
         int PhotoAlbumId { get; }
+        IPhotoAlbum PhotoAlbum { get; }
         string Title { get; }
         DateTime? CreationDate { get; }
 

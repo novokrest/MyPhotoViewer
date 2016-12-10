@@ -6,7 +6,7 @@ namespace MyPhotoViewer.Converters
 {
     public class PhotoConverter
     {
-        public static PhotoEntity ToPhotoEntity(BasePhotoViewModel photoViewModel)
+        public static PhotoEntity ToPhotoEntity(PhotoViewModel photoViewModel)
         {
             return new PhotoEntity
             {
@@ -19,7 +19,7 @@ namespace MyPhotoViewer.Converters
 
         public static PhotoEntity ToPhotoEntity(NewPhotoViewModel photoViewModel)
         {
-            var photoEntity = ToPhotoEntity((BasePhotoViewModel)photoViewModel);
+            var photoEntity = ToPhotoEntity((PhotoViewModel)photoViewModel);
 
             photoEntity.Image = photoViewModel.Image.Data;
             photoEntity.ImageType = photoViewModel.Image.Type;

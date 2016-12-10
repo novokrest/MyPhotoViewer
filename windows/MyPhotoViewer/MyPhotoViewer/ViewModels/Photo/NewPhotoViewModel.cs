@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MyPhotoViewer.ViewModels
 {
-    public class NewPhotoViewModel : BasePhotoViewModel
+    public class NewPhotoViewModel : PhotoViewModel
     {
         [Required]
         [UploadedImage]

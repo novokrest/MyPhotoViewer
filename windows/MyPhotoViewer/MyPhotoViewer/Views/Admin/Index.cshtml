@@ -5,12 +5,7 @@
     ViewBag.Title = "Admin";
 }
 
-@if (TempData["message"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["message"]
-    </div>
-}
+@Html.Partial("_TempMessage")
 
 <h2>Manage</h2>
 <hr />
@@ -36,6 +31,7 @@
             <h1>
                 PHOTOS
             </h1>
+            <a href="@Url.Action("Photos", "Admin")"
         </div>
     </div>
 </div>

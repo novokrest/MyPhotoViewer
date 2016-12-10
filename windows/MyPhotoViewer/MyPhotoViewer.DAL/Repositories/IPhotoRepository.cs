@@ -17,8 +17,6 @@ namespace MyPhotoViewer.DAL
         void AddPhoto(PhotoEntity photo);
         void UpdatePhoto(IUpdatablePhoto photo);
 
-
-
         void DeletePhoto(int photo);
         void Save();
     }

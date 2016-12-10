@@ -6,7 +6,7 @@ namespace MyPhotoViewer.Extensions
 {
     public static class PhotoViewModelExtensions
     {
-        public static PhotoEntity ToPhotoEntity(this BasePhotoViewModel photoViewModel)
+        public static PhotoEntity ToPhotoEntity(this PhotoViewModel photoViewModel)
         {
             return PhotoConverter.ToPhotoEntity(photoViewModel);
         }

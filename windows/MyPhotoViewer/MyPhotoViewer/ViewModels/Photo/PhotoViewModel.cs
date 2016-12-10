@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace MyPhotoViewer.ViewModels
 {
-    public class BasePhotoViewModel
+    public class PhotoViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public int PhotoId { get; set; }

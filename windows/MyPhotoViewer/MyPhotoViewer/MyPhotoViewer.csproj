@@ -223,7 +223,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
-    <Compile Include="Controllers\PhotoManagerController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Converters\HttpFileCreator.cs" />
     <Compile Include="Converters\PhotoAlbumConverter.cs" />
@@ -249,8 +248,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\NinjectDependencyResolver.cs" />
     <Compile Include="Validators\ImagesAttribute.cs" />
-    <Compile Include="ViewModels\BasePhotoViewModel.cs" />
-    <Compile Include="ViewModels\NewPhotoViewModel.cs" />
+    <Compile Include="ViewModels\Photo\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\Photo\NewPhotoViewModel.cs" />
     <Compile Include="ViewModels\PhotoAlbumThumbnail.cs" />
     <Compile Include="ViewModels\PhotoAlbumThumbnailCreator.cs" />
     <Compile Include="ViewModels\NewPhotoAlbumViewModel.cs" />
@@ -344,6 +343,9 @@
     <Content Include="Views\Shared\DateTimePeriod.cshtml" />
     <Content Include="Views\Shared\_AdminPartial.cshtml" />
     <Content Include="Views\Albums\Delete.cshtml" />
+    <Content Include="Views\Admin\Photos.cshtml" />
+    <Content Include="Views\Photo\Delete.cshtml" />
+    <Content Include="Views\Shared\_TempMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

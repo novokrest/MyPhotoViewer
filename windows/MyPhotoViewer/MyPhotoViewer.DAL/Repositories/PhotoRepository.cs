@@ -33,7 +33,7 @@ namespace MyPhotoViewer.DAL
 
         public IEnumerable<IPhoto> GetPhotos()
         {
-            throw new NotImplementedException();
+            return _photosContext.Photos.AsEnumerable().Select(entity => new Photo(_photosContext, entity.Id));
         }
 
         public void AddPhoto(PhotoEntity photo)
@@ -52,9 +52,12 @@ namespace MyPhotoViewer.DAL
             return CreatePhoto(photoId).GetImage();
         }
 
-        public void DeletePhoto(int photo)
+        public void DeletePhoto(int photoId)
         {
-            throw new NotImplementedException();
+            PhotoEntity photoEntity = _photosContext.Photos.Where(photo => photo.Id == photoId).Single();
+            _photosContext.Entry(photoEntity).State = System.Data.Entity.EntityState.Deleted;
+            _photosContext.SaveChanges();
+
         }
 
         public void Save()

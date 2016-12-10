@@ -26,6 +26,8 @@ namespace MyPhotoViewer.DAL.Repositories
             get { return _photoEntity.PhotoAlbumId; }
             set { _photoEntity.PhotoAlbumId = value; }
         }
+
+        public IPhotoAlbum PhotoAlbum => new PhotoAlbum(_photosContext, _photoEntity.PhotoAlbumId);
             
         public string Title
         {

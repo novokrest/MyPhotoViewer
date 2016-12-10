@@ -7,7 +7,7 @@ using System.Data.Entity.ModelConfiguration;
 namespace MyPhotoViewer.DAL.Entity
 {
     [MetadataType(typeof(PhotoEntityMetadata))]
-    public class PhotoEntity
+    public class PhotoEntity 
     {
         public int Id { get; set; }
 
