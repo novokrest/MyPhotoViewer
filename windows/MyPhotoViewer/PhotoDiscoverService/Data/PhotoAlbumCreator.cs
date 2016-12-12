@@ -26,13 +26,13 @@ namespace PhotoDiscoverService.Data
 
         public void CreatePhotoAlbum()
         {
-            PhotoAlbumEntity album = CreateEmptyPhotoAlbum();
+            AlbumEntity album = CreateEmptyPhotoAlbum();
             SavePhotos(album);
         }
 
-        private PhotoAlbumEntity CreateEmptyPhotoAlbum()
+        private AlbumEntity CreateEmptyPhotoAlbum()
         {
-            var album = new PhotoAlbumEntity
+            var album = new AlbumEntity
             {
                 Title = _photosOverview.Title,
                 Description = _photosOverview.Description,
@@ -44,13 +44,13 @@ namespace PhotoDiscoverService.Data
                 }
             };
 
-            album = _context.PhotoAlbums.Add(album);
+            album = _context.Albums.Add(album);
             _context.SaveChanges();
 
             return album;
         }
 
-        private void SavePhotos(PhotoAlbumEntity album)
+        private void SavePhotos(AlbumEntity album)
         {
             var photoImageSaver = new PhotoImageSaver(_context, album, _photoImages);
             photoImageSaver.SavePhotos();

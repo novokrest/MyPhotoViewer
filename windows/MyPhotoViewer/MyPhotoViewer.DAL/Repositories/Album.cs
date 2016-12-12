@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace MyPhotoViewer.DAL.Repositories
 {
-    class PhotoAlbum : IPhotoAlbum
+    class Album : IAlbum
     {
         private readonly IPhotosDbContext _photosContext;
         private readonly int _photoAlbumId;
-        private readonly PhotoAlbumEntity _photoAlbum;
+        private readonly AlbumEntity _photoAlbum;
 
-        public PhotoAlbum(IPhotosDbContext photosContext, int photoAlbumId)
+        public Album(IPhotosDbContext photosContext, int photoAlbumId)
         {
             _photosContext = photosContext;
             _photoAlbumId = photoAlbumId;
-            _photoAlbum = photosContext.PhotoAlbums.First(photoAlbum => photoAlbum.Id == photoAlbumId);
+            _photoAlbum = photosContext.Albums.First(photoAlbum => photoAlbum.Id == photoAlbumId);
         }
 
         public int Id => _photoAlbum.Id;

@@ -12,7 +12,7 @@ namespace MyPhotoViewer.Extensions
 {
     public static class HtmlHelperExtensions
     {
-        public static MvcHtmlString DisplayPeriod<Model>(this HtmlHelper<Model> html, IPhotoAlbum photoAlbum)
+        public static MvcHtmlString DisplayPeriod<Model>(this HtmlHelper<Model> html, IAlbum photoAlbum)
         {
             return new MvcHtmlString(html.DisplayFor(model => photoAlbum.Period.From).ToHtmlString() + html.DisplayFor(model => photoAlbum.Period.To).ToHtmlString());
         }

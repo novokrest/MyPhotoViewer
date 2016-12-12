@@ -4,9 +4,9 @@ namespace MyPhotoViewer.DAL
 {
     public class RepositoryServiceLocator
     {
-        public static IPhotoAlbumRepository GetPhotoAlbumRepository()
+        public static IAlbumRepository GetPhotoAlbumRepository()
         {
-            return new PhotoAlbumRepository(CreatePhotosContext());
+            return new AlbumRepository(CreatePhotosContext());
         }
 
         public static IPhotoRepository GetPhotoRepository()

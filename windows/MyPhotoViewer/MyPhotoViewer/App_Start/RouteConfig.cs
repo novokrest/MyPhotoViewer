@@ -12,22 +12,16 @@ namespace MyPhotoViewer
             //routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
-                name: "Albums",
-                url: "Albums/{action}/{photoAlbumId}",
-                defaults: new { controller = "Albums", action = "Index", photoAlbumId = UrlParameter.Optional },
-                constraints: new { photoAlbumId = @"\d+" });
-
-            routes.MapRoute(
                 name: "Album",
-                url: "Album/{photoAlbumId}/{action}",
+                url: "Album/{albumId}/{action}",
                 defaults: new { controller = "Album", action = "Index" },
-                constraints: new { photoAlbumId = @"\d+" });
+                constraints: new { albumId = @"\d+" });
 
             routes.MapRoute(
                 name: "AlbumPhoto",
-                url: "Album/{photoAlbumId}/Photo/{photoId}",
+                url: "Album/{albumId}/Photo/{photoId}",
                 defaults: new { controller = "Album", action = "Photo" },
-                constraints: new { photoAlbumId = @"\d+", photoId = @"\d+" });
+                constraints: new { albumId = @"\d+", photoId = @"\d+" });
 
             routes.MapRoute(
                 name: "Photo",

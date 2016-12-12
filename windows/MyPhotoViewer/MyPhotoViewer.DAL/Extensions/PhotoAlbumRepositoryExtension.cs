@@ -8,13 +8,13 @@ namespace MyPhotoViewer.DAL.Extensions
 {
     public static class PhotoAlbumRepositoryExtension
     {
-        public static IReadOnlyList<IPhotoAlbum> GetRandomPhotoAlbums(this IPhotoAlbumRepository photoAlbumRepository, int count)
+        public static IReadOnlyList<IAlbum> GetRandomPhotoAlbums(this IAlbumRepository photoAlbumRepository, int count)
         {
-            IReadOnlyList<IPhotoAlbum> photoAlbums = photoAlbumRepository.GetPhotoAlbums().ToList();
+            IReadOnlyList<IAlbum> photoAlbums = photoAlbumRepository.LoadAlbums().ToList();
             return GetRandomPhotoAlbums(photoAlbums, count).ToList();
         }
 
-        private static IEnumerable<IPhotoAlbum> GetRandomPhotoAlbums(IReadOnlyList<IPhotoAlbum> photoAlbums, int count)
+        private static IEnumerable<IAlbum> GetRandomPhotoAlbums(IReadOnlyList<IAlbum> photoAlbums, int count)
         {
             var random = new Random();
             for (int i = 0; i < count; ++i)

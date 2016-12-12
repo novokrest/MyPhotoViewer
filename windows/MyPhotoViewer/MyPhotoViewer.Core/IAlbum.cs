@@ -2,7 +2,7 @@
 
 namespace MyPhotoViewer.Core
 {
-    public interface IPhotoAlbum
+    public interface IAlbum
     {
         int Id { get; }
         string Title { get; }

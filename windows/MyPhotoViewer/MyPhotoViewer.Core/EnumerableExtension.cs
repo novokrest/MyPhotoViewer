@@ -23,6 +23,8 @@ namespace MyPhotoViewer.Core
 
         public static T GetRandom<T>(this IEnumerable<T> enumerable)
         {
+            if (enumerable.Count() == 0) return default(T);
+
             int id = RandomEx.Next(enumerable.Count());
             return enumerable.ElementAt(id);
         }

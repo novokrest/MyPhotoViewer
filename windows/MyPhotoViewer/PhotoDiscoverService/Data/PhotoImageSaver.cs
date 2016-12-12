@@ -12,10 +12,10 @@ namespace PhotoDiscoverService.Data
         private int _loadedBytes = 0;
 
         private readonly IPhotosDbContext _context;
-        private readonly PhotoAlbumEntity _album;
+        private readonly AlbumEntity _album;
         private readonly IEnumerable<IPhotoImage> _photoImages;
 
-        public PhotoImageSaver(IPhotosDbContext context, PhotoAlbumEntity album, IEnumerable<IPhotoImage> photoImages)
+        public PhotoImageSaver(IPhotosDbContext context, AlbumEntity album, IEnumerable<IPhotoImage> photoImages)
         {
             _context = context;
             _album = album;

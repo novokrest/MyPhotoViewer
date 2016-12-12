@@ -26,7 +26,7 @@ namespace MyPhotoViewer.DAL.Entity
 
         [ForeignKey("PhotoAlbum")]
         public int PhotoAlbumId { get; set; }
-        public virtual PhotoAlbumEntity PhotoAlbum { get; set; }
+        public virtual AlbumEntity PhotoAlbum { get; set; }
     }
 
     [Table("Photo")]

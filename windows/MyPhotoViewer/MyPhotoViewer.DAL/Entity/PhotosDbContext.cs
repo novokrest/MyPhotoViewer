@@ -6,7 +6,7 @@ namespace MyPhotoViewer.DAL.Entity
 {
     public interface IPhotosDbContext
     {
-        DbSet<PhotoAlbumEntity> PhotoAlbums { get; }
+        DbSet<AlbumEntity> Albums { get; }
         DbSet<PhotoEntity> Photos { get; }
         DbSet<PlaceEntity> Places { get; }
 
@@ -16,7 +16,7 @@ namespace MyPhotoViewer.DAL.Entity
 
     public class PhotosDbContext : DbContext, IPhotosDbContext
     {
-        public DbSet<PhotoAlbumEntity> PhotoAlbums { get; set; }
+        public DbSet<AlbumEntity> Albums { get; set; }
         public DbSet<PhotoEntity> Photos { get; set; }
         public DbSet<PlaceEntity> Places { get; set; }
 

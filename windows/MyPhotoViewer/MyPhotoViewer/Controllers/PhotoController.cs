@@ -13,9 +13,9 @@ namespace MyPhotoViewer.Controllers
     public class PhotoController : Controller
     {
         private readonly IPhotoRepository _photoRepository;
-        private readonly IPhotoAlbumRepository _photoAlbumRepository;
+        private readonly IAlbumRepository _photoAlbumRepository;
 
-        public PhotoController(IPhotoRepository photoRepository, IPhotoAlbumRepository photoAlbumRepository)
+        public PhotoController(IPhotoRepository photoRepository, IAlbumRepository photoAlbumRepository)
         {
             _photoRepository = photoRepository;
             _photoAlbumRepository = photoAlbumRepository;
@@ -135,7 +135,7 @@ namespace MyPhotoViewer.Controllers
 
         private IEnumerable<SelectListItem> CreatePhotoAlbumSelectList()
         {
-            return _photoAlbumRepository.GetPhotoAlbums()
+            return _photoAlbumRepository.LoadAlbums()
                                         .Select(photoAlbum => new SelectListItem
                                         { Text = photoAlbum.Title, Value = photoAlbum.Id.ToString() });
         }

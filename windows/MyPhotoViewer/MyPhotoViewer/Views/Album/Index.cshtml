@@ -1,10 +1,10 @@
 ﻿@using MyPhotoViewer.Core
-@using MyPhotoViewer.ViewModels
-@model PhotoAlbumWithPhotosViewModel
+@using MyPhotoViewer.ViewModels.Album
+@model AlbumWithPhotosViewModel
 
 @{
     ViewBag.Title = Model.PhotoAlbum.Title;
-    IPhotoAlbum PhotoAlbum = Model.PhotoAlbum;
+    IAlbum PhotoAlbum = Model.PhotoAlbum;
 }
 
 <h2>@PhotoAlbum.Title</h2>

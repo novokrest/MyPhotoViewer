@@ -1,98 +1,151 @@
 ﻿using MyPhotoViewer.Core;
 using MyPhotoViewer.DAL;
-using MyPhotoViewer.DAL.Entity;
 using MyPhotoViewer.Extensions;
 using MyPhotoViewer.ViewModels;
+using MyPhotoViewer.ViewModels.Album;
+using System;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 
 namespace MyPhotoViewer.Controllers
 {
     public class AlbumController : Controller
     {
-        private readonly IPhotoAlbumRepository _photoAlbumRepository;
+        private readonly IAlbumRepository _albumRepository;
         private readonly IPhotoRepository _photoRepository;
         private readonly IPlaceSelectListCreator _placeListCreator;
 
-        public AlbumController(IPhotoAlbumRepository photoAlbumRepository, 
+        public AlbumController(IAlbumRepository albumRepository, 
                                IPhotoRepository photoRepository, 
                                IPlaceSelectListCreator placeListCreator)
         {
-            _photoAlbumRepository = photoAlbumRepository;
+            _albumRepository = albumRepository;
             _photoRepository = photoRepository;
             _placeListCreator = placeListCreator;
         }
 
-        // GET: PhotoAlbum
-        public ActionResult Index(int photoAlbumId)
+        [HttpGet]
+        public ActionResult Index()
         {
-            var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
-            var photos = photoAlbum.GetPhotoIds().Select(photoId => _photoRepository.GetPhotoById(photoId));
+            var albums = _albumRepository.LoadAlbums();
+            var thumbnailsCreator = new AlbumThumbnailCreator(albums);
+            var thumbnails = thumbnailsCreator.CreateThumbnails();
+            return View(thumbnails);
+        }
 
-            var photoAlbumWithPhotosViewModel = new PhotoAlbumWithPhotosViewModel
+        public ActionResult Browse(int albumId)
+        {
+            var album = _albumRepository.GetAlbumById(albumId);
+            var photos = album.GetPhotoIds().Select(photoId => _photoRepository.GetPhotoById(photoId));
+
+            var albumWithPhotosViewModel = AlbumViewModelCreator.CreateViewModel(() => new AlbumWithPhotosViewModel(), 
+                                                                                 album, 
+                                                                                 viewModel => viewModel.Photos = photos);
+
+            return View(albumWithPhotosViewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.UserAndAdmin)]
+        public ActionResult Create()
+        {
+            DateTime now = DateTime.Now;
+            var newAlbumViewModel = new NewAlbumViewModel
             {
-                PhotoAlbum = photoAlbum,
-                Photos = photos
+                From = now,
+                To = now
             };
 
-            return View(photoAlbumWithPhotosViewModel);
-        }
-
-        [HttpGet]
-        public ActionResult AddPhoto(int photoAlbumId)
-        {
-            return RedirectToAction("Create", "Photo", new { photoAlbumId = photoAlbumId });
+            return View(newAlbumViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPhoto([Bind(Include = "PhotoAlbumId, Title, Image")]NewPhotoViewModel newPhotoViewModel)
+        [Authorize(Roles = Roles.UserAndAdmin)]
+        public ActionResult Create([Bind(Include = "Title, Description, Place, City, Country, From, To, Photos")]
+                                    NewAlbumViewModel newAlbumViewModel)
         {
             if (ModelState.IsValid)
             {
-                PhotoEntity photoEntity = newPhotoViewModel.ToPhotoEntity();
-                _photoRepository.AddPhoto(photoEntity);
-                return RedirectToAction("Index", new { photoAlbumId = newPhotoViewModel.PhotoAlbumId });
+                var aAlbum = newAlbumViewModel.ToAlbumEntity();
+                _albumRepository.AddAlbum(aAlbum);
+                return RedirectToAction("Index");
             }
 
-            return View(newPhotoViewModel);
+            newAlbumViewModel.Photos = null;
+            
+            return View(newAlbumViewModel);
         }
 
-        public ActionResult Thumbnail(int photoAlbumId, int photoId)
+        [HttpGet]
+        [Authorize(Roles = Roles.UserAndAdmin)]
+        public ActionResult AddPhoto(int albumId)
         {
-            var photoImage = _photoRepository.GetPhotoById(photoId).GetImage();
-
-            return base.File(photoImage.Data, ImageMimeTypeConverter.ToMimeType(photoImage.Type));
+            return RedirectToAction("Create", "Photo", new { albumId = albumId });
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int photoAlbumId)
+        public ActionResult Edit(int albumId)
         {
-            var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
-            var photoAlbumViewModel = PhotoAlbumViewModel.FromPhotoAlbum(photoAlbum);
-            photoAlbumViewModel.Places = _placeListCreator.CreatePlaceList();
+            var album = _albumRepository.GetAlbumById(albumId);
+            var viewModel = AlbumViewModelCreator.CreateViewModel(() => new EditAlbumViewModel(), 
+                                                                  album,
+                                                                  albumViewModel => albumViewModel.PhotosCount = album.GetPhotoIds().Count);
 
-            return View(photoAlbumViewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit([Bind]PhotoAlbumViewModel photoAlbumViewModel)
+        public ActionResult Edit([Bind]EditAlbumViewModel albumViewModel)
         {
             if (ModelState.IsValid)
             {
-                var photoAlbum = photoAlbumViewModel.ToPhotoAlbum();
-                _photoAlbumRepository.UpdatePhotoAlbum(photoAlbum);
+                var albumEntity = albumViewModel.ToAlbumEntity();
+                _albumRepository.UpdateAlbum(albumEntity);
 
-                TempData["message"] = $"Album '{photoAlbum.Title}' has been edited successfully";
+                TempData["message"] = $"Album '{albumEntity.Title}' has been edited successfully";
                 return RedirectToAction("Index", "Admin");
             }
 
-            photoAlbumViewModel.Places = _placeListCreator.CreatePlaceList();
-            return View(photoAlbumViewModel);
+            return View(albumViewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int albumId)
+        {
+            var albumViewModel = CreateAlbumViewModel(() => new EditAlbumViewModel(), albumId);
+            return View(albumViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete([Bind(Include = "Id, Title, Description, Place, City, Country, From, To")]
+                                   EditAlbumViewModel albumViewModel)
+        {
+            try
+            {
+                _albumRepository.RemoveAlbumById(albumViewModel.Id);
+                TempData["message"] = $"Album '{albumViewModel.Title}' has been deleted successfully";
+                return RedirectToAction("Index", "Admin");
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Failed to delete album");
+            }
+
+            return View(albumViewModel);
+        }
+
+        private T CreateAlbumViewModel<T>(Func<T> albumViewModelCreator, int albumId, Action<T> initializer = null)
+            where T : BaseAlbumViewModel
+        {
+            var album = _albumRepository.GetAlbumById(albumId);
+            return AlbumViewModelCreator.CreateViewModel(albumViewModelCreator, album, initializer);
         }
     }
 }

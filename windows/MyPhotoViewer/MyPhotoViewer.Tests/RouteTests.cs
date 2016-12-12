@@ -17,7 +17,10 @@ namespace MyPhotoViewer.Tests
         [Test]
         public void TestRoutes()
         {
-            TestRouteMatch("~/Photo/1/Edit", "Photo", "Edit", new { photoId = "1" });
+            TestRouteMatch("~/Album/Create", "Album", "Create", null, "GET");
+            TestRouteMatch("~/Album/Create", "Album", "Create", null, "POST");
+
+            //TestRouteMatch("~/Photo/1/Edit", "Photo", "Edit", new { photoId = "1" });
         }
 
         private void TestRouteMatch(string url, string controller, string action, object routeProperties = null, string httpMethod = "GET")

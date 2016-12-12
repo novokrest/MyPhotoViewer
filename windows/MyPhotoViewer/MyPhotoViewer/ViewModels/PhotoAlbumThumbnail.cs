@@ -2,7 +2,7 @@
 
 namespace MyPhotoViewer.ViewModels
 {
-    public interface IPhotoAlbumThumbnail
+    public interface IAlbumThumbnail
     {
         int PhotoAlbumId { get; }
         int CoverPhotoId { get; }
@@ -12,7 +12,7 @@ namespace MyPhotoViewer.ViewModels
         IDateTimePeriod Period { get;}
     }
 
-    public class PhotoAlbumThumbnail : IPhotoAlbumThumbnail
+    public class AlbumThumbnail : IAlbumThumbnail
     {
         public int PhotoAlbumId { get; set; }
         public int CoverPhotoId { get; set; }

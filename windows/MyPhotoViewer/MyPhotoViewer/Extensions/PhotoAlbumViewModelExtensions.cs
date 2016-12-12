@@ -1,26 +1,19 @@
 ﻿using MyPhotoViewer.Converters;
 using MyPhotoViewer.DAL.Entity;
-using MyPhotoViewer.ViewModels;
+using MyPhotoViewer.ViewModels.Album;
 
 namespace MyPhotoViewer.Extensions
 {
-    public static class PhotoAlbumViewModelExtensions
+    public static class AlbumViewModelExtensions
     {
-        public static PhotoAlbumEntity ToPhotoAlbum(this NewPhotoAlbumViewModel photoAlbumViewModel)
+        public static AlbumEntity ToAlbumEntity(this NewAlbumViewModel albumViewModel)
         {
-            return PhotoAlbumConverter.ConvertToPhotoAlbum(photoAlbumViewModel);
+            return AlbumEntityCreator.FromNewAlbumViewModel(albumViewModel);
         }
 
-        public static PhotoAlbumEntity ToPhotoAlbum(this PhotoAlbumViewModel photoAlbumViewModel)
+        public static AlbumEntity ToAlbumEntity(this EditAlbumViewModel albumViewModel)
         {
-            return new PhotoAlbumEntity
-            {
-                Id = photoAlbumViewModel.Id,
-                Title = photoAlbumViewModel.Title,
-                Description = photoAlbumViewModel.Description,
-                Period = new DAL.DateTimePeriod(photoAlbumViewModel.Period),
-                PlaceId = photoAlbumViewModel.PlaceId
-            };
+            return AlbumEntityCreator.FromEditAlbumViewModel(albumViewModel);
         }
     }
 }

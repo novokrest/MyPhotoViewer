@@ -23,7 +23,7 @@ namespace MyPhotoViewer.Utils
         {
             _kernel.Bind<IPhotosDbContext>().To<PhotosDbContext>();
             _kernel.Bind<IPhotoRepository>().To<PhotoRepository>();
-            _kernel.Bind<IPhotoAlbumRepository>().To<PhotoAlbumRepository>();
+            _kernel.Bind<IAlbumRepository>().To<AlbumRepository>();
             _kernel.Bind<IPlaceRepository>().To<PlaceRepository>();
             _kernel.Bind<IPlaceSelectListCreator>().To<PlaceSelectListCreator>();
         }

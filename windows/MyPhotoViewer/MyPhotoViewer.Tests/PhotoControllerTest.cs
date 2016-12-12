@@ -74,9 +74,9 @@ namespace MyPhotoViewer.Tests
             return mock.Object;
         }
 
-        private static IPhotoAlbumRepository CreatePhotoAlbumRepository()
+        private static IAlbumRepository CreatePhotoAlbumRepository()
         {
-            return new Mock<IPhotoAlbumRepository>().Object;
+            return new Mock<IAlbumRepository>().Object;
         }
 
         private static NewPhotoViewModel CreateFilledPhotoViewModel()

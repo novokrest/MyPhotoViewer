@@ -1,14 +1,13 @@
-﻿using MyPhotoViewer.Core;
-using MyPhotoViewer.ModelBinders;
-using MyPhotoViewer.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
-namespace MyPhotoViewer.ViewModels
+namespace MyPhotoViewer.ViewModels.Album
 {
-    public class NewPhotoAlbumViewModel : IValidatableObject
+    public class BaseAlbumViewModel : IValidatableObject
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -33,17 +32,13 @@ namespace MyPhotoViewer.ViewModels
         public string Country { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? From { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? To { get; set; }
 
-        [Images(ErrorMessage = "Select only valid images")]
-        [UploadedFiles]
-        [Display(Name = "Photos")]
-        public ICollection<IHttpFile> Photos { get; set; }
-
-        
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (From > To)

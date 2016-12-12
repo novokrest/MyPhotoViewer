@@ -22,7 +22,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
         [Test]
         public void TestAddNewPhotoAlbumToDatabase()
         {
-            var photoAlbum = new PhotoAlbumEntity
+            var photoAlbum = new AlbumEntity
             {
                 Title = "TestPhotoAlbum",
                 Description = "TestDescription",
@@ -53,7 +53,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
                 //photosContext.Configuration.AutoDetectChangesEnabled = false;
                 //photosContext.Configuration.ValidateOnSaveEnabled = false;
 
-                photosContext.PhotoAlbums.Add(photoAlbum);
+                photosContext.Albums.Add(photoAlbum);
                 photosContext.SaveChanges();
             }
         }
@@ -68,7 +68,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
                 Country = "Country"
             };
 
-            var photoAlbum = new PhotoAlbumEntity
+            var photoAlbum = new AlbumEntity
             {
                 Title = "TestPhotoAlbum",
                 Description = "TestDescription",
@@ -96,7 +96,7 @@ namespace MyPhotoViewer.DAL.IntegrationTests
                 //photosContext.Configuration.AutoDetectChangesEnabled = false;
                 //photosContext.Configuration.ValidateOnSaveEnabled = false;
 
-                photosContext.PhotoAlbums.Add(photoAlbum);
+                photosContext.Albums.Add(photoAlbum);
                 photosContext.SaveChanges();
             }
         }

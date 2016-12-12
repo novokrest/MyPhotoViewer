@@ -37,6 +37,14 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.5.23.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -95,12 +103,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminTests.cs" />
+    <Compile Include="AlbumControllerTest.cs" />
     <Compile Include="PhotoControllerTest.cs" />
     <Compile Include="RouteTests.cs" />
     <Compile Include="EnumerableExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="KnownRegexTests.cs" />
+    <Compile Include="TestContext.cs" />
+    <Compile Include="TestContextBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -112,6 +122,10 @@
     <ProjectReference Include="..\MyPhotoViewer.Core\MyPhotoViewer.Core.csproj">
       <Project>{2CF492E2-8655-4D9E-88C8-11D49B7B3701}</Project>
       <Name>MyPhotoViewer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyPhotoViewer.DAL.IntegrationTests\MyPhotoViewer.DAL.IntegrationTests.csproj">
+      <Project>{b10432bd-8775-4fe7-bca5-90723f4360c2}</Project>
+      <Name>MyPhotoViewer.DAL.IntegrationTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyPhotoViewer.DAL\MyPhotoViewer.DAL.csproj">
       <Project>{18DC8685-91D7-418B-9818-984B1EB609B4}</Project>

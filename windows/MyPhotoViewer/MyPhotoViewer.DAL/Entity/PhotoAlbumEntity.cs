@@ -6,7 +6,7 @@ using System.Data.Entity.ModelConfiguration;
 namespace MyPhotoViewer.DAL.Entity
 {
     [MetadataType(typeof(PhotoAlbumEntityMetadata))]
-    public partial class PhotoAlbumEntity
+    public partial class AlbumEntity
     {
         public int Id { get; set; }
 
@@ -35,7 +35,7 @@ namespace MyPhotoViewer.DAL.Entity
         public string Description { get; set; }
     }
 
-    public class PhotoAlbumEntityConfiguration : EntityTypeConfiguration<PhotoAlbumEntity>
+    public class PhotoAlbumEntityConfiguration : EntityTypeConfiguration<AlbumEntity>
     {
         public PhotoAlbumEntityConfiguration()
         {

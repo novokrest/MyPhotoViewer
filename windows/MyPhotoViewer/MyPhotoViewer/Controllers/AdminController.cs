@@ -1,6 +1,7 @@
 ﻿using MyPhotoViewer.DAL;
 using MyPhotoViewer.DAL.Entity;
 using MyPhotoViewer.ViewModels;
+using MyPhotoViewer.ViewModels.Album;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -10,24 +11,24 @@ namespace MyPhotoViewer.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IPhotoAlbumRepository _photoAlbumRepository;
+        private readonly IAlbumRepository _albumRepository;
         private readonly IPhotoRepository _photoRepository;
 
-        public AdminController(IPhotoAlbumRepository photoAlbumRepository, IPhotoRepository photoRepository)
+        public AdminController(IAlbumRepository photoAlbumRepository, IPhotoRepository photoRepository)
         {
-            _photoAlbumRepository = photoAlbumRepository;
+            _albumRepository = photoAlbumRepository;
             _photoRepository = photoRepository;
         }
 
-        public AdminController(IPhotoAlbumRepository photoAlbumRepository)
+        public AdminController(IAlbumRepository photoAlbumRepository)
         {
-            _photoAlbumRepository = photoAlbumRepository;
+            _albumRepository = photoAlbumRepository;
         }
 
         [Route]
         public ActionResult Index()
         {
-            var photoAlbums = _photoAlbumRepository.GetPhotoAlbums();
+            var photoAlbums = _albumRepository.LoadAlbums();
 
             return View(photoAlbums);
         }
@@ -35,15 +36,15 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult Albums()
         {
-            var photoAlbums = _photoAlbumRepository.GetPhotoAlbums().Select(PhotoAlbumViewModel.FromPhotoAlbum);
+            var albumViewModels = _albumRepository.LoadAlbums().Select(AlbumViewModelCreator.CreateEditViewModel);
 
-            return View(photoAlbums);
+            return View(albumViewModels);
         }
 
         [Route("Edit/{photoAlbumId:int}")]
         public ActionResult Edit(int photoAlbumId)
         {
-            var photoAlbum = _photoAlbumRepository.GetPhotoAlbumById(photoAlbumId);
+            var photoAlbum = _albumRepository.GetAlbumById(photoAlbumId);
 
             if (photoAlbum == null)
             {
@@ -56,11 +57,11 @@ namespace MyPhotoViewer.Controllers
         [HttpPost]
         [Route("Edit/{photoAlbumId:int}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PhotoAlbumId, Title, Description, Period, Place")] PhotoAlbumEntity photoAlbum)
+        public ActionResult Edit([Bind(Include = "PhotoAlbumId, Title, Description, Period, Place")] AlbumEntity photoAlbum)
         {
             if (ModelState.IsValid)
             {
-                _photoAlbumRepository.SavePhotoAlbum(photoAlbum);
+                _albumRepository.SaveAlbum(photoAlbum);
                 TempData["message"] = $"Album '{photoAlbum.Title}' has been edited successfully";
                 return RedirectToAction("Index");
             }

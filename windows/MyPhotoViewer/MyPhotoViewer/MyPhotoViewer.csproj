@@ -219,13 +219,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Converters\HttpFileCreator.cs" />
-    <Compile Include="Converters\PhotoAlbumConverter.cs" />
+    <Compile Include="Converters\AlbumEntityCreator.cs" />
     <Compile Include="Converters\PhotoConverter.cs" />
     <Compile Include="Converters\PrettyString.cs" />
     <Compile Include="Extensions\HtmlHelperBootstrapExtensions.cs" />
@@ -248,12 +247,15 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\NinjectDependencyResolver.cs" />
     <Compile Include="Validators\ImagesAttribute.cs" />
+    <Compile Include="ViewModels\Album\AlbumViewModelCreator.cs" />
+    <Compile Include="ViewModels\Album\AlbumWithPhotosViewModel.cs" />
+    <Compile Include="ViewModels\Album\BaseAlbumViewModel.cs" />
     <Compile Include="ViewModels\Photo\PhotoViewModel.cs" />
     <Compile Include="ViewModels\Photo\NewPhotoViewModel.cs" />
     <Compile Include="ViewModels\PhotoAlbumThumbnail.cs" />
-    <Compile Include="ViewModels\PhotoAlbumThumbnailCreator.cs" />
-    <Compile Include="ViewModels\NewPhotoAlbumViewModel.cs" />
-    <Compile Include="ViewModels\PhotoAlbumViewModel.cs" />
+    <Compile Include="ViewModels\AlbumThumbnailCreator.cs" />
+    <Compile Include="ViewModels\Album\NewAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Album\EditAlbumViewModel.cs" />
     <Compile Include="ViewModels\PlaceSelectListCreator.cs" />
   </ItemGroup>
   <ItemGroup>

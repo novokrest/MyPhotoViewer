@@ -63,8 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BaseTest.cs" />
-    <Compile Include="PhotoAlbumRepositoryTest.cs" />
+    <Compile Include="AlbumRepositoryTest.cs" />
     <Compile Include="PhotosContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
