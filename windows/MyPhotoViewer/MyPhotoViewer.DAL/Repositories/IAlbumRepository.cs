@@ -12,7 +12,6 @@ namespace MyPhotoViewer.DAL
 
         void AddAlbum(AlbumEntity album);
         void UpdateAlbum(AlbumEntity album);
-        void SaveAlbum(AlbumEntity album);
         void Save();
     }
 }

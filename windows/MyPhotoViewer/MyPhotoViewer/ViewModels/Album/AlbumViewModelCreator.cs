@@ -7,7 +7,9 @@ namespace MyPhotoViewer.ViewModels.Album
     {
         public static EditAlbumViewModel CreateEditViewModel(IAlbum album)
         {
-            return CreateViewModel(() => new EditAlbumViewModel(), album);
+            return CreateViewModel(() => new EditAlbumViewModel(), 
+                                   album, 
+                                   albumViewModel => albumViewModel.PhotosCount = album.GetPhotoIds().Count);
         }
 
         public static T CreateViewModel<T>(Func<T> albumViewModelCreator, IAlbum album, Action<T> initializer = null) 

@@ -89,9 +89,7 @@ namespace MyPhotoViewer.Controllers
         public ActionResult Edit(int albumId)
         {
             var album = _albumRepository.GetAlbumById(albumId);
-            var viewModel = AlbumViewModelCreator.CreateViewModel(() => new EditAlbumViewModel(), 
-                                                                  album,
-                                                                  albumViewModel => albumViewModel.PhotosCount = album.GetPhotoIds().Count);
+            var viewModel = AlbumViewModelCreator.CreateEditViewModel(album);
 
             return View(viewModel);
         }

@@ -5,7 +5,6 @@ using MyPhotoViewer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 
 namespace MyPhotoViewer.Controllers
@@ -22,10 +21,10 @@ namespace MyPhotoViewer.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int photoAlbumId = 0)
+        public ActionResult Create(int albumId = 0)
         {
             var photoViewModel = CreateEmptyPhotoViewModel();
-            photoViewModel.PhotoAlbumId = photoAlbumId;
+            photoViewModel.AlbumId = albumId;
 
             return View(photoViewModel);
         }
@@ -36,10 +35,10 @@ namespace MyPhotoViewer.Controllers
             if (ModelState.IsValid)
             {
                 _photoRepository.AddPhoto(photoViewModel.ToPhotoEntity());
-                return RedirectToAlbumIndex(photoViewModel.PhotoAlbumId);
+                return RedirectToAlbumIndex(photoViewModel.AlbumId);
             }
 
-            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
+            photoViewModel.Albums = CreatePhotoAlbumSelectList();
             return View(photoViewModel);
         }
 
@@ -62,14 +61,14 @@ namespace MyPhotoViewer.Controllers
 
                 updatablePhoto.Title = photoViewModel.Title;
                 updatablePhoto.CreationDate = photoViewModel.CreationDate;
-                updatablePhoto.PhotoAlbumId = photoViewModel.PhotoAlbumId;
+                updatablePhoto.PhotoAlbumId = photoViewModel.AlbumId;
 
                 _photoRepository.UpdatePhoto(updatablePhoto);
 
                 return RedirectToAction("Photos", "Admin");
             }
 
-            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
+            photoViewModel.Albums = CreatePhotoAlbumSelectList();
             return View(photoViewModel);
         }
 
@@ -118,8 +117,8 @@ namespace MyPhotoViewer.Controllers
             photoViewModel.PhotoId = photo.Id;
             photoViewModel.Title = photo.Title;
             photoViewModel.CreationDate = photo.CreationDate;
-            photoViewModel.PhotoAlbumId = photo.PhotoAlbumId;
-            photoViewModel.PhotoAlbums = CreatePhotoAlbumSelectList();
+            photoViewModel.AlbumId = photo.PhotoAlbumId;
+            photoViewModel.Albums = CreatePhotoAlbumSelectList();
 
             return photoViewModel;
         }
@@ -129,7 +128,7 @@ namespace MyPhotoViewer.Controllers
             return new NewPhotoViewModel
             {
                 CreationDate = DateTime.Now,
-                PhotoAlbums = CreatePhotoAlbumSelectList()
+                Albums = CreatePhotoAlbumSelectList()
             };
         }
 

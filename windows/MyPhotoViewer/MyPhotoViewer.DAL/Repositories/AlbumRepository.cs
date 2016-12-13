@@ -32,7 +32,7 @@ namespace MyPhotoViewer.DAL
         public IEnumerable<IAlbum> LoadAlbums()
         {
             IEnumerable<int> albumIds = _context.Albums.Select(album => album.Id);
-            return albumIds.Select(albumId => new Album(_context, albumId));
+            return albumIds.Select(albumId => new Album(_context, albumId)).OrderBy(album => album.Id);
         }
 
         public void AddAlbum(AlbumEntity album)
@@ -71,31 +71,6 @@ namespace MyPhotoViewer.DAL
 
             album.PlaceId = newPlace.Id;
             album.Place = null;
-        }
-
-        public void SaveAlbum(AlbumEntity album)
-        {
-            //if (album.albumId == 0)
-            //{
-            //    _albumContext.albums.Add(album);
-            //}
-            //else
-            //{
-            //    _albumContext.Entry(album).State = EntityState.Modified;
-            //}
-
-            //_albumContext.SaveChanges();
-        }
-
-        public void Deletealbum(int albumId)
-        {
-            throw new NotImplementedException();
-            //Ialbum entry = _photosContext.albums.Find(albumId);
-            //if (entry != null)
-            //{
-            //    _photosContext.albums.Remove(entry);
-            //    _photosContext.SaveChanges();
-            //}
         }
 
         public void Save()

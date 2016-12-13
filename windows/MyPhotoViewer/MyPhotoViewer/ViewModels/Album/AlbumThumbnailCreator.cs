@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyPhotoViewer.ViewModels
+namespace MyPhotoViewer.ViewModels.Album
 {
     public class AlbumThumbnailCreator
     {
@@ -22,14 +22,17 @@ namespace MyPhotoViewer.ViewModels
         {
             foreach(var album in _albums)
             {
+                IReadOnlyCollection<int> photoIds = album.GetPhotoIds();
+
                 yield return new AlbumThumbnail()
                 {
-                    PhotoAlbumId = album.Id,
+                    AlbumId = album.Id,
                     Name = album.Title,
                     Period = album.Period,
                     Place = album.Place,
                     Description = album.Description,
-                    CoverPhotoId = album.GetPhotoIds().GetRandom()
+                    CoverPhotoId = photoIds.GetRandom(),
+                    PhotosCount = photoIds.Count
                 };
             }
         }

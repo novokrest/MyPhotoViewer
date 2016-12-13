@@ -1,10 +1,9 @@
-﻿@using MyPhotoViewer.ViewModels
+﻿@using MyPhotoViewer.ViewModels.Album
 @using MyPhotoViewer.Extensions
-@model IEnumerable<PhotoAlbumViewModel>
+@model IEnumerable<EditAlbumViewModel>
 
 @{
     ViewBag.Title = "Albums";
-    string dateTimeFormat = "dd-MM-yyyy";
 }
 
 <h2>Albums</h2>
@@ -27,21 +26,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var photoAlbum in Model)
+                @foreach (var album in Model)
                 {
-                    var period = photoAlbum.Period;
-                    var place = photoAlbum.Place;
+                    var place = album.Place;
                     <tr>
-                        <td>@photoAlbum.Id</td>
-                        <td>@photoAlbum.Title</td>
-                        <td>@photoAlbum.Description</td>
-                        <td>@period.From.ToString(dateTimeFormat) - @period.To.ToString(dateTimeFormat)</td>
-                        <td>@Html.DisplayPlace(place)</td>
-                        <td>@photoAlbum.PhotosCount</td>
+                        <td>@album.Id</td>
+                        <td>@album.Title</td>
+                        <td>@album.Description</td>
+                        <td>@Html.DisplayPeriod(album)</td>
+                        <td>@Html.DisplayPlace(album)</td>
+                        <td>@album.PhotosCount</td>
                         <td>
                             <div class="btn-group">
-                                @Html.ActionLink("Edit", "Edit", "Album", new { photoAlbumId = photoAlbum.Id }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Delete", "Delete", "Albums", new { photoAlbumId = photoAlbum.Id }, new { @class = "btn btn-primary btn-danger" })
+                                @Html.ActionLink("Edit", "Edit", "Album", new { albumId = album.Id }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("Delete", "Delete", "Albums", new { albumId = album.Id }, new { @class = "btn btn-primary btn-danger" })
                             </div>
                         </td>
                     </tr>

@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -247,13 +248,13 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\NinjectDependencyResolver.cs" />
     <Compile Include="Validators\ImagesAttribute.cs" />
+    <Compile Include="ViewModels\Album\AlbumThumbnail.cs" />
+    <Compile Include="ViewModels\Album\AlbumThumbnailCreator.cs" />
     <Compile Include="ViewModels\Album\AlbumViewModelCreator.cs" />
     <Compile Include="ViewModels\Album\AlbumWithPhotosViewModel.cs" />
     <Compile Include="ViewModels\Album\BaseAlbumViewModel.cs" />
     <Compile Include="ViewModels\Photo\PhotoViewModel.cs" />
     <Compile Include="ViewModels\Photo\NewPhotoViewModel.cs" />
-    <Compile Include="ViewModels\PhotoAlbumThumbnail.cs" />
-    <Compile Include="ViewModels\AlbumThumbnailCreator.cs" />
     <Compile Include="ViewModels\Album\NewAlbumViewModel.cs" />
     <Compile Include="ViewModels\Album\EditAlbumViewModel.cs" />
     <Compile Include="ViewModels\PlaceSelectListCreator.cs" />
@@ -322,20 +323,20 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Photos\Details.cshtml" />
-    <Content Include="Views\Albums\Index.cshtml" />
+    <Content Include="Views\Album\Index.cshtml" />
     <Content Include="Views\PhotoManager\Create.cshtml" />
     <Content Include="Views\PhotoManager\Delete.cshtml" />
     <Content Include="Views\PhotoManager\Details.cshtml" />
     <Content Include="Views\PhotoManager\Edit.cshtml" />
     <Content Include="Views\PhotoManager\Index.cshtml" />
-    <Content Include="Views\Shared\PhotoAlbumThumbnail.cshtml" />
+    <Content Include="Views\Album\_AlbumThumbnail.cshtml" />
     <Content Include="Views\Photos\Browse.cshtml" />
     <Content Include="Views\Shared\PhotoThumbnail.cshtml" />
     <Content Include="Views\Photo\Details.cshtml" />
     <Content Include="Views\Photo\Create.cshtml" />
-    <Content Include="Views\Albums\Create.cshtml" />
-    <Content Include="Views\Album\Index.cshtml" />
-    <Content Include="Views\Shared\PhotoAlbumThumbnailRow.cshtml" />
+    <Content Include="Views\Album\Create.cshtml" />
+    <Content Include="Views\Album\Browse.cshtml" />
+    <Content Include="Views\Album\_AlbumThumbnailRow.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Photo\Edit.cshtml" />

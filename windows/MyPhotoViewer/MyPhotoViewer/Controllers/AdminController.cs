@@ -36,7 +36,8 @@ namespace MyPhotoViewer.Controllers
         [HttpGet]
         public ActionResult Albums()
         {
-            var albumViewModels = _albumRepository.LoadAlbums().Select(AlbumViewModelCreator.CreateEditViewModel);
+            var albumViewModels = _albumRepository.LoadAlbums()
+                                                  .Select(AlbumViewModelCreator.CreateEditViewModel);
 
             return View(albumViewModels);
         }
@@ -61,7 +62,7 @@ namespace MyPhotoViewer.Controllers
         {
             if (ModelState.IsValid)
             {
-                _albumRepository.SaveAlbum(photoAlbum);
+                _albumRepository.UpdateAlbum(photoAlbum);
                 TempData["message"] = $"Album '{photoAlbum.Title}' has been edited successfully";
                 return RedirectToAction("Index");
             }

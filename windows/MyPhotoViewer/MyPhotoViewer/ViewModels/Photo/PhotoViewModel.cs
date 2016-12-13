@@ -13,7 +13,7 @@ namespace MyPhotoViewer.ViewModels
         [Required]
         [Display(Name = "Album")]
         [HiddenInput(DisplayValue = false)]
-        public int PhotoAlbumId { get; set; }
+        public int AlbumId { get; set; }
 
         [Required]
         [Display(Name = "Title")]
@@ -25,6 +25,6 @@ namespace MyPhotoViewer.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? CreationDate { get; set; }
 
-        public IEnumerable<SelectListItem> PhotoAlbums { get; set; }
+        public IEnumerable<SelectListItem> Albums { get; set; }
     }
 }

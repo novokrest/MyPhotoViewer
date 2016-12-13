@@ -11,7 +11,7 @@ namespace MyPhotoViewer.Converters
             return new PhotoEntity
             {
                 Id = photoViewModel.PhotoId,
-                PhotoAlbumId = photoViewModel.PhotoAlbumId,
+                PhotoAlbumId = photoViewModel.AlbumId,
                 Title = photoViewModel.Title,
                 CreationDate = photoViewModel.CreationDate
             };

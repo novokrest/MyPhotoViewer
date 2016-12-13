@@ -1,0 +1,28 @@
+﻿@model MyPhotoViewer.ViewModels.Album.IAlbumThumbnail
+
+@{
+    const string DateTimeFormat = "dd.MM.yyyy";
+}
+
+<h3 class="text-primary">
+    @Model.Name, @Model.Place.Country
+    <span class="badge">@Model.PhotosCount</span>
+</h3>
+<p>
+    <b>@Model.Period.From.ToString(DateTimeFormat)</b> - <b>@Model.Period.To.ToString(DateTimeFormat)</b>
+</p>
+<p>
+    @Model.Description
+</p>
+<p>
+    <img class="img-thumbnail" 
+         src="@Url.Action("Image", "Photo", new { photoId = Model.CoverPhotoId })" 
+         alt="photo" />
+</p>
+<p>
+    <a class="btn btn-primary" 
+       href="@Url.Action("Browse", "Album", new { albumId = Model.AlbumId })">
+    View more &raquo;
+    </a>
+</p>
+    

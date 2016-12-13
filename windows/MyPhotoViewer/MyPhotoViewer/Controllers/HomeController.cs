@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 using MyPhotoViewer.DAL;
 using MyPhotoViewer.DAL.Extensions;
-using MyPhotoViewer.ViewModels;
 using System.Collections.Generic;
+using MyPhotoViewer.ViewModels.Album;
 
 namespace MyPhotoViewer.Controllers
 {

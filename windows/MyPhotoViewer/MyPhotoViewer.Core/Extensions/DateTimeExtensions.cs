@@ -12,5 +12,15 @@ namespace MyPhotoViewer.Core.Extensions
         {
             return current >= leftBoundary && current <= rightBoundary;
         }
+
+        public static string ToFormatString(this DateTime? dateTime, string format)
+        {
+            if (dateTime.HasValue)
+            {
+                return dateTime.Value.ToString(format);
+            }
+
+            return string.Empty;
+        }
     }
 }

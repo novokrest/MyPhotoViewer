@@ -24,7 +24,7 @@ namespace MyPhotoViewer.Tests
 
             var photoViewModel = viewResult.ViewData.Model as NewPhotoViewModel;
             Assert.IsNotNull(photoViewModel);
-            Assert.AreEqual(testPhotoAlbumId, photoViewModel.PhotoAlbumId);
+            Assert.AreEqual(testPhotoAlbumId, photoViewModel.AlbumId);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace MyPhotoViewer.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual("Index", result.RouteValues["action"]);
             Assert.AreEqual("Album", result.RouteValues["controller"]);
-            Assert.AreEqual(photoViewModel.PhotoAlbumId, result.RouteValues["photoAlbumId"]);
+            Assert.AreEqual(photoViewModel.AlbumId, result.RouteValues["photoAlbumId"]);
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace MyPhotoViewer.Tests
             return new NewPhotoViewModel()
             {
                 PhotoId = 1,
-                PhotoAlbumId = 2,
+                AlbumId = 2,
                 Title = "TestTitle",
                 Image = new Image(new byte[0], ImageType.Jpeg)
             };
