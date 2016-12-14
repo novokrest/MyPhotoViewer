@@ -1,10 +1,10 @@
-﻿@using MyPhotoViewer.ViewModels
-@model IReadOnlyList<IPhotoAlbumThumbnail>
+﻿@using MyPhotoViewer.ViewModels.Album
+@model IReadOnlyList<IAlbumThumbnail>
 
 @{
     ViewBag.Title = "Home Page";
 
-    string albumsUrl = Url.Action("Index", "Albums");
+    string albumsUrl = Url.Action("Index", "Album");
 }
 
 <div class="jumbotron">
@@ -13,4 +13,4 @@
     <p><a href="@albumsUrl" class="btn btn-primary btn-lg">View all photo albums &raquo;</a></p>
 </div>
 
-@Html.Partial("PhotoAlbumThumbnailRow", Model)
+@Html.Partial("_AlbumThumbnailRow", Model)

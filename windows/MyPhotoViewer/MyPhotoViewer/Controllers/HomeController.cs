@@ -9,21 +9,26 @@ namespace MyPhotoViewer.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        private readonly IAlbumRepository _photoAlbumRepository = RepositoryServiceLocator.GetPhotoAlbumRepository();
+        private readonly IAlbumRepository _albumRepository;
+
+        public HomeController(IAlbumRepository albumRepository)
+        {
+            _albumRepository = albumRepository;
+        }
 
         public ActionResult Index()
         {
-            var photoAlbumThumbnails = GetRandomPhotoAlbumsThumbnails(3);
+            var albumThumbnails = GetRandomAlbumsThumbnails(3);
 
-            return View(photoAlbumThumbnails);
+            return View(albumThumbnails);
         }
 
-        private IReadOnlyList<IAlbumThumbnail> GetRandomPhotoAlbumsThumbnails(int count)
+        private IReadOnlyList<IAlbumThumbnail> GetRandomAlbumsThumbnails(int count)
         {
-            var photoAlbums = _photoAlbumRepository.GetRandomPhotoAlbums(count);
-            var photoAlbumThumbnailCreator = new AlbumThumbnailCreator(photoAlbums);
+            var albums = _albumRepository.GetRandomAlbums(count);
+            var albumThumbnailCreator = new AlbumThumbnailCreator(albums);
 
-            return photoAlbumThumbnailCreator.CreateThumbnails();
+            return albumThumbnailCreator.CreateThumbnails();
         }
 
         public ActionResult About()

@@ -329,14 +329,14 @@
     <Content Include="Views\PhotoManager\Details.cshtml" />
     <Content Include="Views\PhotoManager\Edit.cshtml" />
     <Content Include="Views\PhotoManager\Index.cshtml" />
-    <Content Include="Views\Album\_AlbumThumbnail.cshtml" />
+    <Content Include="Views\Shared\_AlbumThumbnail.cshtml" />
     <Content Include="Views\Photos\Browse.cshtml" />
     <Content Include="Views\Shared\PhotoThumbnail.cshtml" />
     <Content Include="Views\Photo\Details.cshtml" />
     <Content Include="Views\Photo\Create.cshtml" />
     <Content Include="Views\Album\Create.cshtml" />
     <Content Include="Views\Album\Browse.cshtml" />
-    <Content Include="Views\Album\_AlbumThumbnailRow.cshtml" />
+    <Content Include="Views\Shared\_AlbumThumbnailRow.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Photo\Edit.cshtml" />

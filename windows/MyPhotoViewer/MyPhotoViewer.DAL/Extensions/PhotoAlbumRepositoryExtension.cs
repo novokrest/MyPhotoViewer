@@ -1,5 +1,4 @@
 ﻿using MyPhotoViewer.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,19 +7,17 @@ namespace MyPhotoViewer.DAL.Extensions
 {
     public static class PhotoAlbumRepositoryExtension
     {
-        public static IReadOnlyList<IAlbum> GetRandomPhotoAlbums(this IAlbumRepository photoAlbumRepository, int count)
+        public static IReadOnlyList<IAlbum> GetRandomAlbums(this IAlbumRepository albumRepository, int count)
         {
-            IReadOnlyList<IAlbum> photoAlbums = photoAlbumRepository.LoadAlbums().ToList();
-            return GetRandomPhotoAlbums(photoAlbums, count).ToList();
+            IReadOnlyList<IAlbum> albums = albumRepository.LoadAlbums().ToList();
+            return GetRandomAlbums(albums, count).ToList();
         }
 
-        private static IEnumerable<IAlbum> GetRandomPhotoAlbums(IReadOnlyList<IAlbum> photoAlbums, int count)
+        private static IEnumerable<IAlbum> GetRandomAlbums(IReadOnlyList<IAlbum> albums, int count)
         {
-            var random = new Random();
-            for (int i = 0; i < count; ++i)
+            foreach (int index in RandomEx.NonRepeatableRandoms(0, albums.Count, count))
             {
-                int randomIndex = random.Next(0, photoAlbums.Count);
-                yield return photoAlbums[randomIndex];
+                yield return albums[index];
             }
         }
     }
