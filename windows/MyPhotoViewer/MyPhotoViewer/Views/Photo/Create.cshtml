@@ -41,10 +41,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PhotoAlbumId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AlbumId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.PhotoAlbumId, Model.PhotoAlbums, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PhotoAlbumId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.AlbumId, Model.Albums, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AlbumId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -73,7 +73,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Browse", "Album", new { albumId = Model.AlbumId }, new { @class = "back-to-album" })
 </div>
 
 @section scripts {
@@ -102,6 +102,14 @@
                         $input.val(text);
                     }
                 });
+            });
+
+            $('#AlbumId').on('change', function () {
+                var selectedAlbumId = this.value;
+                var $backRef = $('a.back-to-album');
+                var oldRefValue = $backRef.attr('href');
+                var newRefValue = oldRefValue.replace(/\d+/g, selectedAlbumId);
+                $backRef.attr('href', newRefValue);
             });
         });
     </script>

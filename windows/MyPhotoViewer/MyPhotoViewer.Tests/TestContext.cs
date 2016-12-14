@@ -13,7 +13,7 @@ namespace MyPhotoViewer.Tests
         {
             _context = context;
             _albumRepository = new AlbumRepository(context);
-            _photoRepository = new PhotoRepository(context);
+            _photoRepository = new PhotoRepository(context, _albumRepository);
         }
 
         public PhotosDbContext Context => _context;

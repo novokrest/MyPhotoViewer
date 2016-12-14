@@ -12,12 +12,12 @@ namespace MyPhotoViewer.Controllers
     public class PhotoController : Controller
     {
         private readonly IPhotoRepository _photoRepository;
-        private readonly IAlbumRepository _photoAlbumRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public PhotoController(IPhotoRepository photoRepository, IAlbumRepository photoAlbumRepository)
+        public PhotoController(IPhotoRepository photoRepository, IAlbumRepository albumRepository)
         {
             _photoRepository = photoRepository;
-            _photoAlbumRepository = photoAlbumRepository;
+            _albumRepository = albumRepository;
         }
 
         [HttpGet]
@@ -30,15 +30,15 @@ namespace MyPhotoViewer.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "PhotoAlbumId, Title, Image, CreationDate")]NewPhotoViewModel photoViewModel)
+        public ActionResult Create([Bind(Include = "AlbumId, Title, Image, CreationDate")]NewPhotoViewModel photoViewModel)
         {
             if (ModelState.IsValid)
             {
                 _photoRepository.AddPhoto(photoViewModel.ToPhotoEntity());
-                return RedirectToAlbumIndex(photoViewModel.AlbumId);
+                return RedirectToAlbumBrowse(photoViewModel.AlbumId);
             }
 
-            photoViewModel.Albums = CreatePhotoAlbumSelectList();
+            photoViewModel.Albums = CreateAlbumSelectList();
             return View(photoViewModel);
         }
 
@@ -53,7 +53,7 @@ namespace MyPhotoViewer.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit([Bind(Include = "PhotoId, PhotoAlbumId, Title, CreationDate")]PhotoViewModel photoViewModel)
+        public ActionResult Edit([Bind(Include = "PhotoId, AlbumId, Title, CreationDate")]PhotoViewModel photoViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -61,14 +61,14 @@ namespace MyPhotoViewer.Controllers
 
                 updatablePhoto.Title = photoViewModel.Title;
                 updatablePhoto.CreationDate = photoViewModel.CreationDate;
-                updatablePhoto.PhotoAlbumId = photoViewModel.AlbumId;
+                updatablePhoto.AlbumId = photoViewModel.AlbumId;
 
                 _photoRepository.UpdatePhoto(updatablePhoto);
 
                 return RedirectToAction("Photos", "Admin");
             }
 
-            photoViewModel.Albums = CreatePhotoAlbumSelectList();
+            photoViewModel.Albums = CreateAlbumSelectList();
             return View(photoViewModel);
         }
 
@@ -97,9 +97,9 @@ namespace MyPhotoViewer.Controllers
             return View(CreatePhotoViewModel(photoViewModel.PhotoId));
         }
 
-        private ActionResult RedirectToAlbumIndex(int photoAlbumId)
+        private ActionResult RedirectToAlbumBrowse(int albumId)
         {
-            return RedirectToAction("Index", "Album", new { photoAlbumId = photoAlbumId });
+            return RedirectToAction("Browse", "Album", new { albumId = albumId });
         }
 
         private PhotoViewModel CreatePhotoViewModel(int photoId)
@@ -117,8 +117,8 @@ namespace MyPhotoViewer.Controllers
             photoViewModel.PhotoId = photo.Id;
             photoViewModel.Title = photo.Title;
             photoViewModel.CreationDate = photo.CreationDate;
-            photoViewModel.AlbumId = photo.PhotoAlbumId;
-            photoViewModel.Albums = CreatePhotoAlbumSelectList();
+            photoViewModel.AlbumId = photo.AlbumId;
+            photoViewModel.Albums = CreateAlbumSelectList();
 
             return photoViewModel;
         }
@@ -128,15 +128,15 @@ namespace MyPhotoViewer.Controllers
             return new NewPhotoViewModel
             {
                 CreationDate = DateTime.Now,
-                Albums = CreatePhotoAlbumSelectList()
+                Albums = CreateAlbumSelectList()
             };
         }
 
-        private IEnumerable<SelectListItem> CreatePhotoAlbumSelectList()
+        private IEnumerable<SelectListItem> CreateAlbumSelectList()
         {
-            return _photoAlbumRepository.LoadAlbums()
-                                        .Select(photoAlbum => new SelectListItem
-                                        { Text = photoAlbum.Title, Value = photoAlbum.Id.ToString() });
+            return _albumRepository.LoadAlbums()
+                                        .Select(album => new SelectListItem
+                                        { Text = album.Title, Value = album.Id.ToString() });
         }
 
         [HttpGet]

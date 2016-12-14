@@ -5,7 +5,7 @@ namespace MyPhotoViewer.Core
     public interface IPhoto
     {
         int Id { get; }
-        int PhotoAlbumId { get; }
+        int AlbumId { get; }
         IAlbum PhotoAlbum { get; }
         string Title { get; }
         DateTime? CreationDate { get; }
@@ -16,7 +16,7 @@ namespace MyPhotoViewer.Core
     public interface IUpdatablePhoto
     {
         string Title { get; set; }
-        int PhotoAlbumId { get; set; }
+        int AlbumId { get; set; }
         DateTime? CreationDate { get; set; }
 
         void Update();

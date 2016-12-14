@@ -10,10 +10,12 @@ namespace MyPhotoViewer.DAL
     public sealed class PhotoRepository : IPhotoRepository
     {
         private readonly PhotosDbContext _photosContext;
+        private readonly IAlbumRepository _albumRepository;
 
-        public PhotoRepository(PhotosDbContext photosContext)
+        public PhotoRepository(PhotosDbContext photosContext, IAlbumRepository albumRepository)
         {
             _photosContext = photosContext;
+            _albumRepository = albumRepository;
         }
 
         public IPhoto GetPhotoById(int photoId)
@@ -58,6 +60,15 @@ namespace MyPhotoViewer.DAL
             _photosContext.Entry(photoEntity).State = System.Data.Entity.EntityState.Deleted;
             _photosContext.SaveChanges();
 
+            RemoveAlbumIfEmpty(photoEntity.AlbumId);
+        }
+
+        private void RemoveAlbumIfEmpty(int albumId)
+        {
+            if (_albumRepository.GetAlbumById(albumId).GetPhotoIds().Count == 0)
+            {
+                _albumRepository.RemoveAlbumById(albumId);
+            }
         }
 
         public void Save()

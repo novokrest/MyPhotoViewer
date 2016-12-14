@@ -21,13 +21,13 @@ namespace MyPhotoViewer.DAL.Repositories
 
         public int Id => _photoEntity.Id;
 
-        public int PhotoAlbumId
+        public int AlbumId
         {
-            get { return _photoEntity.PhotoAlbumId; }
-            set { _photoEntity.PhotoAlbumId = value; }
+            get { return _photoEntity.AlbumId; }
+            set { _photoEntity.AlbumId = value; }
         }
 
-        public IAlbum PhotoAlbum => new Album(_photosContext, _photoEntity.PhotoAlbumId);
+        public IAlbum PhotoAlbum => new Album(_photosContext, _photoEntity.AlbumId);
             
         public string Title
         {

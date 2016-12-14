@@ -60,7 +60,7 @@ namespace PhotoDiscoverService.Data
             {
                 Title = new FileInfo(photoImage.Path).Name,
                 CreationDate = photoImage.CreationDate,
-                PhotoAlbumId = _album.Id,
+                AlbumId = _album.Id,
                 PlaceId = _album.Place.Id,
                 Image = photoImage.Image,
                 ImageType = ImageTypeRecognizer.Recognize(photoImage.Image)

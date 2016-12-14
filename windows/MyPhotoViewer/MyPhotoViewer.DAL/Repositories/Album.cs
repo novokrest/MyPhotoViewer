@@ -26,7 +26,7 @@ namespace MyPhotoViewer.DAL.Repositories
 
         public IReadOnlyCollection<int> GetPhotoIds()
         {
-            return _photosContext.Photos.Where(photo => photo.PhotoAlbumId == _photoAlbumId)
+            return _photosContext.Photos.Where(photo => photo.AlbumId == _photoAlbumId)
                                         .Select(photo => photo.Id)
                                         .ToList();
         }

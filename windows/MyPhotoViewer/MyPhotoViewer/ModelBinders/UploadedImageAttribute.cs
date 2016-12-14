@@ -23,8 +23,14 @@ namespace MyPhotoViewer.ModelBinders
                 }
 
                 HttpPostedFileBase uploadedFile = files[0];
-                Image image = Image.Create(uploadedFile.ReadData(), uploadedFile.ContentType);
+                byte[] data = uploadedFile.ReadData();
+                if (!ImageChecker.IsImage(data))
+                {
+                    bindingContext.ModelState.AddModelError(propertyDescriptor.DisplayName, "Choose photo for uploading");
+                    return true;
+                }
 
+                Image image = Image.Create(data, uploadedFile.ContentType);
                 propertyDescriptor.SetValue(bindingContext.Model, image);
                 return true;
             }

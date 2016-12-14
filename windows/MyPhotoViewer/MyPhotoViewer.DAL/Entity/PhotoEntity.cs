@@ -25,7 +25,7 @@ namespace MyPhotoViewer.DAL.Entity
         public virtual PlaceEntity Place { get; set; }
 
         [ForeignKey("PhotoAlbum")]
-        public int PhotoAlbumId { get; set; }
+        public int AlbumId { get; set; }
         public virtual AlbumEntity PhotoAlbum { get; set; }
     }
 
@@ -67,7 +67,7 @@ namespace MyPhotoViewer.DAL.Entity
                 .HasForeignKey(p => p.PlaceId);
             this.HasRequired(p => p.PhotoAlbum)
                 .WithMany(pa => pa.Photos)
-                .HasForeignKey(p => p.PhotoAlbumId);
+                .HasForeignKey(p => p.AlbumId);
         }
     }
 }

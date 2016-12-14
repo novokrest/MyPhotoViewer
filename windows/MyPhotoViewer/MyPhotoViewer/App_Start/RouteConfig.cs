@@ -30,6 +30,12 @@ namespace MyPhotoViewer
                 constraints: new { photoId = @"\d+" });
 
             routes.MapRoute(
+                name: "",
+                url: "Photo/Create",
+                defaults: new { controller = "Photo", action = "Create" }
+                );
+
+            routes.MapRoute(
                 name: "Admin",
                 url: "Admin/{action}",
                 defaults: new { controller = "Admin", action = "Index" });
