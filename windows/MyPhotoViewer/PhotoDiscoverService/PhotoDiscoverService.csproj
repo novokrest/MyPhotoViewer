@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="ArgsParser.cs" />
     <Compile Include="DatabaseInitializers.cs" />
+    <Compile Include="Data\AdminPasswordProvider.cs" />
     <Compile Include="Data\PhotoAlbumCreator.cs" />
     <Compile Include="Data\PhotoAlbumOverview.cs" />
     <Compile Include="Data\PhotoAlbumsLoader.cs" />

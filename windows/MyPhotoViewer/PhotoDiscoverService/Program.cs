@@ -1,6 +1,5 @@
 ﻿using MyPhotoViewer.DAL.Entity;
 using MyPhotoViewer.Models;
-using System;
 
 namespace PhotoDiscoverService
 {
@@ -13,6 +12,12 @@ namespace PhotoDiscoverService
             if (argsParser.UpdateOnlyUsers)
             {
                 DatabaseInitializer.Initialize<ApplicationDbContext, ApplicationDbInitializer>();
+                return;
+            }
+
+            if (argsParser.UpdateOnlyPhotos)
+            {
+                DatabaseInitializer.Initialize<PhotosDbContext, PhotosDbInitializer>();
                 return;
             }
 

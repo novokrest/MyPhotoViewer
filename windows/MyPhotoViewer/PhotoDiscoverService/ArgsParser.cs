@@ -4,20 +4,23 @@ namespace PhotoDiscoverService
 {
     internal class ArgsParser
     {
-        private const string UpdateOnlyUserArg = "--only-users";
+        private const string UpdateOnlyUsersArg = "--only-users";
+        private const string UpdateOnlyPhotosArg = "--only-photos";
 
         private readonly string[] _args;
-        private bool? _updateOnlyUsers;
 
         public ArgsParser(string[] args)
         {
             _args = args;
         }
 
-        public bool UpdateOnlyUsers
+        public bool UpdateOnlyUsers => IsArgSpecified(UpdateOnlyUsersArg);
+
+        public bool UpdateOnlyPhotos => IsArgSpecified(UpdateOnlyPhotosArg);
+
+        private bool IsArgSpecified(string soughtForArg)
         {
-            get { return _updateOnlyUsers ?? 
-                        (_updateOnlyUsers = _args.Any(arg => string.Equals(arg, UpdateOnlyUserArg))).Value; }
+            return _args.Any(arg => string.Equals(arg, soughtForArg));
         }
     }
 }

@@ -66,13 +66,17 @@ namespace PhotoDiscoverService
         private const string AdminEmail = "admin@mail.com";
         private const string UserEmail = "user@mail.com";
 
+        private readonly AdminPasswordProvider _adminPasswordProvider = new AdminPasswordProvider();
+
         protected override void Seed(ApplicationDbContext context)
         {
             base.Seed(context);
 
             using (var userCreator = new ApplicationUserCreator(context))
             {
-                userCreator.Create(AdminEmail, "123456", AdminEmail, AdminRoleName, UserRoleName);
+                string adminPassword = _adminPasswordProvider.GetAdminPassword();
+                userCreator.Create(AdminEmail, adminPassword, AdminEmail, AdminRoleName, UserRoleName);
+
                 userCreator.Create(UserEmail, "123456", UserEmail, UserRoleName);
             }
         }
