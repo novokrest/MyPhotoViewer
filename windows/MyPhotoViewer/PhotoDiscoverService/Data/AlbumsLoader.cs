@@ -4,19 +4,19 @@ using System.Configuration;
 
 namespace PhotoDiscoverService.Data
 {
-    internal class PhotoAlbumsLoader
+    internal class AlbumsLoader
     {
         private readonly IPhotosDbContext _context;
         private readonly string _rootDirectory;
         private readonly PlaceRegister _placeRegister;
 
-        public static PhotoAlbumsLoader CreateFromConfiguration(IPhotosDbContext context)
+        public static AlbumsLoader CreateFromConfiguration(IPhotosDbContext context)
         {
             string photosRootDirectoryPath = ConfigurationManager.AppSettings["PhotosRootDirectory"];
-            return new PhotoAlbumsLoader(context, photosRootDirectoryPath);
+            return new AlbumsLoader(context, photosRootDirectoryPath);
         }
 
-        public PhotoAlbumsLoader(IPhotosDbContext context, string rootDirectory)
+        public AlbumsLoader(IPhotosDbContext context, string rootDirectory)
         {
             _context = context;
             _rootDirectory = rootDirectory;
@@ -27,7 +27,7 @@ namespace PhotoDiscoverService.Data
         {
             foreach (string photoAblumDirectory in DirectoryInfoEx.GetChildDirectories(_rootDirectory))
             {
-                var photoAlbumLoader = new PhotoAlbumLoader(_context, _placeRegister, photoAblumDirectory);
+                var photoAlbumLoader = new AlbumLoader(_context, _placeRegister, photoAblumDirectory);
                 photoAlbumLoader.Load();
             }
         }

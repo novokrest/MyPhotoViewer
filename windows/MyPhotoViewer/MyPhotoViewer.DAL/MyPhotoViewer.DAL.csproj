@@ -86,7 +86,7 @@
     <Compile Include="Repositories\IAlbumRepository.cs" />
     <Compile Include="Entity\PhotoEntity.cs" />
     <Compile Include="Entity\PhotosDbContext.cs" />
-    <Compile Include="Entity\PhotoAlbumEntity.cs" />
+    <Compile Include="Entity\AlbumEntity.cs" />
     <Compile Include="Repositories\IPhotoRepository.cs" />
     <Compile Include="Repositories\Photo.cs" />
     <Compile Include="Repositories\Album.cs" />

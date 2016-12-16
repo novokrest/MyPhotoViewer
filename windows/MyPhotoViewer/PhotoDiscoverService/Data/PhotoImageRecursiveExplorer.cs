@@ -8,7 +8,7 @@ namespace PhotoDiscoverService.Data
 {
     internal class PhotoImageFinder
     {
-        private static readonly string[] ImagesSearchPatterns = { "*.jpg" , "*.png" };
+        private static readonly string[] ImagesSearchPatterns = ImageTypeFileExtensions.Extensions.Select(ext => $"*.{ext}").ToArray();
 
         private readonly string _rootDirectory;
 

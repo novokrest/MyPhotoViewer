@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace PhotoDiscoverService.Data
 {
-    internal class PhotoAlbumCreator
+    internal class AlbumCreator
     {
         private readonly IPhotosDbContext _context;
-        private readonly PhotoAlbumOverview _photosOverview;
+        private readonly AlbumOverview _photosOverview;
         private readonly PlaceEntity _place;
         private readonly IEnumerable<IPhotoImage> _photoImages;
 
-        public PhotoAlbumCreator(IPhotosDbContext context, PhotoAlbumOverview photosOverview, PlaceRegister placeRegister, IEnumerable<IPhotoImage> photoImages)
+        public AlbumCreator(IPhotosDbContext context, AlbumOverview photosOverview, PlaceRegister placeRegister, IEnumerable<IPhotoImage> photoImages)
         {
             Verifiers.ArgNullVerify(photosOverview, nameof(photosOverview));
 

@@ -12,6 +12,19 @@ namespace MyPhotoViewer.Core
         Tiff
     }
 
+    public static class ImageTypeFileExtensions
+    {
+        public static readonly IDictionary<ImageType, string[]> ImageTypeToFileExtensionsMap = new Dictionary<ImageType, string[]>
+        {
+            { ImageType.Png, new[] { "png" } },
+            { ImageType.Jpeg, new[] { "jpeg", "jpg" } },
+            { ImageType.Gif, new[] { "gif" } },
+            { ImageType.Tiff, new[] { "tiff" } }
+        };
+
+        public static readonly IReadOnlyCollection<string> Extensions = ImageTypeToFileExtensionsMap.Values.SelectMany(values => values).ToList();
+    }
+
     public static class ImageMimeTypeConverter
     {
         private static readonly Dictionary<ImageType, string[]> ImageToMimeTypeMap = new Dictionary<ImageType, string[]>

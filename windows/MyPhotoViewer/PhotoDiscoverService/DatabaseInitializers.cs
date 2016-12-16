@@ -54,7 +54,7 @@ namespace PhotoDiscoverService
         {
             base.Seed(context);
 
-            var photoAlbumsLoader = PhotoAlbumsLoader.CreateFromConfiguration(context);
+            var photoAlbumsLoader = AlbumsLoader.CreateFromConfiguration(context);
             photoAlbumsLoader.LoadPhotoAlbums();
         }
     }

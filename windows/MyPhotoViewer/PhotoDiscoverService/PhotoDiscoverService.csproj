@@ -92,12 +92,12 @@
     <Compile Include="ArgsParser.cs" />
     <Compile Include="DatabaseInitializers.cs" />
     <Compile Include="Data\AdminPasswordProvider.cs" />
-    <Compile Include="Data\PhotoAlbumCreator.cs" />
-    <Compile Include="Data\PhotoAlbumOverview.cs" />
-    <Compile Include="Data\PhotoAlbumsLoader.cs" />
+    <Compile Include="Data\AlbumCreator.cs" />
+    <Compile Include="Data\AlbumOverview.cs" />
+    <Compile Include="Data\AlbumsLoader.cs" />
     <Compile Include="Data\PhotoImage.cs" />
     <Compile Include="Data\PhotoImageRecursiveExplorer.cs" />
-    <Compile Include="Data\PhotoAlbumLoader.cs" />
+    <Compile Include="Data\AlbumLoader.cs" />
     <Compile Include="Data\PhotoImageSaver.cs" />
     <Compile Include="Data\PlaceRegister.cs" />
     <Compile Include="Program.cs" />

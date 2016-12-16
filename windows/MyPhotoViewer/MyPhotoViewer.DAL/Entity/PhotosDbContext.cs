@@ -34,7 +34,7 @@ namespace MyPhotoViewer.DAL.Entity
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Configurations.Add(new PhotoEntityConfiguration());
-            modelBuilder.Configurations.Add(new PhotoAlbumEntityConfiguration());
+            modelBuilder.Configurations.Add(new AlbumEntityConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

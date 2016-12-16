@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PhotoDiscoverService.Data
 {
-    public class PhotoAlbumOverview
+    public class AlbumOverview
     {
         public string Title { get; set; }
 
@@ -22,19 +22,19 @@ namespace PhotoDiscoverService.Data
         public DateTime? To { get; set; }
     }
 
-    internal class PhotoAlbumOverviewReader
+    internal class AlbumOverviewReader
     {
         private const string OverviewFileName = "overview.txt";
 
         private readonly string _directory;
-        private PhotoAlbumOverview _overview;
+        private AlbumOverview _overview;
 
-        public PhotoAlbumOverviewReader(string directory)
+        public AlbumOverviewReader(string directory)
         {
             _directory = directory;
         }
 
-        public PhotoAlbumOverview Overview => _overview;
+        public AlbumOverview Overview => _overview;
 
         public bool ReadOverview()
         {
@@ -45,7 +45,18 @@ namespace PhotoDiscoverService.Data
                 return true;
             }
 
-            return false;
+            _overview = GenerateDefaultOverview();
+            return true;
+        }
+
+        private AlbumOverview GenerateDefaultOverview()
+        {
+            return new AlbumOverview
+            {
+                Title = new DirectoryInfo(_directory).Name,
+                Description = "No Description",
+                Place = "Unknown Place"
+            };
         }
 
         private void ReadOverview(string overviewFilePath)
@@ -54,7 +65,7 @@ namespace PhotoDiscoverService.Data
             using (var jsonReader = new JsonTextReader(fileReader))
             {
                 var jsonSerializer = new JsonSerializer();
-                _overview = jsonSerializer.Deserialize<PhotoAlbumOverview>(jsonReader);
+                _overview = jsonSerializer.Deserialize<AlbumOverview>(jsonReader);
             }
         }
     }
