@@ -1,5 +1,6 @@
 ﻿@using MyPhotoViewer.Extensions
-@model MyPhotoViewer.ViewModels.PhotoAlbumViewModel
+@using MyPhotoViewer.ViewModels.Album
+@model EditAlbumViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -29,19 +30,27 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+
+        <dd>
+            @Html.DisplayPlace(Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Period")
+        </dt>
+
+        <dd>
+            @Html.DisplayPeriod(Model)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.PhotosCount)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.PhotosCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Place)
-        </dt>
-
-        <dd>
-            @Html.DisplayPlace(Model.Place)
         </dd>
 
     </dl>
@@ -52,7 +61,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index", "Admin")
+            @Html.ActionLink("Back to Albums", "Albums", "Admin")
         </div>
     }
 </div>

@@ -1,7 +1,4 @@
-﻿@using MyPhotoViewer.Core
-@model IEnumerable<IAlbum>
-
-@{
+﻿@{
     ViewBag.Title = "Admin";
 }
 
@@ -24,6 +21,7 @@
             <h1>
                 USERS
             </h1>
+            <a href="@Url.Action("Users", "Admin")"></a>
         </div>
     </div>
     <div class="col-md-4 admin-action">

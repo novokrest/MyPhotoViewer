@@ -62,6 +62,7 @@ namespace MyPhotoViewer.DAL
             if (place != null)
             {
                 album.PlaceId = place.Id;
+                album.Place = place;
                 return;
             }
 

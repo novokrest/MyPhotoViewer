@@ -1,9 +1,9 @@
-﻿using MyPhotoViewer.DAL;
-using MyPhotoViewer.DAL.Entity;
-using MyPhotoViewer.ViewModels;
+﻿using Microsoft.AspNet.Identity.Owin;
+using MyPhotoViewer.Core;
+using MyPhotoViewer.DAL;
 using MyPhotoViewer.ViewModels.Album;
 using System.Linq;
-using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MyPhotoViewer.Controllers
@@ -13,6 +13,7 @@ namespace MyPhotoViewer.Controllers
     {
         private readonly IAlbumRepository _albumRepository;
         private readonly IPhotoRepository _photoRepository;
+        private ApplicationSignInManager _signInManager;
 
         public AdminController(IAlbumRepository photoAlbumRepository, IPhotoRepository photoRepository)
         {
@@ -20,20 +21,23 @@ namespace MyPhotoViewer.Controllers
             _photoRepository = photoRepository;
         }
 
-        public AdminController(IAlbumRepository photoAlbumRepository)
+        private ApplicationSignInManager SignInManager
         {
-            _albumRepository = photoAlbumRepository;
+            get
+            {
+                return _signInManager ?? (_signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>());
+            }
+            set { _signInManager = value; }
         }
 
         [Route]
         public ActionResult Index()
         {
-            var photoAlbums = _albumRepository.LoadAlbums();
-
-            return View(photoAlbums);
+            return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
         public ActionResult Albums()
         {
             var albumViewModels = _albumRepository.LoadAlbums()
@@ -42,35 +46,17 @@ namespace MyPhotoViewer.Controllers
             return View(albumViewModels);
         }
 
-        [Route("Edit/{photoAlbumId:int}")]
-        public ActionResult Edit(int photoAlbumId)
+        [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult Users()
         {
-            var photoAlbum = _albumRepository.GetAlbumById(photoAlbumId);
+            var users = SignInManager.UserManager.Users.AsEnumerable();
 
-            if (photoAlbum == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            return View(photoAlbum);
-        }
-
-        [HttpPost]
-        [Route("Edit/{photoAlbumId:int}")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PhotoAlbumId, Title, Description, Period, Place")] AlbumEntity photoAlbum)
-        {
-            if (ModelState.IsValid)
-            {
-                _albumRepository.UpdateAlbum(photoAlbum);
-                TempData["message"] = $"Album '{photoAlbum.Title}' has been edited successfully";
-                return RedirectToAction("Index");
-            }
-
-            return View(photoAlbum);
+            return View(users);
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
         public ActionResult Photos()
         {
             var photos = _photoRepository.GetPhotos();

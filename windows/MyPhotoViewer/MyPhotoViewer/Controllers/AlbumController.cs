@@ -105,7 +105,7 @@ namespace MyPhotoViewer.Controllers
                 _albumRepository.UpdateAlbum(albumEntity);
 
                 TempData["message"] = $"Album '{albumEntity.Title}' has been edited successfully";
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Albums", "Admin");
             }
 
             return View(albumViewModel);
@@ -115,7 +115,9 @@ namespace MyPhotoViewer.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int albumId)
         {
-            var albumViewModel = CreateAlbumViewModel(() => new EditAlbumViewModel(), albumId);
+            var album = _albumRepository.GetAlbumById(albumId);
+            var albumViewModel = AlbumViewModelCreator.CreateEditViewModel(album);
+
             return View(albumViewModel);
         }
 
@@ -129,7 +131,7 @@ namespace MyPhotoViewer.Controllers
             {
                 _albumRepository.RemoveAlbumById(albumViewModel.Id);
                 TempData["message"] = $"Album '{albumViewModel.Title}' has been deleted successfully";
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Albums", "Admin");
             }
             catch
             {

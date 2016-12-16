@@ -9,6 +9,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MyPhotoViewer.Models;
+using MyPhotoViewer.Core;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using MyPhotoViewer.ViewModels;
+using MyPhotoViewer.ViewModels.User;
+using MyPhotoViewer.Extensions;
 
 namespace MyPhotoViewer.Controllers
 {
@@ -17,6 +23,7 @@ namespace MyPhotoViewer.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
@@ -32,7 +39,7 @@ namespace MyPhotoViewer.Controllers
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? (_signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>());
             }
             private set 
             { 
@@ -44,11 +51,23 @@ namespace MyPhotoViewer.Controllers
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? (_userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
             }
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? (_roleManager = HttpContext.GetOwinContext().Get<ApplicationRoleManager>());
+            }
+            private set
+            {
+                _roleManager = value;
             }
         }
 
@@ -415,6 +434,105 @@ namespace MyPhotoViewer.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
+        public ActionResult Edit(int userNumber)
+        {
+            ApplicationUser user = UserManager.FindByNumber(userNumber);
+            var editUserViewModel = UserViewModelCreator.Create(() => new EditUserViewModel(), 
+                                                                user,
+                                                                viewModel => viewModel.Roles = CreateRoleSelectList(user));
+
+            return View(editUserViewModel);
+        }
+
+
+        private IList<SelectItemViewModel> CreateRoleSelectList(ApplicationUser user)
+        {
+            ISet<string> userRoleIds = user.Roles.Select(role => role.RoleId).ToSet();
+
+            return RoleManager.Roles.Select(role => new SelectItemViewModel
+            {
+                Value = role.Id,
+                Text = role.Name,
+                Selected = userRoleIds.Contains(role.Id)
+            }).ToList();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind]EditUserViewModel editUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.FindById(editUserViewModel.UserId);
+
+                user.UserName = editUserViewModel.UserName;
+                user.Email = editUserViewModel.Email;
+                user.FirstName = editUserViewModel.FirstName;
+                user.LastName = editUserViewModel.LastName;
+
+                var selectedRoleNames = editUserViewModel.Roles
+                                                       .Where(role => role.Selected)
+                                                       .Select(role => role.Value)
+                                                       .Select(roleId => RoleManager.FindById(roleId).Name)
+                                                       .ToArray();
+
+                var results = await UserManager.UpdateUserAsync(user, selectedRoleNames);
+
+                if (results.All(result => result.Succeeded))
+                {
+                    return RedirectToAction("Users", "Admin");
+                }
+
+                results.ForEach(result => AddErrors(result));
+            }
+
+            return View(editUserViewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<ActionResult> Delete(int userNumber)
+        {
+            return View(await CreateDeleteUserViewModel(userNumber));
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<ActionResult> DeletePost(int userNumber)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = UserManager.FindByNumber(userNumber);
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["message-info"] = $@"User '{user.UserName}' was deleted";
+                    return RedirectToAction("Users", "Admin");
+                }
+
+                AddErrors(result);
+            }
+
+            return View(await CreateDeleteUserViewModel(userNumber));
+        }
+
+        private async Task<DeleteUserViewModel> CreateDeleteUserViewModel(int userNumber)
+        {
+            ApplicationUser user = UserManager.FindByNumber(userNumber);
+            ICollection<string> roles = await UserManager.GetRolesAsync(user.Id);
+
+            var deleteUserViewModel = UserViewModelCreator.Create(() => new DeleteUserViewModel(),
+                                                                   user,
+                                                                   viewModel => viewModel.Roles = roles);
+
+            return deleteUserViewModel;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -423,6 +541,12 @@ namespace MyPhotoViewer.Controllers
                 {
                     _userManager.Dispose();
                     _userManager = null;
+                }
+
+                if (_roleManager != null)
+                {
+                    _roleManager.Dispose();
+                    _roleManager = null;
                 }
 
                 if (_signInManager != null)

@@ -6,6 +6,14 @@ namespace MyPhotoViewer.Core
 {
     public static class EnumerableExtension
     {
+        public static ISet<T> ToSet<T>(this IEnumerable<T> enumerable)
+        {
+            var set = new HashSet<T>();
+            enumerable.ForEach(e => set.Add(e));
+
+            return set;
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach(T element in enumerable)

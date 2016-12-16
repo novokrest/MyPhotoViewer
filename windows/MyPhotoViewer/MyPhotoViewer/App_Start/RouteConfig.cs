@@ -26,14 +26,13 @@ namespace MyPhotoViewer
             routes.MapRoute(
                 name: "Photo",
                 url: "Photo/{photoId}/{action}",
-                defaults: new { controller = "Photo", photoId = UrlParameter.Optional},
+                defaults: new { controller = "Photo", photoId = UrlParameter.Optional },
                 constraints: new { photoId = @"\d+" });
 
             routes.MapRoute(
                 name: "",
                 url: "Photo/Create",
-                defaults: new { controller = "Photo", action = "Create" }
-                );
+                defaults: new { controller = "Photo", action = "Create" });
 
             routes.MapRoute(
                 name: "Admin",
@@ -41,10 +40,15 @@ namespace MyPhotoViewer
                 defaults: new { controller = "Admin", action = "Index" });
 
             routes.MapRoute(
+                name: "Users",
+                url: "User/{userNumber}/{action}",
+                defaults: new { controller = "Account" },
+                constraints: new { userNumber = @"\d+" });
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
         }
     }
 }

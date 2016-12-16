@@ -233,6 +233,7 @@
     <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Extensions\PhotoAlbumViewModelExtensions.cs" />
     <Compile Include="Extensions\PhotoViewModelExtensions.cs" />
+    <Compile Include="Extensions\UserManagerExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,6 +259,11 @@
     <Compile Include="ViewModels\Album\NewAlbumViewModel.cs" />
     <Compile Include="ViewModels\Album\EditAlbumViewModel.cs" />
     <Compile Include="ViewModels\PlaceSelectListCreator.cs" />
+    <Compile Include="ViewModels\SelectableItemViewModel.cs" />
+    <Compile Include="ViewModels\User\BaseUserViewModel.cs" />
+    <Compile Include="ViewModels\User\DeleteUserViewModel.cs" />
+    <Compile Include="ViewModels\User\EditUserViewModel.cs" />
+    <Compile Include="ViewModels\User\UserViewModelCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\blueimp-gallery.min.css" />
@@ -322,15 +328,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Photos\Details.cshtml" />
     <Content Include="Views\Album\Index.cshtml" />
-    <Content Include="Views\PhotoManager\Create.cshtml" />
-    <Content Include="Views\PhotoManager\Delete.cshtml" />
-    <Content Include="Views\PhotoManager\Details.cshtml" />
-    <Content Include="Views\PhotoManager\Edit.cshtml" />
-    <Content Include="Views\PhotoManager\Index.cshtml" />
     <Content Include="Views\Shared\_AlbumThumbnail.cshtml" />
-    <Content Include="Views\Photos\Browse.cshtml" />
     <Content Include="Views\Shared\PhotoThumbnail.cshtml" />
     <Content Include="Views\Photo\Details.cshtml" />
     <Content Include="Views\Photo\Create.cshtml" />
@@ -338,17 +337,19 @@
     <Content Include="Views\Album\Browse.cshtml" />
     <Content Include="Views\Shared\_AlbumThumbnailRow.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Photo\Edit.cshtml" />
     <Content Include="Views\Admin\Albums.cshtml" />
     <Content Include="Views\Album\Edit.cshtml" />
     <Content Include="Views\Shared\NotImplemented.cshtml" />
     <Content Include="Views\Shared\DateTimePeriod.cshtml" />
     <Content Include="Views\Shared\_AdminPartial.cshtml" />
-    <Content Include="Views\Albums\Delete.cshtml" />
+    <Content Include="Views\Album\Delete.cshtml" />
     <Content Include="Views\Admin\Photos.cshtml" />
     <Content Include="Views\Photo\Delete.cshtml" />
     <Content Include="Views\Shared\_TempMessage.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
