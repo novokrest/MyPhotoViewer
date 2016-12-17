@@ -33,7 +33,18 @@ namespace PhotoDiscoverService
         where TDbContext : DbContext
     {
         private const string SetSingleUserSqlCommand = "ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
-        private const string DropDatatbaseSqlCommand = "USE master DROP DATABASE [{0}]";
+        private const string DropDatabaseSqlCommand = "USE master DROP DATABASE [{0}]";
+        private const string EnableUserIIS = @"
+IF NOT EXISTS (SELECT name FROM sys.server_principals WHERE name = 'IIS APPPOOL\DefaultAppPool')
+BEGIN
+    CREATE LOGIN [IIS APPPOOL\DefaultAppPool] 
+      FROM WINDOWS WITH DEFAULT_DATABASE=[master], 
+      DEFAULT_LANGUAGE=[us_english]
+END
+CREATE USER [MyPhotoViewerUser] 
+  FOR LOGIN [IIS APPPOOL\DefaultAppPool]
+EXEC sp_addrolemember 'db_owner', 'MyPhotoViewerUser'
+";
 
         public override void InitializeDatabase(TDbContext context)
         {
@@ -41,10 +52,12 @@ namespace PhotoDiscoverService
             {
                 string databaseName = context.Database.Connection.Database;
                 context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format(SetSingleUserSqlCommand, databaseName));
-                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format(DropDatatbaseSqlCommand, databaseName));
+                context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, string.Format(DropDatabaseSqlCommand, databaseName));
             }
 
             base.InitializeDatabase(context);
+
+            context.Database.ExecuteSqlCommand(EnableUserIIS);
         }
     }
 

@@ -6,7 +6,6 @@ using MyPhotoViewer.ViewModels.Album;
 
 namespace MyPhotoViewer.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         private readonly IAlbumRepository _albumRepository;
