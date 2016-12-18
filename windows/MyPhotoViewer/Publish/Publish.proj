@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="FullPublish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$(TargetEnvPropsFile)"/>
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)'=='' ">Release</Configuration>
+    <SourceRoot Condition=" '$(SourceRoot)'=='' ">..\</SourceRoot>
+    <OutputRoot Condition=" '$(OutputRoot)'=='' ">..\Publish\Out\</OutputRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_MyPhotoViewerDest>$(OutputRoot)_PublishedWebsites\MyPhotoViewer_Package\</_MyPhotoViewerDest>
+    <_MpvFullConnectionString>$(MpvDatabaseConnectionString);Initial Catalog=$(MpvTargetDatabase)</_MpvFullConnectionString>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectsToBuild Include="$(SourceRoot)MyPhotoViewer.sln"/>
+  </ItemGroup>
+
+  <Target Name="Clean">
+    <Message Text="Cleaning up the output directory [$(OutputRoot)]"/>
+    <ItemGroup>
+      <_FilesToDelete Include="$(OutputRoot)**\*"/>
+    </ItemGroup>
+    <Delete Files="@(_FilesToDelete)"/>
+    <RemoveDir Directories="$(OutputRoot)"/>
+  </Target>
+
+  <Target Name="BuildProjects">
+    <MSBuild Projects="@(ProjectsToBuild)"
+             Properties="OutDir=$(OutputRoot);
+                         Configuration=$(Configuration);
+                         DeployOnBuild=true;
+                         DeployTarget=Package;
+                         MSDeployPublishMethod=WMSVC"
+             Targets="Rebuild" />
+  </Target>
+
+  <Target Name="GatherPackagesForPublishing">
+    <ItemGroup>
+      <PublishPackages Include="$(_MyPhotoViewerDest)MyPhotoViewer.deploy.cmd">
+        <WebPackage>true</WebPackage>
+        <ParametersXml>$(_MyPhotoViewerDest)MyPhotoViewer.SetParameters.xml</ParametersXml>
+        <AdditionalMSDeployParameters>-allowUntrusted</AdditionalMSDeployParameters>
+        <IisWebAppName>$(MyPhotoViewerIisPath)</IisWebAppName>
+        <MembershipDBConnectionName>ApplicationDbContext-Web.config Connection String</MembershipDBConnectionName>
+        <MembershipDBConnectionString>$(MembershipDBConnectionString.Replace(";","%3b"))</MembershipDBConnectionString>
+        <ConnectionName>PhotosDbContext-Web.config Connection String</ConnectionName>
+        <ConnectionString>$(_MpvFullConnectionString.Replace(";","%3b"))</ConnectionString>
+        <ServiceEndpointParamName>ContactService Service Endpoint Address</ServiceEndpointParamName>
+        <ServiceEndpointValue>$(MyPhotoViewerTargetUrl)</ServiceEndpointValue>
+      </PublishPackages>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="PublishWebPackages" Outputs="%(PublishPackages.Identity)">
+    <!-- Update the SetParameters.xml to have the correct parameter values -->
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.ConnectionName)']/@value"
+             Value='%(PublishPackages.ConnectionString)'
+             Condition=" '%(PublishPackages.ConnectionName)'!=''" />
+
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.MembershipDBConnectionName)']/@value"
+             Value='%(PublishPackages.MembershipDBConnectionString)'
+             Condition=" '%(PublishPackages.MembershipDBConnectionName)'!=''" />
+
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='IIS Web Application Name']/@value"
+             Value="%(PublishPackages.IisWebAppName)"
+             Condition=" '%(PublishPackages.IisWebAppName)'!=''" />
+
+    <XmlPoke XmlInputPath="%(PublishPackages.ParametersXml)"
+             Query="//parameters/setParameter[@name='%(PublishPackages.ServiceEndpointParamName)']/@value"
+             Value="%(PublishPackages.ServiceEndpointValue)"
+             Condition=" '%(PublishPackages.ServiceEndpointParamName)'!=''" />
+    
+    <!-- MyPhotoViewer.deploy.cmd /T /M:endpoint_address /U:domain\username /P:%password% /A:NTLM -allowUntrusted -->
+    <PropertyGroup>
+      <!-- default is no WhatIf unless specified, ensure to clear this each time this target executes -->
+      <_WhatIfSwitch>/Y</_WhatIfSwitch>
+      <_WhatIfSwitch Condition=" '$(WhatIf)'=='true' ">/T</_WhatIfSwitch>
+      <_Cmd>%(PublishPackages.FullPath) $(_WhatifSwitch) /U:$(MSDeployUsername) /P:$(MSDeployPassword) /A:$(MSDeployAuth) %(PublishPackages.AdditionalMSDeployParameters)</_Cmd>      
+    </PropertyGroup>
+
+    <Message Text="Publishing web project [%(PublishPackages.WebPackage)]"/>
+    <Exec Command="$(_Cmd)"/>
+  </Target>
+
+  <PropertyGroup>
+    <FullPublishDependsOn>
+      <!--Clean;
+      BuildProjects;-->
+      GatherPackagesForPublishing;
+      PublishWebPackages;
+    </FullPublishDependsOn>
+  </PropertyGroup>
+  <Target Name="FullPublish" DependsOnTargets="$(FullPublishDependsOn)" />
+</Project>

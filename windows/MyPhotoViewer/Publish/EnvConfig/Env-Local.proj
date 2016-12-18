@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <MSDeployComputerName Condition=" '$(MSDeployComputerName)'=='' ">$(COMPUTERNAME)</MSDeployComputerName>
+        <MSDeployAuth Condition=" '$(MSDeployAuth)'=='' ">NTLM</MSDeployAuth>
+
+        <MyPhotoViewerTargetUrl Condition=" '$(ContactManagerTargetUrl)'=='' ">https://localhost/MyPhotoViewer</MyPhotoViewerTargetUrl>
+        <MyPhotoViewerIisPath Condition=" '$(ContactManagerIisPath)'=='' ">Default Web Site/MyPhotoViewer</MyPhotoViewerIisPath>
+
+        <MembershipDBConnectionString Condition=" '$(MembershipDBConnectionString)'=='' ">Data Source=.\SQL2012EXPRESS;Integrated Security=true;MultipleActiveResultSets=True;Initial Catalog=aspnet-myphotoviewer-users</MembershipDBConnectionString>
+        <MpvDatabaseConnectionString Condition=" '$(MpvDatabaseConnectionString)'=='' ">Data Source=.\SQL2012EXPRESS;Integrated Security=true;MultipleActiveResultSets=True</MpvDatabaseConnectionString>
+        <MpvTargetDatabase Condition=" '$(MpvTargetDatabase)'=='' ">aspnet-myphotoviewer-photos</MpvTargetDatabase>
+    </PropertyGroup>
+</Project>
