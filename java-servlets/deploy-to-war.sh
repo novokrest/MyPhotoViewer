@@ -21,10 +21,14 @@ rm -rf $TOMCAT_WAR_DIR
 rm -f $TOMCAT_WAR
 
 $TOMCAT_BIN/catalina.sh jpda start
-sleep 5s
 cp $WAR $TOMCAT_WAR
 echo WAR deployed successfully
 
-echo tomcat has been restarted
+until [ "`curl --silent --show-error --connect-timeout 1 -I http://localhost:8080 | grep 'Coyote'`" != "" ];
+do
+  echo --- sleeping for 10 seconds
+  sleep 10
+done
 
+echo Tomcat is ready!
 echo Done

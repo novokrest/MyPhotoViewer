@@ -1,0 +1,47 @@
+div.square {
+    height: 90px;
+    width: 90px;
+}
+
+div.mock-img {
+    height: inherit;
+    width: inherit;
+}
+
+.red {
+    background-color: #F00;
+}
+
+.green {
+    background-color: #0F0;
+}
+
+.blue {
+    background-color: #00F;
+}
+
+div.templates {
+    display: none;
+}
+
+div.photo-album {
+    display: block;
+}
+
+div.resized-table {
+}
+
+div.resized-table-row {
+    padding: 5px 0px;
+}
+
+div.resized-table-cell {
+    display: inline-block;
+    padding: 0px 5px;
+    height: inherit;
+}
+
+img.thumbnail {
+    width: inherit;
+    height: inherit;
+}

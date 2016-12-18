@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>jQuery Image Slider with Thumbnails, Bullets and Slideshow</title>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="galleryContainer">
+        <div class="galleryThumbnailsContainer">
+            <div class="galleryThumbnails">
+
+            </div>
+        </div>
+
+        <div class="galleryPriviewContainer">
+            <div class="galleryPreviewImage">
+
+            </div>
+            <div class="galleryPreviewArrows">
+                <a href="#" class="previousSlideArrow">&lt;</a>
+                <a href="#" class="nextSlideArrow">&gt;</a>
+            </div>
+        </div>
+
+        <div class="galleryNavigationBullets">
+
+        </div>
+    </div>
+
+    <div class="templates">
+        <div class="template thumbnailsimage-template">
+
+        </div>
+        <div class="template previewimage-template">
+
+        </div>
+        <div class="template gallerybullet-template">
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <script type="text/javascript">
+         var imagesTotal = 0;
+         var currentImageIndex = 0;
+         var thumbsTotalWidth = 0;
+            var imagePaths = [];
+            $.getJSON("images.json", function (data) {
+                $.each(data, function (index, element) {
+                    imagePaths.push(element.path);
+                });
+                $(document).trigger('imagesloaded');
+            })
+            $(document).on('imagesloaded', function(){
+                var thumbImgElements = $.map(imagePaths, function(imagePath, index) {
+                    return '<a href="javascript: changeimage(' + index + ')" class="thumbnailsimage' + index + '"><img src="' + imagePath +'" width="auto" height="100" alt="" /></a>';
+                });
+
+                var previewImgElements = $.map(imagePaths, function(imagePath, index) {
+                    return '<img class="previewImage' + index + '" src="' + imagePath + '" width="900" height="auto" />';
+                });
+
+                var navImgElements = $.map(imagePaths, function(imagePaths, index) {
+                    return '<a href="javascript: changeimage(' + index + ')" class="galleryBullet' + index + '"><span>Bullet</span></a>';
+                });
+
+                $('div.galleryThumbnails').append(thumbImgElements);
+                $('div.galleryPreviewImage').append(previewImgElements);
+                $('div.galleryNavigationBullets').append(navImgElements);
+
+                imagesTotal = imagePaths.length;
+                currentImageIndex = 0;
+                thumbsTotalWidth = 0;
+
+                $('a.galleryBullet' + currentImageIndex).addClass('active');
+                $('a.thumbnailsimage' + currentImageIndex).addClass('active');
+
+                $('.galleryThumbnails a img').each(function() {
+                    thumbsTotalWidth += $(this).width() + 10 + 8;
+                });
+
+                $('galleryThumbnails').width(thumbsTotalWidth);
+
+                $('a.previousSlideArrow').click(function() {
+                    $('img.previewImage' + currentImageIndex).hide();
+                    $('a.galleryBullet' + currentImageIndex).removeClass('active');
+                    $('a.thumbnailsimage' + currentImageIndex).removeClass('active');
+
+                    currentImageIndex--;
+
+                    if (currentImageIndex < 0) {
+                        currentImageIndex = imagesTotal - 1;
+                    }
+
+                    $('a.galleryBullet' + currentImageIndex).addClass('active');
+                    $('a.thumbnailsimage' + currentImageIndex).addClass('active');
+                    $('img.previewImage' + currentImageIndex).show();
+                });
+
+                $('a.nextSlideArrow').click(function() {
+                    $('img.previewImage' + currentImageIndex).hide();
+                    $('a.galleryBullet' + currentImageIndex).removeClass('active');
+                    $('a.thumbnailsimage' + currentImageIndex).removeClass('active');
+
+                    currentImageIndex++;
+
+                    if (currentImageIndex >= imagesTotal) {
+                        currentImageIndex = 0;
+                    }
+
+                    $('a.galleryBullet' + currentImageIndex).addClass('active');
+                    $('a.thumbnailsimage' + currentImageIndex).addClass('active');
+                    $('img.previewImage' + currentImageIndex).show();
+                });
+            });
+        function changeimage(imageIndex) {
+                    $('img.previewImage' + currentImageIndex).hide();
+                    currentImageIndex = imageIndex;
+                    $('img.previewImage' + currentImageIndex).show();
+                    $('.galleryNavigationBullets a').removeClass('active');
+                    $('.galleryThumbnails a').removeClass('active');
+                    $('a.galleryBullet' + currentImageIndex).addClass('active');
+                    $('a.thumbnailsimage' + currentImageIndex).addClass('active');
+                }
+    </script>
+</body>
+</html>
